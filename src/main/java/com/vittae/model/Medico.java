@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
+import java.math.BigDecimal;
 
 @Entity
 public class Medico {
@@ -19,9 +20,23 @@ public class Medico {
 	private String cpf;
 	private String cep;
 	private LocalDate dataNascimento;
-
 	@Lob
 	private byte[] foto;
+	private BigDecimal valorConsulta = new BigDecimal("100.50");
+
+	public Medico() {
+	}
+
+	public Medico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BitDecimal valorConsulta) {
+		this.id = id;
+		this.nome = nome;
+		this.crm = crm;
+		this.cpf = cpf;
+		this.cep = cep;
+		this.dataNascimento = dataNascimento;
+		this.email = email;
+		this.valorConsulta = valorConsulta;
+	}
 
 	public Long getId() {
 		return id;

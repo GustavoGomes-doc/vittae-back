@@ -7,5 +7,4 @@ import com.vittae.model.Medico;
 
 @Repository
 public interface CadastrarMedicoRepository extends JpaRepository<Medico, Long> {
-    // Não precisa escrever nada aqui dentro, o JpaRepository faz tudo!
 }
