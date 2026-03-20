@@ -1,5 +1,6 @@
 package com.vittae.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 
 import jakarta.persistence.Entity;
@@ -7,7 +8,6 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
-import java.math.BigDecimal;
 
 @Entity
 public class Medico {
@@ -22,12 +22,10 @@ public class Medico {
 	private LocalDate dataNascimento;
 	@Lob
 	private byte[] foto;
-	private BigDecimal valorConsulta = new BigDecimal("100.50");
+	private BigDecimal valorConsulta;
 
-	public Medico() {
-	}
-
-	public Medico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BitDecimal valorConsulta) {
+	
+	public Medico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BigDecimal valorConsulta) {
 		this.id = id;
 		this.nome = nome;
 		this.crm = crm;
@@ -35,7 +33,7 @@ public class Medico {
 		this.cep = cep;
 		this.dataNascimento = dataNascimento;
 		this.email = email;
-		this.valorConsulta = valorConsulta;
+		this.setValorConsulta(valorConsulta);
 	}
 
 	public Long getId() {
@@ -100,6 +98,14 @@ public class Medico {
 
 	public void setFoto(byte[] foto) {
 		this.foto = foto;
+	}
+
+	public BigDecimal getValorConsulta() {
+		return valorConsulta;
+	}
+
+	public void setValorConsulta(BigDecimal valorConsulta) {
+		this.valorConsulta = valorConsulta;
 	}
 
 }

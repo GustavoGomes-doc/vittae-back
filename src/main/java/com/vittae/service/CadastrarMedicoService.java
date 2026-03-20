@@ -1,5 +1,8 @@
 package com.vittae.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,8 +13,6 @@ import com.vittae.repository.CadastrarMedicoRepository;
 public class CadastrarMedicoService {
 
 	@Autowired
-	private CadastrarMedicoService cadastrarMedicoService;
-
 	private CadastrarMedicoRepository cadastrarMedicoRepository;
 
 	public Medico salvar(Medico medico) {
@@ -19,15 +20,16 @@ public class CadastrarMedicoService {
 	}
 
 	public List<Medico> listarTodos() {
-		return repository.findAll();
+		return cadastrarMedicoRepository.findAll();
 	}
 
 	public Optional<Medico> buscarPorId(Long id) {
-		return repository.findById(id);
+		return cadastrarMedicoRepository.findById(id);
 	}
+	
 
 	public Medico atualizar(Long id, Medico dadosNovos) {
-		Medico medico = repository.findById(id).orElseThrow(() -> new RuntimeException("Médico não encontrado"));
+		Medico medico = cadastrarMedicoRepository.findById(id).orElseThrow(() -> new RuntimeException("Médico não encontrado"));
 
 		if (dadosNovos.getNome() != null)
 			medico.setNome(dadosNovos.getNome());
@@ -35,16 +37,13 @@ public class CadastrarMedicoService {
 		if (dadosNovos.getCrm() != null)
 			medico.setCrm(dadosNovos.getCrm());
 		
-		if (dadosNovos.getEspecialidade() != null)
-			medico.setEspecialidade(dadosNovos.getEspecialidade());
-		
 		if (dadosNovos.getEmail() != null)
 			medico.setEmail(dadosNovos.getEmail());
 
-		return repository.save(medico);
+		return cadastrarMedicoRepository.save(medico);
 	}
 
 	public void deletar(Long id) {
-		repository.deleteById(id);
+		cadastrarMedicoRepository.deleteById(id);
 	}
 }
