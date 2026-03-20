@@ -20,6 +20,7 @@ public class Medico {
 	private String cpf;
 	private String cep;
 	private LocalDate dataNascimento;
+	private String senha;
 	@Lob
 	private byte[] foto;
 	private BigDecimal valorConsulta;
