@@ -1,7 +1,6 @@
 package com.vittae.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -31,7 +30,7 @@ public class CadastrarMedicoController {
 		Medico medicoSalvo = cadastrarMedicoService.salvar(medico);
 		return ResponseEntity.ok(medicoSalvo);
 	}
-	
+
 	@GetMapping
 	public ResponseEntity<List<Medico>> listar() {
 		return ResponseEntity.ok(cadastrarMedicoService.listarTodos());

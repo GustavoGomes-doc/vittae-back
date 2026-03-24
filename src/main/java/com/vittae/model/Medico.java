@@ -21,10 +21,9 @@ public class Medico {
 	private String cep;
 	private LocalDate dataNascimento;
 	private String senha;
-	@Lob
-	private byte[] foto;
 	private BigDecimal valorConsulta;
 
+	public Medico () {}
 	
 	public Medico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BigDecimal valorConsulta) {
 		this.id = id;
@@ -93,13 +92,6 @@ public class Medico {
 		this.dataNascimento = dataNascimento;
 	}
 
-	public byte[] getFoto() {
-		return foto;
-	}
-
-	public void setFoto(byte[] foto) {
-		this.foto = foto;
-	}
 
 	public BigDecimal getValorConsulta() {
 		return valorConsulta;
