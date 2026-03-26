@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.Lob;
 
 @Entity
+
 public class Medico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

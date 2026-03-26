@@ -1,24 +1,43 @@
 package com.vittae.model;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
 
 @Entity
 public class Usuario {
 	
+	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
+	
 	private String nome;
 	private String email;
 	private String cpf;
 	private String senha;
 
 	public Usuario () {}
+
+
+	public Long getId() {
+		return id;
+	}
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
+	public String getSenha() {
+		return senha;
+	}
+
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
 
 	public String getNome() {

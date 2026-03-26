@@ -19,7 +19,7 @@ import com.vittae.repository.PacienteRepository;
 import com.vittae.service.PacienteService;
 
 @RestController
-@RequestMapping("/vittae")
+@RequestMapping("/pacientes")
 
 public class PacienteController {
 

@@ -18,7 +18,7 @@ import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.service.CadastrarMedicoService;
 
 @RestController
-@RequestMapping("/vittae")
+@RequestMapping("/medicos")
 public class CadastrarMedicoController {
 
 	@Autowired
