@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vittae.model.Paciente;
 import com.vittae.repository.PacienteRepository;
-import com.vittae.service.PacienteService;
+import com.vittae.service.CadastrarPacienteService;
 
 @RestController
 @RequestMapping("/pacientes")
@@ -24,7 +24,7 @@ import com.vittae.service.PacienteService;
 public class PacienteController {
 
 	@Autowired
-	private PacienteService cadastrarPacienteService;
+	private CadastrarPacienteService cadastrarPacienteService;
 	private PacienteRepository cadastrarPacienteRepository;
 
 	@PostMapping

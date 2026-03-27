@@ -10,7 +10,7 @@ import com.vittae.model.Paciente;
 import com.vittae.repository.PacienteRepository;
 
 @Service
-public class PacienteService {
+public class CadastrarPacienteService {
 
 	@Autowired
 	private PacienteRepository cadastrarPacienteRepository;
