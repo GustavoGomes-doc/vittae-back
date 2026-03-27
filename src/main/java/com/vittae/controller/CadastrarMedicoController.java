@@ -23,7 +23,6 @@ public class CadastrarMedicoController {
 
 	@Autowired
 	private CadastrarMedicoService cadastrarMedicoService;
-	private CadastrarMedicoRepository cadastrarMedicoRepository;
 
 	@PostMapping
 	public ResponseEntity<Medico> cadastrar(@RequestBody Medico medico) {
