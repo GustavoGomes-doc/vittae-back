@@ -14,37 +14,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vittae.model.Paciente;
-import com.vittae.repository.PacienteRepository;
+import com.vittae.model.CadastrarPaciente;
+import com.vittae.repository.CadastrarPacienteRepository;
 import com.vittae.service.CadastrarPacienteService;
 
 @RestController
 @RequestMapping("/pacientes")
 
-public class PacienteController {
+public class CadastrarPacienteController {
 
 	@Autowired
 	private CadastrarPacienteService cadastrarPacienteService;
-	private PacienteRepository cadastrarPacienteRepository;
+	private CadastrarPacienteRepository cadastrarPacienteRepository;
 
 	@PostMapping
-	public ResponseEntity<Paciente> cadastrar(@RequestBody Paciente paciente) {
-		Paciente pacienteSalvo = cadastrarPacienteService.salvar(paciente);
+	public ResponseEntity<CadastrarPaciente> cadastrar(@RequestBody CadastrarPaciente paciente) {
+		CadastrarPaciente pacienteSalvo = cadastrarPacienteService.salvar(paciente);
 		return ResponseEntity.ok(pacienteSalvo);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Paciente>> listar() {
+	public ResponseEntity<List<CadastrarPaciente>> listar() {
 		return ResponseEntity.ok(cadastrarPacienteService.listarTodos());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Paciente> buscar(@PathVariable Long id) {
+	public ResponseEntity<CadastrarPaciente> buscar(@PathVariable Long id) {
 		return cadastrarPacienteService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Paciente> atualizar(@PathVariable Long id, @RequestBody Paciente paciente) {
+	public ResponseEntity<CadastrarPaciente> atualizar(@PathVariable Long id, @RequestBody CadastrarPaciente paciente) {
 		return ResponseEntity.ok(cadastrarPacienteService.atualizar(id, paciente));
 	}
 

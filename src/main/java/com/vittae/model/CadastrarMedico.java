@@ -11,7 +11,7 @@ import jakarta.persistence.Lob;
 
 @Entity
 
-public class Medico {
+public class CadastrarMedico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -24,9 +24,9 @@ public class Medico {
 	private String senha;
 	private BigDecimal valorConsulta;
 
-	public Medico () {}
+	public CadastrarMedico () {}
 	
-	public Medico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BigDecimal valorConsulta) {
+	public CadastrarMedico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BigDecimal valorConsulta) {
 		this.id = id;
 		this.nome = nome;
 		this.crm = crm;

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vittae.model.Medico;
+import com.vittae.model.CadastrarMedico;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.service.CadastrarMedicoService;
 
@@ -25,23 +25,23 @@ public class CadastrarMedicoController {
 	private CadastrarMedicoService cadastrarMedicoService;
 
 	@PostMapping
-	public ResponseEntity<Medico> cadastrar(@RequestBody Medico medico) {
-		Medico medicoSalvo = cadastrarMedicoService.salvar(medico);
+	public ResponseEntity<CadastrarMedico> cadastrar(@RequestBody CadastrarMedico medico) {
+		CadastrarMedico medicoSalvo = cadastrarMedicoService.salvar(medico);
 		return ResponseEntity.ok(medicoSalvo);
 	}
 
 	@GetMapping
-	public ResponseEntity<List<Medico>> listar() {
+	public ResponseEntity<List<CadastrarMedico>> listar() {
 		return ResponseEntity.ok(cadastrarMedicoService.listarTodos());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Medico> buscar(@PathVariable Long id) {
+	public ResponseEntity<CadastrarMedico> buscar(@PathVariable Long id) {
 		return cadastrarMedicoService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Medico> atualizar(@PathVariable Long id, @RequestBody Medico medico) {
+	public ResponseEntity<CadastrarMedico> atualizar(@PathVariable Long id, @RequestBody CadastrarMedico medico) {
 		return ResponseEntity.ok(cadastrarMedicoService.atualizar(id, medico));
 	}
 

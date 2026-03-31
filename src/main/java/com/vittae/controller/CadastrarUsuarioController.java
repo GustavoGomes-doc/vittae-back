@@ -14,37 +14,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vittae.model.Usuario;
-import com.vittae.repository.UsuarioRepository;
-import com.vittae.service.UsuarioService;
+import com.vittae.model.CadastrarUsuario;
+import com.vittae.repository.CadastrarUsuarioRepository;
+import com.vittae.service.CadastrarUsuarioService;
 
 @RestController
 @RequestMapping("/vittae")
 
-public class UsuarioController {
+public class CadastrarUsuarioController {
 
 	@Autowired
-	private UsuarioService cadastrarUsuarioService;
-	private UsuarioRepository cadastrarUsuarioRepository;
+	private CadastrarUsuarioService cadastrarUsuarioService;
+	private CadastrarUsuarioRepository cadastrarUsuarioRepository;
 
 	@PostMapping
-	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
-		Usuario usuarioSalvo = cadastrarUsuarioService.salvar(usuario);
+	public ResponseEntity<CadastrarUsuario> cadastrar(@RequestBody CadastrarUsuario usuario) {
+		CadastrarUsuario usuarioSalvo = cadastrarUsuarioService.salvar(usuario);
 		return ResponseEntity.ok(usuarioSalvo);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Usuario>> listar() {
+	public ResponseEntity<List<CadastrarUsuario>> listar() {
 		return ResponseEntity.ok(cadastrarUsuarioService.listarTodos());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<Usuario> buscar(@PathVariable Long id) {
+	public ResponseEntity<CadastrarUsuario> buscar(@PathVariable Long id) {
 		return cadastrarUsuarioService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
+	public ResponseEntity<CadastrarUsuario> atualizar(@PathVariable Long id, @RequestBody CadastrarUsuario usuario) {
 		return ResponseEntity.ok(cadastrarUsuarioService.atualizar(id, usuario));
 	}
 

@@ -3,8 +3,8 @@ package com.vittae.repository;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import com.vittae.model.Usuario;
+import com.vittae.model.CadastrarPaciente;
 
 @Repository
-public interface UsuarioRepository extends JpaRepository<Usuario, Long> {
+public interface CadastrarPacienteRepository extends JpaRepository<CadastrarPaciente, Long> {
 }
