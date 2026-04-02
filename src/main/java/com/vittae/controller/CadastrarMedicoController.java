@@ -19,7 +19,7 @@ import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.service.CadastrarMedicoService;
 
 @RestController
-@RequestMapping("/medicos")
+@RequestMapping("/api/medicos")
 @CrossOrigin(origins = "*")
 public class CadastrarMedicoController {
 
