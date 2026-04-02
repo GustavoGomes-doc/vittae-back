@@ -16,7 +16,7 @@ import com.vittae.model.TokenResponseDTO;
 import com.vittae.service.FazerLoginTokenService;
 
 @RestController
-@RequestMapping("/api/login")
+@RequestMapping("api/login")
 @CrossOrigin(origins = "*")
 public class FazerLoginController {
 
@@ -29,12 +29,9 @@ public class FazerLoginController {
     @PostMapping
     public ResponseEntity<TokenResponseDTO> efetuarLogin(@RequestBody FazerLoginDTO dados) {
         
-        var authenticationToken = new UsernamePasswordAuthenticationToken(dados.CPF(), dados.senha());
+        var authenticationToken = new UsernamePasswordAuthenticationToken(dados.cpf(), dados.senha());
                 
         Authentication authentication = manager.authenticate(authenticationToken);
-                
-        // Quando você for ligar o seu Service de verdade, é só descomentar a linha abaixo:
-        // String tokenJWT = tokenService.gerarToken(authentication);
         
         return ResponseEntity.ok(new TokenResponseDTO("token_gerado_com_sucesso"));
     }
