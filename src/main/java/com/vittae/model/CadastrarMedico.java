@@ -26,12 +26,13 @@ public class CadastrarMedico {
 
 	public CadastrarMedico () {}
 	
-	public CadastrarMedico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BigDecimal valorConsulta) {
+	public CadastrarMedico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BigDecimal valorConsulta, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.crm = crm;
 		this.cpf = cpf;
 		this.cep = cep;
+		this.senha = senha;
 		this.dataNascimento = dataNascimento;
 		this.email = email;
 		this.setValorConsulta(valorConsulta);
