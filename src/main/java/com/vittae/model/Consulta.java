@@ -9,6 +9,8 @@ import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 
 @Entity
@@ -27,7 +29,23 @@ public class Consulta {
 	
     @OneToMany(mappedBy = "consulta")
     private java.util.List<Exame> exames;
+    
+    @ManyToOne
+    @JoinColumn(name = "paciente_id")
+    private Paciente paciente;
+
+    @ManyToOne
+    @JoinColumn(name = "medico_id")
+    private CadastrarMedico medico;
 	
+
+	public java.util.List<Exame> getExames() {
+		return exames;
+	}
+
+	public void setExames(java.util.List<Exame> exames) {
+		this.exames = exames;
+	}
 
 	public Consulta () {}
 
