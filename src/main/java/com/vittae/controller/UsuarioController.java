@@ -14,37 +14,37 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vittae.model.CadastrarUsuario;
-import com.vittae.repository.CadastrarUsuarioRepository;
-import com.vittae.service.CadastrarUsuarioService;
+import com.vittae.model.Usuario;
+import com.vittae.repository.UsuarioRepository;
+import com.vittae.service.UsuarioService;
 
 @RestController
-@RequestMapping("/vittae")
+@RequestMapping("")
 
-public class CadastrarUsuarioController {
+public class UsuarioController {
 
 	@Autowired
-	private CadastrarUsuarioService cadastrarUsuarioService;
-	private CadastrarUsuarioRepository cadastrarUsuarioRepository;
+	private UsuarioService cadastrarUsuarioService;
+	private UsuarioRepository cadastrarUsuarioRepository;
 
 	@PostMapping
-	public ResponseEntity<CadastrarUsuario> cadastrar(@RequestBody CadastrarUsuario usuario) {
-		CadastrarUsuario usuarioSalvo = cadastrarUsuarioService.salvar(usuario);
+	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+		Usuario usuarioSalvo = cadastrarUsuarioService.salvar(usuario);
 		return ResponseEntity.ok(usuarioSalvo);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<CadastrarUsuario>> listar() {
+	public ResponseEntity<List<Usuario>> listar() {
 		return ResponseEntity.ok(cadastrarUsuarioService.listarTodos());
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<CadastrarUsuario> buscar(@PathVariable Long id) {
+	public ResponseEntity<Usuario> buscar(@PathVariable Long id) {
 		return cadastrarUsuarioService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<CadastrarUsuario> atualizar(@PathVariable Long id, @RequestBody CadastrarUsuario usuario) {
+	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
 		return ResponseEntity.ok(cadastrarUsuarioService.atualizar(id, usuario));
 	}
 
