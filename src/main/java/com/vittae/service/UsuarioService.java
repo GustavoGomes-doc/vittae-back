@@ -6,30 +6,30 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vittae.model.CadastrarUsuario;
-import com.vittae.repository.CadastrarUsuarioRepository;
+import com.vittae.model.Usuario;
+import com.vittae.repository.UsuarioRepository;
 
 @Service
-public class CadastrarUsuarioService {
+public class UsuarioService {
 
 	@Autowired
-	private CadastrarUsuarioRepository cadastrarUsuarioRepository;
+	private UsuarioRepository cadastrarUsuarioRepository;
 
-	public CadastrarUsuario salvar(CadastrarUsuario usuario) {
+	public Usuario salvar(Usuario usuario) {
 		return cadastrarUsuarioRepository.save(usuario);
 	}
 
-	public List<CadastrarUsuario> listarTodos() {
+	public List<Usuario> listarTodos() {
 		return cadastrarUsuarioRepository.findAll();
 	}
 
-	public Optional<CadastrarUsuario> buscarPorId(Long id) {
+	public Optional<Usuario> buscarPorId(Long id) {
 		return cadastrarUsuarioRepository.findById(id);
 	}
 	
 
-	public CadastrarUsuario atualizar(Long id,CadastrarUsuario dadosNovos) {
-		CadastrarUsuario usuario = cadastrarUsuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+	public Usuario atualizar(Long id,Usuario dadosNovos) {
+		Usuario usuario = cadastrarUsuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
 		if (dadosNovos.getNome() != null)
 			usuario.setNome(dadosNovos.getNome());

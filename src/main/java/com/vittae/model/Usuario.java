@@ -13,7 +13,7 @@ import jakarta.persistence.Id;
 
 @Entity
 
-public class CadastrarUsuario implements UserDetails {
+public class Usuario implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -22,7 +22,7 @@ public class CadastrarUsuario implements UserDetails {
 	private String cpf;
 	private String senha;
 
-	public CadastrarUsuario() {
+	public Usuario() {
 	}
 
 	public Long getId() {
