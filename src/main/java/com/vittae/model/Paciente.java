@@ -8,7 +8,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 
 @Entity
-public class CadastrarPaciente {
+public class Paciente {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -50,7 +50,7 @@ public class CadastrarPaciente {
 		this.senha = senha;
 	}
 
-	public CadastrarPaciente() {
+	public Paciente() {
 	}
 
 	public Long getId() {

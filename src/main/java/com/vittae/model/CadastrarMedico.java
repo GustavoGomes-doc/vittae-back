@@ -2,12 +2,15 @@ package com.vittae.model;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import jakarta.persistence.Lob;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 
 @Entity
 
@@ -23,6 +26,14 @@ public class CadastrarMedico {
 	private LocalDate dataNascimento;
 	private String senha;
 	private BigDecimal valorConsulta;
+	
+	@ManyToMany
+	@JoinTable(
+	        name = "medico_tem_especialidade", //
+	        joinColumns = @JoinColumn(name = "medico_id"),
+	        inverseJoinColumns = @JoinColumn(name = "especialidade_id")
+	    )
+	private List<Especialidade> especialidades;
 
 	public CadastrarMedico () {}
 	
@@ -37,6 +48,7 @@ public class CadastrarMedico {
 		this.email = email;
 		this.setValorConsulta(valorConsulta);
 	}
+
 
 	public Long getId() {
 		return id;
@@ -84,6 +96,23 @@ public class CadastrarMedico {
 
 	public void setCep(String cep) {
 		this.cep = cep;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+
+	public List<Especialidade> getEspecialidades() {
+		return especialidades;
+	}
+
+	public void setEspecialidades(List<Especialidade> especialidades) {
+		this.especialidades = especialidades;
 	}
 
 	public LocalDate getDataNascimento() {

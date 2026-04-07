@@ -11,8 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.vittae.model.FazerLoginDTO;
-import com.vittae.model.TokenResponseDTO;
+import com.vittae.dto.FazerLoginDTO;
+import com.vittae.dto.TokenResponseDTO;
 import com.vittae.service.FazerLoginTokenService;
 
 @RestController
