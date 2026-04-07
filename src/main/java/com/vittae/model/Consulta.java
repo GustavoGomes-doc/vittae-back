@@ -1,6 +1,7 @@
 package com.vittae.model;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.Date;
 
 import jakarta.persistence.Entity;
@@ -21,14 +22,11 @@ public class Consulta {
 	private Long id;
 	private Date dataAgendado;
 	private Date dataConsulta;
-	private LocalDate hora;
+	private LocalTime hora;
 	private int valorconsulta;
 	
 	@Enumerated(EnumType.STRING)
     private Status status;
-	
-    @OneToMany(mappedBy = "consulta")
-    private java.util.List<Exame> exames;
     
     @ManyToOne
     @JoinColumn(name = "paciente_id")
@@ -38,17 +36,7 @@ public class Consulta {
     @JoinColumn(name = "medico_id")
     private CadastrarMedico medico;
 	
-
-	public java.util.List<Exame> getExames() {
-		return exames;
-	}
-
-	public void setExames(java.util.List<Exame> exames) {
-		this.exames = exames;
-	}
-
-	public Consulta () {}
-
+    public Consulta () {}
 	public Long getId() {
 		return id;
 	}
@@ -81,11 +69,11 @@ public class Consulta {
 		this.dataConsulta = dataConsulta;
 	}
 
-	public LocalDate getHora() {
+	public LocalTime getHora() {
 		return hora;
 	}
 
-	public void setHora(LocalDate hora) {
+	public void setHora(LocalTime hora) {
 		this.hora = hora;
 	}
 
@@ -93,8 +81,13 @@ public class Consulta {
 		return valorconsulta;
 	}
 
-	public void setValorconsulta(int valorconsulta) {
-		this.valorconsulta = valorconsulta;
+	public void setPacienteId(Long pacienteId) {
+		// TODO Auto-generated method stub
+		
+	}
+	public void setMedicoId(Long medicoId) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

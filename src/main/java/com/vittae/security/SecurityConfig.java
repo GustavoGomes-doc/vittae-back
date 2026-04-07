@@ -9,6 +9,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.config.Customizer;
 
 @Configuration
 @EnableWebSecurity
@@ -17,14 +18,15 @@ public class SecurityConfig {
 	@Bean
 	public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
 	    return http
-	        .cors(cors -> cors.configure(http)) // ADICIONE ESTA LINHA: Força o Spring a usar o @CrossOrigin
 	        .csrf(csrf -> csrf.disable())
+	        .cors(Customizer.withDefaults()) // Use a configuração padrão que respeita o @CrossOrigin
 	        .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 	        .authorizeHttpRequests(req -> {
-	            // Permite o GET para medicos
 	            req.requestMatchers(HttpMethod.GET, "/api/medicos").permitAll();
-	            // Se você tiver uma rota de login, libere-a aqui também
 	            req.requestMatchers(HttpMethod.POST, "/api/login").permitAll(); 
+	            
+	            // ADICIONE ESTA LINHA ABAIXO PARA LIBERAR O AGENDAMENTO:
+	            req.requestMatchers(HttpMethod.POST, "/api/agendamentos").permitAll(); 
 	            
 	            req.anyRequest().authenticated();
 	        })

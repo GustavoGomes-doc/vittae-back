@@ -13,23 +13,23 @@ import com.vittae.repository.UsuarioRepository;
 public class UsuarioService {
 
 	@Autowired
-	private UsuarioRepository cadastrarUsuarioRepository;
+	private UsuarioRepository UsuarioRepository;
 
 	public Usuario salvar(Usuario usuario) {
-		return cadastrarUsuarioRepository.save(usuario);
+		return UsuarioRepository.save(usuario);
 	}
 
 	public List<Usuario> listarTodos() {
-		return cadastrarUsuarioRepository.findAll();
+		return UsuarioRepository.findAll();
 	}
 
 	public Optional<Usuario> buscarPorId(Long id) {
-		return cadastrarUsuarioRepository.findById(id);
+		return UsuarioRepository.findById(id);
 	}
 	
 
 	public Usuario atualizar(Long id,Usuario dadosNovos) {
-		Usuario usuario = cadastrarUsuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+		Usuario usuario = UsuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
 		if (dadosNovos.getNome() != null)
 			usuario.setNome(dadosNovos.getNome());
@@ -38,10 +38,10 @@ public class UsuarioService {
 		if (dadosNovos.getEmail() != null)
 			usuario.setEmail(dadosNovos.getEmail());
 
-		return cadastrarUsuarioRepository.save(usuario);
+		return UsuarioRepository.save(usuario);
 	}
 
 	public void deletar(Long id) {
-		cadastrarUsuarioRepository.deleteById(id);
+		UsuarioRepository.deleteById(id);
 	}
 }
