@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.vittae.model.CadastrarMedico;
+import com.vittae.model.Medico;
 import com.vittae.repository.CadastrarMedicoRepository;
 
 @Service
@@ -15,21 +15,21 @@ public class CadastrarMedicoService {
 	@Autowired
 	private CadastrarMedicoRepository cadastrarMedicoRepository;
 
-	public CadastrarMedico salvar(CadastrarMedico medico) {
+	public Medico salvar(Medico medico) {
 		return cadastrarMedicoRepository.save(medico);
 	}
 
-	public List<CadastrarMedico> listarTodos() {
+	public List<Medico> listarTodos() {
 		return cadastrarMedicoRepository.findAll();
 	}
 
-	public Optional<CadastrarMedico> buscarPorId(Long id) {
+	public Optional<Medico> buscarPorId(Long id) {
 		return cadastrarMedicoRepository.findById(id);
 	}
 	
 
-	public CadastrarMedico atualizar(Long id, CadastrarMedico dadosNovos) {
-		CadastrarMedico medico = cadastrarMedicoRepository.findById(id).orElseThrow(() -> new RuntimeException("Médico não encontrado"));
+	public Medico atualizar(Long id, Medico dadosNovos) {
+		Medico medico = cadastrarMedicoRepository.findById(id).orElseThrow(() -> new RuntimeException("Médico não encontrado"));
 
 		if (dadosNovos.getNome() != null)
 			medico.setNome(dadosNovos.getNome());

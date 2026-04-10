@@ -34,7 +34,7 @@ public class Consulta {
 
     @ManyToOne
     @JoinColumn(name = "medico_id")
-    private CadastrarMedico medico;
+    private Medico medico;
 	
     public Consulta () {}
 	public Long getId() {

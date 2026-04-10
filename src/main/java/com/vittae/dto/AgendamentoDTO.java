@@ -7,7 +7,7 @@ public class AgendamentoDTO {
 
 	private String nomePaciente;
 	private String cpfPaciente;
-	private String dataNascimento; // Recebemos como String para tratar a conversão se necessário
+	private String dataNascimento;
 	private String telefone;
 	private String sexoBiologico;
 	private String observacoes;
