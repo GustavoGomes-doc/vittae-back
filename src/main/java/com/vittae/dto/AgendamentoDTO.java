@@ -1,101 +1,73 @@
 package com.vittae.dto;
 
+import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 
 public class AgendamentoDTO {
 
-	private String nomePaciente;
-	private String cpfPaciente;
-	private String dataNascimento; // Recebemos como String para tratar a conversão se necessário
-	private String telefone;
-	private String sexoBiologico;
-	private String observacoes;
-	private LocalTime hora;
+    // 1. Dados diretos da Consulta (exatamente com os nomes do Payload do React)
+    private String tipoConsulta;
+    private String especialidade;
+    private LocalDate dataAgendado;
+    private LocalDate dataConsulta;
+    private LocalTime hora;
+    private Long medicoId;
+    private String observacoes;
+    private Double valorconsulta; // Pode ser Integer se você não usar centavos
+    
+    // 2. O "Pacotinho" do Paciente que vem do Frontend
+    private PacienteDTO paciente;
 
-	private Long medicoId;
-	private Long pacienteId;
+    public AgendamentoDTO() {
+    }
 
-	public AgendamentoDTO() {
-	}
+    // ==========================================
+    // GETTERS E SETTERS DA CONSULTA
+    // ==========================================
 
-	// Getters e Setters
-	public String getNomePaciente() {
-		return nomePaciente;
-	}
+    public String getTipoConsulta() { return tipoConsulta; }
+    public void setTipoConsulta(String tipoConsulta) { this.tipoConsulta = tipoConsulta; }
 
-	public void setNomePaciente(String nomePaciente) {
-		this.nomePaciente = nomePaciente;
-	}
+    public String getEspecialidade() { return especialidade; }
+    public void setEspecialidade(String especialidade) { this.especialidade = especialidade; }
 
-	public String getCpfPaciente() {
-		return cpfPaciente;
-	}
+    public LocalDate getDataAgendado() { return dataAgendado; }
+    public void setDataAgendado(LocalDate dataAgendado) { this.dataAgendado = dataAgendado; }
 
-	public void setCpfPaciente(String cpfPaciente) {
-		this.cpfPaciente = cpfPaciente;
-	}
+    public LocalDate getDataConsulta() { return dataConsulta; }
+    public void setDataConsulta(LocalDate dataConsulta) { this.dataConsulta = dataConsulta; }
 
-	public String getDataNascimento() {
-		return dataNascimento;
-	}
+    public LocalTime getHora() { return hora; }
+    public void setHora(LocalTime hora) { this.hora = hora; }
 
-	public void setDataNascimento(String dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
+    public Long getMedicoId() { return medicoId; }
+    public void setMedicoId(Long medicoId) { this.medicoId = medicoId; }
 
-	public String getTelefone() {
-		return telefone;
-	}
+    public String getObservacoes() { return observacoes; }
+    public void setObservacoes(String observacoes) { this.observacoes = observacoes; }
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
-	}
+    public Double getValorconsulta() { return valorconsulta; }
+    public void setValorconsulta(Double valorconsulta) { this.valorconsulta = valorconsulta; }
 
-	public String getSexoBiologico() {
-		return sexoBiologico;
-	}
+    public PacienteDTO getPaciente() { return paciente; }
+    public void setPaciente(PacienteDTO paciente) { this.paciente = paciente; }
 
-	public void setSexoBiologico(String sexoBiologico) {
-		this.sexoBiologico = sexoBiologico;
-	}
+    // ==========================================
+    // CLASSE INTERNA: O MODELO DO PACIENTE
+    // ==========================================
+    // Isso é necessário porque o Frontend manda: "paciente": { "nome": "...", "cpf": "..." }
+    public static class PacienteDTO {
+        private String nome;
+        private String cpf;
+        private String telefone;
 
-	public String getObservacoes() {
-		return observacoes;
-	}
+        public String getNome() { return nome; }
+        public void setNome(String nome) { this.nome = nome; }
 
-	public void setObservacoes(String observacoes) {
-		this.observacoes = observacoes;
-	}
+        public String getCpf() { return cpf; }
+        public void setCpf(String cpf) { this.cpf = cpf; }
 
-	public Long getMedicoId() {
-		return medicoId;
-	}
-
-	public void setMedicoId(Long medicoId) {
-		this.medicoId = medicoId;
-	}
-
-	public Long getPacienteId() {
-		return pacienteId;
-	}
-
-	public void setPacienteId(Long pacienteId) {
-		this.pacienteId = pacienteId;
-	}
-
-	public Date getDataAgendado() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public Date getDataConsulta() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public LocalTime getHora() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+        public String getTelefone() { return telefone; }
+        public void setTelefone(String telefone) { this.telefone = telefone; }
+    }
 }

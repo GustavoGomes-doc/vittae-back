@@ -17,6 +17,9 @@ public class Paciente {
 	private String nome;
 	private String email;
 	private String senha;
+	private String telefone;
+	public String getTelefone() { return telefone; }
+	public void setTelefone(String telefone) { this.telefone = telefone; }
 
 	public String getCpf() {
 		return cpf;

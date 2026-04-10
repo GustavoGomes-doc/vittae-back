@@ -3,53 +3,84 @@ package com.vittae.service;
 import java.util.List;
 import java.util.Optional;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vittae.dto.AgendamentoDTO;
+import com.vittae.model.CadastrarMedico;
 import com.vittae.model.Consulta;
+import com.vittae.model.Paciente;
 import com.vittae.repository.ConsultaRepository;
+import com.vittae.repository.PacienteRepository;
 
 @Service
 public class ConsultaService {
 
-	@Autowired
-	private ConsultaRepository consultaRepository;
+    @Autowired
+    private ConsultaRepository consultaRepository;
 
-	public void salvarAgendamento(AgendamentoDTO dto) {
-	    // 1. Cria uma nova instância da sua entidade
-	    Consulta novaConsulta = new Consulta();
-	    
-	    // 2. Mapeia os dados do DTO para os campos que vi no seu print
-	    novaConsulta.setDataAgendado(dto.getDataAgendado()); 
-	    novaConsulta.setDataConsulta(dto.getDataConsulta());
-	    novaConsulta.setHora(dto.getHora());
-	    novaConsulta.setValorconsulta(dto.getDataConsulta());
-	    novaConsulta.setMedicoId(dto.getMedicoId());
-	    novaConsulta.setPacienteId(dto.getPacienteId());
-	    
-	
-	    
-	    // 3. O comando que realiza o INSERT no banco de dados
-	    consultaRepository.save(novaConsulta);
-	}
+    @Autowired
+    private PacienteRepository pacienteRepository;
 
-	public List<Consulta> listarTodos() {
-		return consultaRepository.findAll();
-	}
+    public void salvarAgendamento(AgendamentoDTO dto) {
+        Consulta novaConsulta = new Consulta();
+        
+        // 1. Mapeamento dos dados (Convertendo de LocalDate do DTO para Date da Entidade)
+        novaConsulta.setDataAgendado(java.sql.Date.valueOf(dto.getDataAgendado())); 
+        novaConsulta.setDataConsulta(java.sql.Date.valueOf(dto.getDataConsulta()));
+        novaConsulta.setHora(dto.getHora());
+        
+        // Convertendo o Double do DTO para o int da sua classe
+        if (dto.getValorconsulta() != null) {
+            novaConsulta.setValorconsulta(dto.getValorconsulta().intValue());
+        }
 
-	public Optional<Consulta> buscarPorId(Long id) {
-		return consultaRepository.findById(id);
-	}
+        // 2. Mapeamento do Médico (Criamos uma referência rápida só com o ID)
+        CadastrarMedico medicoSelecionado = new CadastrarMedico();
+        medicoSelecionado.setId(dto.getMedicoId());
+        novaConsulta.setMedico(medicoSelecionado);
+        
+        // *Removemos setEspecialidade, setObservacoes etc. porque eles não existem no banco!*
+        
+        // =======================================================
+        // 3. Lógica para verificar e salvar o Paciente
+        // =======================================================
+        String cpfDoPaciente = dto.getPaciente().getCpf();
+        
+        Optional<Paciente> pacienteExistente = pacienteRepository.findByCpf(cpfDoPaciente);
+        Paciente pacienteDaConsulta;
 
-	public @Nullable Object atualizar(Long id, Consulta consulta) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public void deletar(Long id) {
-		// TODO Auto-generated method stub
-		
-	}
+        if (pacienteExistente.isPresent()) {
+            pacienteDaConsulta = pacienteExistente.get();
+        } else {
+            Paciente novoPaciente = new Paciente();
+            novoPaciente.setNome(dto.getPaciente().getNome());
+            novoPaciente.setCpf(cpfDoPaciente);
+            novoPaciente.setTelefone(dto.getPaciente().getTelefone());
+            
+            pacienteDaConsulta = pacienteRepository.save(novoPaciente);
+        }
+
+        // 4. Agora atrelamos o OBJETO paciente inteiro na Consulta, e não só o ID
+        novaConsulta.setPaciente(pacienteDaConsulta); 
+        
+        // 5. Finalmente, salva no banco!
+        consultaRepository.save(novaConsulta);
+    }
+
+    public List<Consulta> listarTodos() {
+        return consultaRepository.findAll();
+    }
+
+    public Optional<Consulta> buscarPorId(Long id) {
+        return consultaRepository.findById(id);
+    }
+
+    public Object atualizar(Long id, Consulta consulta) {
+        return null;
+    }
+    
+    public void deletar(Long id) {
+        consultaRepository.deleteById(id);
+    }
 }
