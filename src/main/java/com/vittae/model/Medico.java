@@ -14,7 +14,7 @@ import jakarta.persistence.ManyToMany;
 
 @Entity
 
-public class CadastrarMedico {
+public class Medico {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -35,9 +35,9 @@ public class CadastrarMedico {
 	    )
 	private List<Especialidade> especialidades;
 
-	public CadastrarMedico () {}
+	public Medico () {}
 	
-	public CadastrarMedico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BigDecimal valorConsulta, String senha) {
+	public Medico(Long id, String nome, String crm, String email, String cpf, String cep, LocalDate dataNascimento, BigDecimal valorConsulta, String senha) {
 		this.id = id;
 		this.nome = nome;
 		this.crm = crm;

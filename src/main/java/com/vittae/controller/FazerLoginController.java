@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vittae.dto.FazerLoginDTO;
 import com.vittae.dto.TokenResponseDTO;
+import com.vittae.model.Usuario;
 import com.vittae.service.FazerLoginTokenService;
 
 @RestController
@@ -33,6 +34,8 @@ public class FazerLoginController {
                 
         Authentication authentication = manager.authenticate(authenticationToken);
         
-        return ResponseEntity.ok(new TokenResponseDTO("token_gerado_com_sucesso"));
+        var usuario = (Usuario) authentication.getPrincipal();
+        var token = tokenService.gerarToken(usuario);
+        return ResponseEntity.ok(new TokenResponseDTO(token));
     }
 }
