@@ -1,71 +1,22 @@
 package com.vittae.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.PrimaryKeyJoinColumn;
+import jakarta.persistence.Table;
 
 @Entity
-public class Paciente {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+@Table(name = "paciente")
+@PrimaryKeyJoinColumn(name = "id_usuario")
+public class Paciente extends Usuario {
+
 	private LocalDate dataNascimento;
-	private String cpf;
-	private String nome;
-	private String email;
-	private String senha;
 	private String telefone;
-	public String getTelefone() { return telefone; }
-	public void setTelefone(String telefone) { this.telefone = telefone; }
-
-	private String responsavel;
-	private Usuario usuario;
-	
-	public String getCpf() {
-		return cpf;
-	}
-
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
-
-	public String getNome() {
-		return nome;
-	}
-
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getSenha() {
-		return senha;
-	}
-
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
-
-	public Paciente() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
 
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
@@ -75,4 +26,49 @@ public class Paciente {
 		this.dataNascimento = dataNascimento;
 	}
 
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	@OneToOne
+	@JoinColumn(name = "id_responsavel")
+	private Paciente responsavel;
+
+	@OneToMany(mappedBy = "paciente")
+	private List<Consulta> consultas;
+
+	public Paciente() {
+	}
+
+	public Paciente(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public LocalDate getdataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNasc(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public Paciente getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(Paciente responsavel) {
+		this.responsavel = responsavel;
+	}
+
+	public List<Consulta> getConsultas() {
+		return consultas;
+	}
+
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
+	}
 }

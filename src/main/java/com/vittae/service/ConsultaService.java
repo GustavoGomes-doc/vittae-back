@@ -30,14 +30,14 @@ public class ConsultaService {
 		Consulta novaConsulta = new Consulta();
 
 		// convertendo de LocalDate do DTO para Date da Entidade
-		novaConsulta.setDataAgendado(java.sql.Date.valueOf(dto.getDataAgendado()));
-		novaConsulta.setDataConsulta(java.sql.Date.valueOf(dto.getDataConsulta()));
+		//novaConsulta.setDataAgendado(java.sql.Date.valueOf(dto.getDataAgendado()));
+		//novaConsulta.setDataConsulta(java.sql.Date.valueOf(dto.getDataConsulta()));
 		novaConsulta.setHora(dto.getHora());
 
 		// convertendo o Double do DTO para o int da sua classe
-		if (dto.getValorconsulta() != null) {
-			novaConsulta.setValorconsulta(dto.getValorconsulta().intValue());
-		}
+		//if (dto.getValorconsulta() != null) {
+		//	novaConsulta.setValorconsulta(dto.getValorconsulta().intValue());
+		//}
 
 		// mapeamento do Médico (Criamos uma referência rápida só com o ID)
 		Medico medicoSelecionado = cadastrarMedicoRepository.findById(dto.getMedicoId())

@@ -10,104 +10,67 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Inheritance;
+import jakarta.persistence.InheritanceType;
+import jakarta.persistence.Table;
 
 @Entity
-
+@Table(name = "usuario")
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Usuario implements UserDetails {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private String nome;
-	private String email;
-	private String cpf;
-	private String senha;
-	
-	public Paciente getPaciente() {
-		return paciente;
-	}
 
-	public void setPaciente(Paciente paciente) {
-		this.paciente = paciente;
-	}
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-	public Medico getMedico() {
-		return medico;
-	}
+    private String cpf;
+    private String senha;
+    private String nome;
+    private String email;
 
-	public void setMedico(Medico medico) {
-		this.medico = medico;
-	}
+    public Usuario() {}
 
-	private Paciente paciente;
-	private Medico medico;
+    public Usuario(String cpf, String senha, String nome, String email) {
+        this.cpf = cpf;
+        this.senha = senha;
+        this.nome = nome;
+        this.email = email;
+    }
 
-	public Usuario() {
-	}
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-	public String getSenha() {
-		return senha;
-	}
+    public String getCpf() { return cpf; }
+    public void setCpf(String cpf) { this.cpf = cpf; }
 
-	public void setSenha(String senha) {
-		this.senha = senha;
-	}
+    public String getSenha() { return senha; }
+    public void setSenha(String senha) { this.senha = senha; }
 
-	public String getNome() {
-		return nome;
-	}
+    public String getNome() { return nome; }
+    public void setNome(String nome) { this.nome = nome; }
 
-	public void setNome(String nome) {
-		this.nome = nome;
-	}
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-	public String getEmail() {
-		return email;
-	}
+    // ---- UserDetails ----
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() { return List.of(); }
 
-	public void setEmail(String email) {
-		this.email = email;
-	}
+    @Override
+    public String getPassword() { return this.senha; }
 
-	public String getCpf() {
-		return cpf;
-	}
+    @Override
+    public String getUsername() { return this.cpf; }
 
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
+    @Override
+    public boolean isAccountNonExpired() { return true; }
 
-	@Override
-	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return List.of();
-	}
+    @Override
+    public boolean isAccountNonLocked() { return true; }
 
-	@Override
-	public String getPassword() {
-		return this.senha;
-	}
+    @Override
+    public boolean isCredentialsNonExpired() { return true; }
 
-	@Override
-	public String getUsername() {
-		return this.cpf;
-	}
-
-	@Override
-	public boolean isAccountNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isAccountNonLocked() {
-		return true;
-	}
-
-	@Override
-	public boolean isCredentialsNonExpired() {
-		return true;
-	}
-
-	@Override
-	public boolean isEnabled() {
-		return true;
-	}
-
+    @Override
+    public boolean isEnabled() { return true; }
 }
