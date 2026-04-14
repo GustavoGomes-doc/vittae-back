@@ -1,8 +1,8 @@
 package com.vittae.model;
 
 import java.util.Collection;
+import java.util.List;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -10,28 +10,37 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.util.List;
 
 @Entity
 
 public class Usuario implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
 	private String nome;
 	private String email;
 	private String cpf;
 	private String senha;
+	
+	public Paciente getPaciente() {
+		return paciente;
+	}
+
+	public void setPaciente(Paciente paciente) {
+		this.paciente = paciente;
+	}
+
+	public Medico getMedico() {
+		return medico;
+	}
+
+	public void setMedico(Medico medico) {
+		this.medico = medico;
+	}
+
+	private Paciente paciente;
+	private Medico medico;
 
 	public Usuario() {
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
 	}
 
 	public String getSenha() {

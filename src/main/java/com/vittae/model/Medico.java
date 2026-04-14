@@ -20,18 +20,15 @@ public class Medico {
 	private Long id;
 	private String nome;
 	private String crm;
-	private String email;
-	private String cpf;
 	private String cep;
 	private LocalDate dataNascimento;
-	private String senha;
 	private BigDecimal valorConsulta;
 	
 	@ManyToMany
 	@JoinTable(
-	        name = "medico_tem_especialidade", //
-	        joinColumns = @JoinColumn(name = "medico_id"),
-	        inverseJoinColumns = @JoinColumn(name = "especialidade_id")
+	        name = "medico_especialidade", //
+	        joinColumns = @JoinColumn(name = "id_medico"),
+	        inverseJoinColumns = @JoinColumn(name = "id_especialidade")
 	    )
 	private List<Especialidade> especialidades;
 
@@ -41,11 +38,8 @@ public class Medico {
 		this.id = id;
 		this.nome = nome;
 		this.crm = crm;
-		this.cpf = cpf;
 		this.cep = cep;
-		this.senha = senha;
 		this.dataNascimento = dataNascimento;
-		this.email = email;
 		this.setValorConsulta(valorConsulta);
 	}
 

@@ -7,4 +7,5 @@ import com.vittae.model.Medico;
 
 @Repository
 public interface CadastrarMedicoRepository extends JpaRepository<Medico, Long> {
+
 }
