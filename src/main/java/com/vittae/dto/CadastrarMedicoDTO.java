@@ -1,0 +1,172 @@
+package com.vittae.dto;
+
+import java.time.LocalDate;
+import java.util.List;
+
+public class CadastrarMedicoDTO {
+
+	// ── Dados de Usuario (herdados) ──────────────────────────
+	private String nome;
+	private String cpf;
+	private String email;
+	private String senha;
+
+	// ── Dados de Medico ──────────────────────────────────────
+	private LocalDate dataNascimento;
+	private String crm;
+	private String ufCrm;
+	private String rqe;
+	private String cep;
+	private double valorConsulta; // era int, frontend envia decimal
+	private Integer tempoConsultaMinutos;
+	private String biografia;
+
+	// ── Relações ─────────────────────────────────────────────
+	private List<String> especialidades; // ["Cardiologia", "Pediatria"]
+	private List<DisponibilidadeDTO> disponibilidades;
+
+	// ── Getters e Setters ────────────────────────────────────
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getCrm() {
+		return crm;
+	}
+
+	public void setCrm(String crm) {
+		this.crm = crm;
+	}
+
+	public String getUfCrm() {
+		return ufCrm;
+	}
+
+	public void setUfCrm(String ufCrm) {
+		this.ufCrm = ufCrm;
+	}
+
+	public String getRqe() {
+		return rqe;
+	}
+
+	public void setRqe(String rqe) {
+		this.rqe = rqe;
+	}
+
+	public String getCep() {
+		return cep;
+	}
+
+	public void setCep(String cep) {
+		this.cep = cep;
+	}
+
+	public double getValorConsulta() {
+		return valorConsulta;
+	}
+
+	public void setValorConsulta(double valorConsulta) {
+		this.valorConsulta = valorConsulta;
+	}
+
+	public Integer getTempoConsultaMinutos() {
+		return tempoConsultaMinutos;
+	}
+
+	public void setTempoConsultaMinutos(Integer tempoConsultaMinutos) {
+		this.tempoConsultaMinutos = tempoConsultaMinutos;
+	}
+
+	public String getBiografia() {
+		return biografia;
+	}
+
+	public void setBiografia(String biografia) {
+		this.biografia = biografia;
+	}
+
+	public List<String> getEspecialidades() {
+		return especialidades;
+	}
+
+	public void setEspecialidades(List<String> especialidades) {
+		this.especialidades = especialidades;
+	}
+
+	public List<DisponibilidadeDTO> getDisponibilidades() {
+		return disponibilidades;
+	}
+
+	public void setDisponibilidades(List<DisponibilidadeDTO> disponibilidades) {
+		this.disponibilidades = disponibilidades;
+	}
+	
+
+	// ── DTO interno de Disponibilidade ───────────────────────
+	public static class DisponibilidadeDTO {
+		private String diaSemana; // "SEGUNDA", "TERCA", etc.
+		private String horaInicio; // "08:00"
+		private String horaFim; // "18:00"
+
+		public String getDiaSemana() {
+			return diaSemana;
+		}
+
+		public void setDiaSemana(String diaSemana) {
+			this.diaSemana = diaSemana;
+		}
+
+		public String getHoraInicio() {
+			return horaInicio;
+		}
+
+		public void setHoraInicio(String horaInicio) {
+			this.horaInicio = horaInicio;
+		}
+
+		public String getHoraFim() {
+			return horaFim;
+		}
+
+		public void setHoraFim(String horaFim) {
+			this.horaFim = horaFim;
+		}
+	}
+}

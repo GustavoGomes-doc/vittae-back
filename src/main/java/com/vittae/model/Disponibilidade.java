@@ -18,8 +18,8 @@ public class Disponibilidade {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private int horaInicio;
-	private int horaFim;
+	private String horaInicio;
+	private String horaFim;
 
 	@Enumerated(EnumType.STRING)
 	private DiaSemana diaSemana;
@@ -31,7 +31,7 @@ public class Disponibilidade {
 	public Disponibilidade() {
 	}
 
-	public Disponibilidade(int horaInicio, int horaFim, DiaSemana diaSemana, Medico medico) {
+	public Disponibilidade(String horaInicio, String horaFim, DiaSemana diaSemana, Medico medico) {
 		this.horaInicio = horaInicio;
 		this.horaFim = horaFim;
 		this.diaSemana = diaSemana;
@@ -46,19 +46,19 @@ public class Disponibilidade {
 		this.id = id;
 	}
 
-	public int getHoraInicio() {
+	public String getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(int horaInicio) {
+	public void setHoraInicio(String horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public int getHoraFim() {
+	public String getHoraFim() {
 		return horaFim;
 	}
 
-	public void setHoraFim(int horaFim) {
+	public void setHoraFim(String horaFim) {
 		this.horaFim = horaFim;
 	}
 
@@ -77,4 +77,6 @@ public class Disponibilidade {
 	public void setMedico(Medico medico) {
 		this.medico = medico;
 	}
+	
+	
 }

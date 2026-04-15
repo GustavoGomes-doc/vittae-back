@@ -44,6 +44,8 @@ public class SecurityConfig {
 				.sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
 				.authorizeHttpRequests(req -> {
 					req.requestMatchers(HttpMethod.GET, "/api/medicos").permitAll();
+					req.requestMatchers(HttpMethod.POST, "/api/medicos").permitAll();
+					
 					req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
 
 					// ADICIONE ESTA LINHA ABAIXO PARA LIBERAR O AGENDAMENTO:

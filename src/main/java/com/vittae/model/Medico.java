@@ -1,8 +1,10 @@
 package com.vittae.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
@@ -19,13 +21,25 @@ public class Medico extends Usuario {
 
 	@Lob
 	private byte[] foto;
-
+	
+	@Column(columnDefinition = "TEXT")
+    private String biografia;
+	
+	@Column(nullable = false)
+    private String crm;
+	
+	@Column(length = 2)
+    private String ufCrm;
+	
+	private String rqe;
+	
+	private Integer tempoConsultaMinutos;
 	private LocalDate dataNascimento;
-	private String crm;
 	private String cep;
-	private int valorConsulta;
+	private double valorConsulta;
 	private String telefone;
-
+	
+	
 	public String getTelefone() {
 		return telefone;
 	}
@@ -47,12 +61,48 @@ public class Medico extends Usuario {
 	public Medico() {
 	}
 
-	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep, int valorConsulta) {
+	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,double valorConsulta, String ufCrm, Integer tempoConsultaMinutos, String rqe, String biografia) {
 		this.foto = foto;
 		this.dataNascimento = dataNascimento;
 		this.crm = crm;
 		this.cep = cep;
 		this.valorConsulta = valorConsulta;
+		this.ufCrm = ufCrm;
+		this.rqe = rqe;
+		this.biografia = biografia;
+		this.tempoConsultaMinutos = tempoConsultaMinutos;
+	}
+
+	public String getBiografia() {
+		return biografia;
+	}
+
+	public void setBiografia(String biografia) {
+		this.biografia = biografia;
+	}
+
+	public String getUfCrm() {
+		return ufCrm;
+	}
+
+	public void setUfCrm(String ufCrm) {
+		this.ufCrm = ufCrm;
+	}
+
+	public String getRqe() {
+		return rqe;
+	}
+
+	public void setRqe(String rqe) {
+		this.rqe = rqe;
+	}
+
+	public Integer getTempoConsultaMinutos() {
+		return tempoConsultaMinutos;
+	}
+
+	public void setTempoConsultaMinutos(Integer tempoConsultaMinutos) {
+		this.tempoConsultaMinutos = tempoConsultaMinutos;
 	}
 
 	public byte[] getFoto() {
@@ -87,11 +137,11 @@ public class Medico extends Usuario {
 		this.cep = cep;
 	}
 
-	public int getValorConsulta() {
+	public double getValorConsulta() {
 		return valorConsulta;
 	}
 
-	public void setValorConsulta(int valorConsulta) {
+	public void setValorConsulta(double valorConsulta) {
 		this.valorConsulta = valorConsulta;
 	}
 

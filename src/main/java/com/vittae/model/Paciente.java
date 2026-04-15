@@ -17,6 +17,24 @@ public class Paciente extends Usuario {
 
 	private LocalDate dataNascimento;
 	private String telefone;
+	private String endereco;
+	private String cidade;
+
+	public String getEndereco() {
+		return endereco;
+	}
+
+	public void setEndereco(String endereco) {
+		this.endereco = endereco;
+	}
+
+	public String getCidade() {
+		return cidade;
+	}
+
+	public void setCidade(String cidade) {
+		this.cidade = cidade;
+	}
 
 	public LocalDate getDataNascimento() {
 		return dataNascimento;
