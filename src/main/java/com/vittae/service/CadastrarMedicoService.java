@@ -16,7 +16,7 @@ import com.vittae.model.Medico;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.EspecialidadeRepository;
 
-@Service
+@Service //regra d negocio; toda a logica 
 public class CadastrarMedicoService {
 
 	@Autowired
@@ -27,32 +27,32 @@ public class CadastrarMedicoService {
 
 	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
-	// ── SALVAR (a partir do DTO) ─────────────────────────────
+
 	public Medico salvarDTO(CadastrarMedicoDTO dto) {
 
 		Medico medico = new Medico();
 
-		// 1. Dados herdados de Usuario
+		//dados usuario
 		medico.setNome(dto.getNome());
 		medico.setCpf(dto.getCpf());
 		medico.setEmail(dto.getEmail());
 		medico.setSenha(passwordEncoder.encode(dto.getSenha())); // ✅ BCrypt
 
-		// 2. Dados do Médico
+		//dados médico
 		medico.setDataNascimento(dto.getDataNascimento());
 		medico.setCrm(dto.getCrm());
 		medico.setUfCrm(dto.getUfCrm());
 		medico.setRqe(dto.getRqe());
 		medico.setCep(dto.getCep());
-		medico.setValorConsulta((int) dto.getValorConsulta()); // ou mude para double no model
+		medico.setValorConsulta(dto.getValorConsulta());
 		medico.setTempoConsultaMinutos(dto.getTempoConsultaMinutos());
 		medico.setBiografia(dto.getBiografia());
 
-		// 3. Especialidades — busca no banco pelo nome, cria se não existir
-		if (dto.getEspecialidades() != null) {
+		//especialidade
+		if (dto.getEspecialidades() != null) { //busca ou cria p cada especialide no dto: tenta achar no banco, usa,
 			List<Especialidade> especialidades = new ArrayList<>();
 			for (String nomeEsp : dto.getEspecialidades()) {
-				Especialidade esp = especialidadeRepository.findByNome(nomeEsp).orElseGet(() -> {
+				Especialidade esp = especialidadeRepository.findByNome(nomeEsp).orElseGet(() -> { // se n encontrou cria e salva
 					Especialidade nova = new Especialidade();
 					nova.setNome(nomeEsp);
 					return especialidadeRepository.save(nova);
@@ -62,19 +62,19 @@ public class CadastrarMedicoService {
 			medico.setEspecialidades(especialidades);
 		}
 
-		// 4. Salva o médico primeiro para ter ID gerado
+		//salva médico primeiro para ter id gerado
 		Medico medicoSalvo = cadastrarMedicoRepository.save(medico);
 
-		// 5. Disponibilidades — seta o médico em cada uma antes de salvar
+		//dispnb, seta o médico em cada uma antes de salvar
 		if (dto.getDisponibilidades() != null) {
 		    List<Disponibilidade> disponibilidades = new ArrayList<>();
 		    
 		    for (CadastrarMedicoDTO.DisponibilidadeDTO dtoDisp : dto.getDisponibilidades()) {
 		        Disponibilidade disp = new Disponibilidade();
 		        
-		        disp.setDiaSemana(DiaSemana.valueOf(dtoDisp.getDiaSemana())); 
-		        
-		        disp.setHoraInicio(dtoDisp.getHoraInicio()); 
+		        disp.setDiaSemana(DiaSemana.valueOf(dtoDisp.getDiaSemana())); //converte o string para enum
+		        															// SE NN : IllegalArgumentException  barra
+		        disp.setHoraInicio(dtoDisp.getHoraInicio()); 	
 		        disp.setHoraFim(dtoDisp.getHoraFim());       
 		        
 		        disp.setMedico(medicoSalvo);
@@ -88,19 +88,14 @@ public class CadastrarMedicoService {
 		return medicoSalvo;
 	}
 
-	// ── Converte "08:00" → 8 e "18:30" → 18 ───────────────
-	private int converterHora(String horaStr) {
-		if (horaStr == null || !horaStr.contains(":"))
-			return 0;
-		return Integer.parseInt(horaStr.split(":")[0]);
-	}
+	//conversor hora
 
-	// ── CRUD padrão ──────────────────────────────────────────
+	//crudzin med
 	public List<Medico> listarTodos() {
 		return cadastrarMedicoRepository.findAll();
 	}
 
-	public Optional<Medico> buscarPorId(Long id) {
+	public Optional<Medico> buscarPorId(Long id) { // controler decide c n achar 
 		return cadastrarMedicoRepository.findById(id);
 	}
 

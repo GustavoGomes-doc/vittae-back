@@ -33,10 +33,10 @@ public class Medico extends Usuario {
 	
 	private String rqe;
 	
-	private Integer tempoConsultaMinutos;
+	private int tempoConsultaMinutos;
 	private LocalDate dataNascimento;
 	private String cep;
-	private double valorConsulta;
+	private double valorConsulta; //BIG DECIMAL 
 	private String telefone;
 	
 	
@@ -61,7 +61,7 @@ public class Medico extends Usuario {
 	public Medico() {
 	}
 
-	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,double valorConsulta, String ufCrm, Integer tempoConsultaMinutos, String rqe, String biografia) {
+	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,double valorConsulta, String ufCrm, int tempoConsultaMinutos, String rqe, String biografia, List especialidades, String telefone) {
 		this.foto = foto;
 		this.dataNascimento = dataNascimento;
 		this.crm = crm;
@@ -71,6 +71,8 @@ public class Medico extends Usuario {
 		this.rqe = rqe;
 		this.biografia = biografia;
 		this.tempoConsultaMinutos = tempoConsultaMinutos;
+		this.especialidades = especialidades;
+		this.telefone = telefone;
 	}
 
 	public String getBiografia() {
