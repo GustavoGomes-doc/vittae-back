@@ -1,9 +1,9 @@
 package com.vittae.model;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
@@ -52,7 +52,7 @@ public class Medico extends Usuario {
 	@JoinTable(name = "medico_especialidade", joinColumns = @JoinColumn(name = "id_medico"), inverseJoinColumns = @JoinColumn(name = "id_especialidade"))
 	private List<Especialidade> especialidades;
 
-	@OneToMany(mappedBy = "medico")
+	@OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Disponibilidade> disponibilidades;
 
 	@OneToMany(mappedBy = "medico")
