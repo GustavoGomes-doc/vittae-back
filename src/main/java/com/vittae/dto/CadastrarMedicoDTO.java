@@ -102,11 +102,12 @@ public class CadastrarMedicoDTO {
 		this.valorConsulta = valorConsulta;
 	}
 
-	public Integer getTempoConsulta() {
+
+	public Integer getTempoConsultaMinutos() {
 		return tempoConsulta;
 	}
 
-	public void setTempoConsulta(Integer tempoConsulta) {
+	public void setTempoConsultaMinutos(Integer tempoConsulta) {
 		this.tempoConsulta = tempoConsulta;
 	}
 

@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vittae.dto.CadastrarMedicoDTO;
@@ -17,7 +18,7 @@ import com.vittae.model.enums.DiaSemana;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.EspecialidadeRepository;
 
-@Service //regra d negocio; toda a logica 
+@Service // regra d negocio; toda a logica
 public class CadastrarMedicoService {
 
 	@Autowired
@@ -25,33 +26,39 @@ public class CadastrarMedicoService {
 
 	@Autowired
 	private EspecialidadeRepository especialidadeRepository;
+	private PasswordEncoder passwordEncoder;
 
-	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-
+	public CadastrarMedicoService(PasswordEncoder passwordEncoder, CadastrarMedicoRepository medicoRepository) {
+		this.passwordEncoder = passwordEncoder;
+		this.cadastrarMedicoRepository = medicoRepository;
+	}
 
 	public Medico salvarDTO(CadastrarMedicoDTO dto) {
+		
+		 String senhaCriptografada = passwordEncoder.encode(dto.getSenha());
 
 		Medico medico = new Medico();
-		//dados usuario
+		// dados usuario
 		medico.setNome(dto.getNome());
 		medico.setCpf(dto.getCpf());
 		medico.setEmail(dto.getEmail());
 		medico.setSenha(passwordEncoder.encode(dto.getSenha()));
-		//dados médico
+		// dados médico
 		medico.setDataNascimento(dto.getDataNascimento());
 		medico.setCrm(dto.getCrm());
 		medico.setUfCrm(dto.getUfCrm());
 		medico.setRqe(dto.getRqe());
 		medico.setCep(dto.getCep());
 		medico.setValorConsulta(dto.getValorConsulta());
-		medico.setTempoConsulta(dto.getTempoConsulta());
+		medico.setTempoConsulta(dto.getTempoConsultaMinutos());
 		medico.setBiografia(dto.getBiografia());
 
-		//especialidade
-		if (dto.getEspecialidades() != null) { //busca ou cria p cada especialide no dto: tenta achar no banco, usa,
+		// especialidade
+		if (dto.getEspecialidades() != null) { // busca ou cria p cada especialide no dto: tenta achar no banco, usa,
 			List<Especialidade> especialidades = new ArrayList<>();
 			for (String nomeEsp : dto.getEspecialidades()) {
-				Especialidade esp = especialidadeRepository.findByNome(nomeEsp).orElseGet(() -> { // se n encontrou cria e salva
+				Especialidade esp = especialidadeRepository.findByNome(nomeEsp).orElseGet(() -> { // se n encontrou cria
+																									// e salva
 					Especialidade nova = new Especialidade();
 					nova.setNome(nomeEsp);
 					return especialidadeRepository.save(nova);
@@ -61,39 +68,39 @@ public class CadastrarMedicoService {
 			medico.setEspecialidades(especialidades);
 		}
 
-		//salva médico primeiro para ter id gerado
+		// salva médico primeiro para ter id gerado
 		Medico medicoSalvo = cadastrarMedicoRepository.save(medico);
 
-		//dispnb, seta o médico em cada uma antes de salvar
+		// dispnb, seta o médico em cada uma antes de salvar
 		if (dto.getDisponibilidades() != null) {
-		    List<Disponibilidade> disponibilidades = new ArrayList<>();
-		    
-		    for (CadastrarMedicoDTO.DisponibilidadeDTO dtoDisp : dto.getDisponibilidades()) {
-		        Disponibilidade disp = new Disponibilidade();
-		        
-		        disp.setDiaSemana(DiaSemana.valueOf(dtoDisp.getDiaSemana())); //converte o string para enum
-		        															// SE NN : IllegalArgumentException  barra
-		        disp.setHoraInicio(LocalTime.parse(dtoDisp.getHoraInicio())); 	
-		        disp.setHoraFim(LocalTime.parse(dtoDisp.getHoraFim()));       
-		        
-		        disp.setMedico(medicoSalvo);
-		        disponibilidades.add(disp);
-		    }
-		    
-		    medicoSalvo.setDisponibilidades(disponibilidades);
-		    cadastrarMedicoRepository.save(medicoSalvo);
+			List<Disponibilidade> disponibilidades = new ArrayList<>();
+
+			for (CadastrarMedicoDTO.DisponibilidadeDTO dtoDisp : dto.getDisponibilidades()) {
+				Disponibilidade disp = new Disponibilidade();
+
+				disp.setDiaSemana(DiaSemana.valueOf(dtoDisp.getDiaSemana())); // converte o string para enum
+																				// SE NN : IllegalArgumentException
+																				// barra
+				disp.setHoraInicio(LocalTime.parse(dtoDisp.getHoraInicio()));
+				disp.setHoraFim(LocalTime.parse(dtoDisp.getHoraFim()));
+
+				disp.setMedico(medicoSalvo);
+				disponibilidades.add(disp);
+			}
+
+			medicoSalvo.setDisponibilidades(disponibilidades);
+			cadastrarMedicoRepository.save(medicoSalvo);
 		}
 
 		return medicoSalvo;
 	}
 
-
-	//crud med
+	// crud med
 	public List<Medico> listarTodos() {
 		return cadastrarMedicoRepository.findAll();
 	}
 
-	public Optional<Medico> buscarPorId(Long id) { // controler decide c n achar 
+	public Optional<Medico> buscarPorId(Long id) { // controler decide c n achar
 		return cadastrarMedicoRepository.findById(id);
 	}
 

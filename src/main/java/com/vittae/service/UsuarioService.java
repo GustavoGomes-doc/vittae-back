@@ -12,10 +12,8 @@ import org.springframework.stereotype.Service;
 
 import com.vittae.model.Usuario;
 import com.vittae.repository.UsuarioRepository;
-import com.vittae.security.UserDetailsImpl;
-
 @Service
-public class UsuarioService implements UserDetailsService {
+public class UsuarioService {
 	
 	@Autowired 
 	private UsuarioRepository usuarioRepository;
@@ -54,15 +52,15 @@ public class UsuarioService implements UserDetailsService {
 		usuarioRepository.deleteById(id);
 	}
 	
-	public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
+	//public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
 	    
 	    // 1. Busca o usuário puro no banco
-	    Usuario usuario = usuarioRepository.findByCpf(cpf)
-	            .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+	    //Usuario usuario = usuarioRepository.findByCpf(cpf)
+	      //      .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
 	            
 	    // 2. Embrulha o usuário no adaptador e devolve pro Spring Security
-	    return new UserDetailsImpl(usuario);
-	}
+	   // return new UserDetailsImpl(usuario);
+	//}
 }
 
 
