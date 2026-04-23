@@ -1,5 +1,9 @@
 package com.vittae.model;
 
+import java.time.LocalTime;
+
+import com.vittae.model.enums.DiaSemana;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -18,8 +22,8 @@ public class Disponibilidade {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private String horaInicio;
-	private String horaFim;
+	private LocalTime horaInicio;
+	private LocalTime horaFim;
 
 	@Enumerated(EnumType.STRING)
 	private DiaSemana diaSemana;
@@ -31,7 +35,7 @@ public class Disponibilidade {
 	public Disponibilidade() {
 	}
 
-	public Disponibilidade(String horaInicio, String horaFim, DiaSemana diaSemana, Medico medico) {
+	public Disponibilidade(LocalTime horaInicio, LocalTime horaFim, DiaSemana diaSemana, Medico medico) {
 		this.horaInicio = horaInicio;
 		this.horaFim = horaFim;
 		this.diaSemana = diaSemana;
@@ -46,19 +50,19 @@ public class Disponibilidade {
 		this.id = id;
 	}
 
-	public String getHoraInicio() {
+	public LocalTime getHoraInicio() {
 		return horaInicio;
 	}
 
-	public void setHoraInicio(String horaInicio) {
+	public void setHoraInicio(LocalTime horaInicio) {
 		this.horaInicio = horaInicio;
 	}
 
-	public String getHoraFim() {
+	public LocalTime getHoraFim() {
 		return horaFim;
 	}
 
-	public void setHoraFim(String horaFim) {
+	public void setHoraFim(LocalTime horaFim) {
 		this.horaFim = horaFim;
 	}
 
@@ -77,6 +81,8 @@ public class Disponibilidade {
 	public void setMedico(Medico medico) {
 		this.medico = medico;
 	}
+
+
 	
 	
 }

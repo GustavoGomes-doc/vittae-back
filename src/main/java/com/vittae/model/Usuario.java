@@ -1,76 +1,81 @@
 package com.vittae.model;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Inheritance;
-import jakarta.persistence.InheritanceType;
-import jakarta.persistence.Table;
+import com.vittae.model.enums.Perfil;
+import jakarta.persistence.*;
 
 @Entity
 @Table(name = "usuario")
 @Inheritance(strategy = InheritanceType.JOINED)
-public class Usuario implements UserDetails {
+public class Usuario {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private Long id;
 
-    private String cpf;
-    private String senha;
-    private String nome;
-    private String email;
+	private String cpf;
+	private String senha;
+	private String nome;
+	private String email;
 
-    public Usuario() {}
+	@Enumerated(EnumType.STRING)
+	private Perfil perfil;
 
-    public Usuario(String cpf, String senha, String nome, String email) {
-        this.cpf = cpf;
-        this.senha = senha;
-        this.nome = nome;
-        this.email = email;
-    }
+	public Usuario() {
+	}
 
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+	public Usuario(String cpf, String senha, String nome, String email) {
+		this.cpf = cpf;
+		this.senha = senha;
+		this.nome = nome;
+		this.email = email;
+	}
 
-    public String getCpf() { return cpf; }
-    public void setCpf(String cpf) { this.cpf = cpf; }
+	public Long getId() {
+		return id;
+	}
 
-    public String getSenha() { return senha; }
-    public void setSenha(String senha) { this.senha = senha; }
+	public void setId(Long id) {
+		this.id = id;
+	}
 
-    public String getNome() { return nome; }
-    public void setNome(String nome) { this.nome = nome; }
+	public String getCpf() {
+		return cpf;
+	}
 
-    public String getEmail() { return email; }
-    public void setEmail(String email) { this.email = email; }
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
 
-    // ---- UserDetails ----
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() { return List.of(); }
+	public String getSenha() {
+		return senha;
+	}
 
-    @Override
-    public String getPassword() { return this.senha; }
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
 
-    @Override
-    public String getUsername() { return this.cpf; }
+	public String getNome() {
+		return nome;
+	}
 
-    @Override
-    public boolean isAccountNonExpired() { return true; }
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
 
-    @Override
-    public boolean isAccountNonLocked() { return true; }
+	public String getEmail() {
+		return email;
+	}
 
-    @Override
-    public boolean isCredentialsNonExpired() { return true; }
+	public void setEmail(String email) {
+		this.email = email;
+	}
 
-    @Override
-    public boolean isEnabled() { return true; }
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
 }

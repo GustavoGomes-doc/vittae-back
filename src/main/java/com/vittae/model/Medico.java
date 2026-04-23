@@ -23,20 +23,20 @@ public class Medico extends Usuario {
 	private byte[] foto;
 	
 	@Column(columnDefinition = "TEXT")
-    private String biografia;
+	private String biografia;
 	
 	@Column(nullable = false)
     private String crm;
 	
 	@Column(length = 2)
     private String ufCrm;
-	
+
 	private String rqe;
 	
-	private int tempoConsultaMinutos;
+	private int tempoConsulta;
 	private LocalDate dataNascimento;
 	private String cep;
-	private double valorConsulta; //BIG DECIMAL 
+	private BigDecimal valorConsulta;
 	private String telefone;
 	
 	
@@ -49,7 +49,7 @@ public class Medico extends Usuario {
 	}
 
 	@ManyToMany
-	@JoinTable(name = "medico_especialidade", joinColumns = @JoinColumn(name = "id_medico"), inverseJoinColumns = @JoinColumn(name = "id_especialidade"))
+	@JoinTable(name = "especialidade_medico", joinColumns = @JoinColumn(name = "id_medico"), inverseJoinColumns = @JoinColumn(name = "id_especialidade"))
 	private List<Especialidade> especialidades;
 
 	@OneToMany(mappedBy = "medico")
@@ -61,7 +61,7 @@ public class Medico extends Usuario {
 	public Medico() {
 	}
 
-	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,double valorConsulta, String ufCrm, int tempoConsultaMinutos, String rqe, String biografia, List especialidades, String telefone) {
+	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,BigDecimal valorConsulta, String ufCrm, int tempoConsulta, String rqe, String biografia, List especialidades, String telefone) {
 		this.foto = foto;
 		this.dataNascimento = dataNascimento;
 		this.crm = crm;
@@ -70,7 +70,7 @@ public class Medico extends Usuario {
 		this.ufCrm = ufCrm;
 		this.rqe = rqe;
 		this.biografia = biografia;
-		this.tempoConsultaMinutos = tempoConsultaMinutos;
+		this.tempoConsulta = tempoConsulta;
 		this.especialidades = especialidades;
 		this.telefone = telefone;
 	}
@@ -99,12 +99,12 @@ public class Medico extends Usuario {
 		this.rqe = rqe;
 	}
 
-	public Integer getTempoConsultaMinutos() {
-		return tempoConsultaMinutos;
+	public Integer getTempoConsulta() {
+		return tempoConsulta;
 	}
 
-	public void setTempoConsultaMinutos(Integer tempoConsultaMinutos) {
-		this.tempoConsultaMinutos = tempoConsultaMinutos;
+	public void setTempoConsulta(Integer tempoConsultaMinutos) {
+		this.tempoConsulta = tempoConsultaMinutos;
 	}
 
 	public byte[] getFoto() {
@@ -139,12 +139,18 @@ public class Medico extends Usuario {
 		this.cep = cep;
 	}
 
-	public double getValorConsulta() {
+
+
+	public BigDecimal getValorConsulta() {
 		return valorConsulta;
 	}
 
-	public void setValorConsulta(double valorConsulta) {
+	public void setValorConsulta(BigDecimal valorConsulta) {
 		this.valorConsulta = valorConsulta;
+	}
+
+	public void setTempoConsulta(int tempoConsulta) {
+		this.tempoConsulta = tempoConsulta;
 	}
 
 	public List<Especialidade> getEspecialidades() {

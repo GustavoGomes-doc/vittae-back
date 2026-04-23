@@ -1,5 +1,6 @@
 package com.vittae.service;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -9,10 +10,10 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vittae.dto.CadastrarMedicoDTO;
-import com.vittae.model.DiaSemana;
 import com.vittae.model.Disponibilidade;
 import com.vittae.model.Especialidade;
 import com.vittae.model.Medico;
+import com.vittae.model.enums.DiaSemana;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.EspecialidadeRepository;
 
@@ -45,7 +46,7 @@ public class CadastrarMedicoService {
 		medico.setRqe(dto.getRqe());
 		medico.setCep(dto.getCep());
 		medico.setValorConsulta(dto.getValorConsulta());
-		medico.setTempoConsultaMinutos(dto.getTempoConsultaMinutos());
+		medico.setTempoConsulta(dto.getTempoConsulta());
 		medico.setBiografia(dto.getBiografia());
 
 		//especialidade
@@ -74,8 +75,8 @@ public class CadastrarMedicoService {
 		        
 		        disp.setDiaSemana(DiaSemana.valueOf(dtoDisp.getDiaSemana())); //converte o string para enum
 		        															// SE NN : IllegalArgumentException  barra
-		        disp.setHoraInicio(dtoDisp.getHoraInicio()); 	
-		        disp.setHoraFim(dtoDisp.getHoraFim());       
+		        disp.setHoraInicio(LocalTime.parse(dtoDisp.getHoraInicio())); 	
+		        disp.setHoraFim(LocalTime.parse(dtoDisp.getHoraFim()));       
 		        
 		        disp.setMedico(medicoSalvo);
 		        disponibilidades.add(disp);

@@ -33,7 +33,7 @@ public class CadastrarMedicoController {
     }
  
     @GetMapping("/{id}")
-    public ResponseEntity<Medico> buscar(@PathVariable Long id) { //captura 1 da url e coloca no id
+    public ResponseEntity<Medico> buscar(@PathVariable Long id) { //captura o "1" da url e coloca no id
         return cadastrarMedicoService.buscarPorId(id)
                 .map(ResponseEntity::ok) //200
                 .orElse(ResponseEntity.notFound().build()); //404

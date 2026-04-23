@@ -1,7 +1,10 @@
 package com.vittae.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
+
+import com.vittae.model.enums.Status;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -35,11 +38,12 @@ public class Consulta {
 	private LocalDate dataAgendado;
 	private LocalDate dataConsulta;
 	private LocalTime hora;
+	private BigDecimal valorConsulta;
 
 	public Consulta() {
 	}
 
-	public Consulta(Medico medico, Paciente paciente, Status status, LocalDate dataAgendado, LocalDate dataConsulta,
+	public Consulta(Medico medico, Paciente paciente, Status status, LocalDate dataAgendado, LocalDate dataConsulta, BigDecimal valorConsulta,
 			LocalTime hora) {
 		this.medico = medico;
 		this.paciente = paciente;
@@ -47,6 +51,15 @@ public class Consulta {
 		this.dataAgendado = dataAgendado;
 		this.dataConsulta = dataConsulta;
 		this.hora = hora;
+		this.valorConsulta = valorConsulta;
+	}
+
+	public BigDecimal getValorConsulta() {
+		return valorConsulta;
+	}
+
+	public void setValorConsulta(BigDecimal valorConsulta) {
+		this.valorConsulta = valorConsulta;
 	}
 
 	public Long getId() {

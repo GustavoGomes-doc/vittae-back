@@ -5,6 +5,7 @@ import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OneToOne;
 import jakarta.persistence.PrimaryKeyJoinColumn;
@@ -19,6 +20,13 @@ public class Paciente extends Usuario {
 	private String telefone;
 	private String endereco;
 	private String cidade;
+	
+	@ManyToOne
+	@JoinColumn(name = "id_responsavel")
+	private Paciente responsavel;
+
+	@OneToMany(mappedBy = "paciente")
+	private List<Consulta> consultas;
 
 	public String getEndereco() {
 		return endereco;
@@ -52,12 +60,6 @@ public class Paciente extends Usuario {
 		this.telefone = telefone;
 	}
 
-	@OneToOne
-	@JoinColumn(name = "id_responsavel")
-	private Paciente responsavel;
-
-	@OneToMany(mappedBy = "paciente")
-	private List<Consulta> consultas;
 
 	public Paciente() {
 	}
