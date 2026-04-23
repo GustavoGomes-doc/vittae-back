@@ -15,13 +15,13 @@ public class CadastrarMedicoDTO {
 	private String ufCrm;
 	private String rqe;
 	private String cep;
-	private BigDecimal valorConsulta; // Alterado para BigDecimal
-	private Integer tempoConsulta;    // Renomeado para tempoConsulta
+	private BigDecimal valorConsulta; 
+	private Integer tempoConsulta;    
 	private String biografia;
 	private List<String> especialidades;
 	private List<DisponibilidadeDTO> disponibilidades;
 
-	// Getters e Setters
+	
 	public String getNome() {
 		return nome;
 	}

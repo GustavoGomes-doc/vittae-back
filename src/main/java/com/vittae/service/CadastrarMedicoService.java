@@ -32,13 +32,11 @@ public class CadastrarMedicoService {
 	public Medico salvarDTO(CadastrarMedicoDTO dto) {
 
 		Medico medico = new Medico();
-
 		//dados usuario
 		medico.setNome(dto.getNome());
 		medico.setCpf(dto.getCpf());
 		medico.setEmail(dto.getEmail());
-		medico.setSenha(passwordEncoder.encode(dto.getSenha())); // ✅ BCrypt
-
+		medico.setSenha(passwordEncoder.encode(dto.getSenha()));
 		//dados médico
 		medico.setDataNascimento(dto.getDataNascimento());
 		medico.setCrm(dto.getCrm());
@@ -89,9 +87,8 @@ public class CadastrarMedicoService {
 		return medicoSalvo;
 	}
 
-	//conversor hora
 
-	//crudzin med
+	//crud med
 	public List<Medico> listarTodos() {
 		return cadastrarMedicoRepository.findAll();
 	}

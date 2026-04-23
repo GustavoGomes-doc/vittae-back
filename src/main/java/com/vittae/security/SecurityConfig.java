@@ -45,10 +45,7 @@ public class SecurityConfig {
 				.authorizeHttpRequests(req -> {
 					req.requestMatchers(HttpMethod.GET, "/api/medicos").permitAll();
 					req.requestMatchers(HttpMethod.POST, "/api/medicos").permitAll();
-					
 					req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
-
-					// ADICIONE ESTA LINHA ABAIXO PARA LIBERAR O AGENDAMENTO:
 					req.requestMatchers(HttpMethod.POST, "/api/agendamentos").permitAll();
 
 					req.anyRequest().authenticated();
