@@ -50,7 +50,7 @@ public class CadastrarMedicoService {
 		medico.setRqe(dto.getRqe());
 		medico.setCep(dto.getCep());
 		medico.setValorConsulta(dto.getValorConsulta());
-		medico.setTempoConsulta(dto.getTempoConsultaMinutos());
+		medico.setTempoConsulta(dto.getTempoConsulta());
 		medico.setBiografia(dto.getBiografia());
 
 		// especialidade
@@ -81,8 +81,8 @@ public class CadastrarMedicoService {
 				disp.setDiaSemana(DiaSemana.valueOf(dtoDisp.getDiaSemana())); // converte o string para enum
 																				// SE NN : IllegalArgumentException
 																				// barra
-				disp.setHoraInicio(LocalTime.parse(dtoDisp.getHoraInicio()));
-				disp.setHoraFim(LocalTime.parse(dtoDisp.getHoraFim()));
+				disp.setHoraInicio(dtoDisp.getHoraInicio());
+				disp.setHoraFim(dtoDisp.getHoraFim());
 
 				disp.setMedico(medicoSalvo);
 				disponibilidades.add(disp);
