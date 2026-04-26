@@ -137,36 +137,35 @@ public class CadastrarMedicoDTO {
 
 	// ── DTO interno ───────────────────────────────────────────
 	public static class DisponibilidadeDTO {
-		private String diaSemana;
-		private String horaInicio;
-		private String horaFim;
+		
+        private DiaSemana diaSemana; // Certifique-se de importar o seu Enum!
+		private LocalTime horaInicio;
+		private LocalTime horaFim;
 
-		public String getDiaSemana() {
+		public DiaSemana getDiaSemana() {
 			return diaSemana;
 		}
 
-		public void setDiaSemana(String diaSemana) {
+		public void setDiaSemana(DiaSemana diaSemana) {
 			this.diaSemana = diaSemana;
 		}
 
-		public String getHoraInicio() {
+		public LocalTime getHoraInicio() {
 			return horaInicio;
 		}
 
-		public void setHoraInicio(String horaInicio) {
+		public void setHoraInicio(LocalTime horaInicio) {
 			this.horaInicio = horaInicio;
 		}
 
-		public String getHoraFim() {
+		public LocalTime getHoraFim() {
 			return horaFim;
 		}
 
-		public void setHoraFim(String horaFim) {
+		public void setHoraFim(LocalTime horaFim) {
 			this.horaFim = horaFim;
 		}
 	}
-}
-
 //package com.vittae.dto;
 //
 //import jakarta.validation.Valid;
