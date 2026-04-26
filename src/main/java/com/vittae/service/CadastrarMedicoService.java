@@ -78,7 +78,7 @@ public class CadastrarMedicoService {
 			for (CadastrarMedicoDTO.DisponibilidadeDTO dtoDisp : dto.getDisponibilidades()) {
 				Disponibilidade disp = new Disponibilidade();
 
-				disp.setDiaSemana(DiaSemana.valueOf(dtoDisp.getDiaSemana())); // converte o string para enum
+				disp.setDiaSemana(dtoDisp.getDiaSemana()); // converte o string para enum
 																				// SE NN : IllegalArgumentException
 																				// barra
 				disp.setHoraInicio(dtoDisp.getHoraInicio());

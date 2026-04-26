@@ -2,7 +2,10 @@ package com.vittae.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.List;
+
+import com.vittae.model.enums.DiaSemana;
 
 public class CadastrarMedicoDTO {
 
@@ -166,6 +169,7 @@ public class CadastrarMedicoDTO {
 			this.horaFim = horaFim;
 		}
 	}
+}
 //package com.vittae.dto;
 //
 //import jakarta.validation.Valid;
