@@ -24,33 +24,33 @@ import com.vittae.service.UsuarioService;
 public class UsuarioController {
 
 	@Autowired
-	private UsuarioService cadastrarUsuarioService;
-	private UsuarioRepository cadastrarUsuarioRepository;
+	private UsuarioService UsuarioService;
+	private UsuarioRepository UsuarioRepository;
 
 	@PostMapping
 	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
-		Usuario usuarioSalvo = cadastrarUsuarioService.salvar(usuario);
+		Usuario usuarioSalvo = UsuarioService.salvar(usuario);
 		return ResponseEntity.ok(usuarioSalvo);
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> listar() {
-		return ResponseEntity.ok(cadastrarUsuarioService.listarTodos());
+		return ResponseEntity.ok(UsuarioService.listarTodos());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Usuario> buscar(@PathVariable Long id) {
-		return cadastrarUsuarioService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+		return UsuarioService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Usuario> atualizar(@PathVariable Long id, @RequestBody Usuario usuario) {
-		return ResponseEntity.ok(cadastrarUsuarioService.atualizar(id, usuario));
+		return ResponseEntity.ok(UsuarioService.atualizar(id, usuario));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
-		cadastrarUsuarioService.deletar(id);
+		UsuarioService.deletar(id);
 		return ResponseEntity.noContent().build();
 	}
 }

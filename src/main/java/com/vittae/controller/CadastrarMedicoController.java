@@ -1,55 +1,52 @@
 package com.vittae.controller;
-
+ 
 import java.util.List;
-
+ 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.*;
-
-import com.vittae.model.CadastrarMedico;
+ 
+import com.vittae.dto.CadastrarMedicoDTO;
+import com.vittae.model.Medico;
 import com.vittae.service.CadastrarMedicoService;
 
-@RestController
+import jakarta.validation.Valid;
+
+@RestController //controler, resp body, pega json  da req e transforma dto 
 @RequestMapping("/api/medicos")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = {"http://127.0.0.1:5500","http://localhost:5500"})
 public class CadastrarMedicoController {
-
-	@Autowired
-	private CadastrarMedicoService cadastrarMedicoService;
-
-	@PostMapping
-	public ResponseEntity<CadastrarMedico> cadastrar(@RequestBody CadastrarMedico medico) {
-		CadastrarMedico medicoSalvo = cadastrarMedicoService.salvar(medico);
-		return ResponseEntity.ok(medicoSalvo);
-	}
-
-	@GetMapping
-	public ResponseEntity<List<CadastrarMedico>> listar() {
-		return ResponseEntity.ok(cadastrarMedicoService.listarTodos());
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<CadastrarMedico> buscar(@PathVariable Long id) {
-		return cadastrarMedicoService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-	}
-
-	@PutMapping("/{id}")
-	public ResponseEntity<CadastrarMedico> atualizar(@PathVariable Long id, @RequestBody CadastrarMedico medico) {
-		return ResponseEntity.ok(cadastrarMedicoService.atualizar(id, medico));
-	}
-
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletar(@PathVariable Long id) {
-		cadastrarMedicoService.deletar(id);
-		return ResponseEntity.noContent().build();
-	}
+ 
+    @Autowired
+    private CadastrarMedicoService cadastrarMedicoService;
+ 
+    //receb DTO em vez de medico diretamente
+    @PostMapping
+    public ResponseEntity<Medico> cadastrar(@RequestBody @Valid CadastrarMedicoDTO dto) {
+        Medico medicoSalvo = cadastrarMedicoService.salvarDTO(dto);
+        return ResponseEntity.ok(medicoSalvo);
+    }
+ 
+    @GetMapping
+    public ResponseEntity<List<Medico>> listar() {
+        return ResponseEntity.ok(cadastrarMedicoService.listarTodos());
+    }
+ 
+    @GetMapping("/{id}")
+    public ResponseEntity<Medico> buscar(@PathVariable Long id) { //captura o "1" da url e coloca no id
+        return cadastrarMedicoService.buscarPorId(id)
+                .map(ResponseEntity::ok) //200
+                .orElse(ResponseEntity.notFound().build()); //404
+    }
+    
+    @PutMapping("/{id}")
+    public ResponseEntity<Medico> atualizar(@PathVariable Long id, @RequestBody Medico medico) { //add atualizar  med dto
+        return ResponseEntity.ok(cadastrarMedicoService.atualizar(id, medico));
+    }
+ 
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        cadastrarMedicoService.deletar(id);
+        return ResponseEntity.noContent().build(); //204
+    }
 }
