@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.vittae.model.enums.DiaSemana;
 
 public class CadastrarMedicoDTO {
@@ -18,7 +19,10 @@ public class CadastrarMedicoDTO {
 	private String ufCrm;
 	private String rqe;
 	private String cep;
-	private BigDecimal valorConsulta; 
+	private BigDecimal valorConsulta;
+	private String telefone;
+	
+	@JsonProperty("tempoConsultaMinutos")
 	private Integer tempoConsulta;    
 	private String biografia;
 	private List<String> especialidades;
@@ -84,6 +88,15 @@ public class CadastrarMedicoDTO {
 	public String getRqe() {
 		return rqe;
 	}
+	
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
 
 	public void setRqe(String rqe) {
 		this.rqe = rqe;

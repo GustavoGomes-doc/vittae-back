@@ -34,7 +34,7 @@ public class Medico extends Usuario {
 
 	private String rqe;
 	
-	private int tempoConsulta;
+	private Integer tempoConsulta;
 	private LocalDate dataNascimento;
 	private String cep;
 	private BigDecimal valorConsulta;
@@ -62,7 +62,7 @@ public class Medico extends Usuario {
 	public Medico() {
 	}
 
-	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,BigDecimal valorConsulta, String ufCrm, int tempoConsulta, String rqe, String biografia, List especialidades, String telefone) {
+	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,BigDecimal valorConsulta, String ufCrm, Integer tempoConsulta, String rqe, String biografia, List especialidades, String telefone) {
 		this.foto = foto;
 		this.dataNascimento = dataNascimento;
 		this.crm = crm;
@@ -104,8 +104,8 @@ public class Medico extends Usuario {
 		return tempoConsulta;
 	}
 
-	public void setTempoConsulta(Integer tempoConsultaMinutos) {
-		this.tempoConsulta = tempoConsultaMinutos;
+	public void setTempoConsulta(Integer tempoConsulta) {
+		this.tempoConsulta = tempoConsulta;
 	}
 
 	public byte[] getFoto() {
