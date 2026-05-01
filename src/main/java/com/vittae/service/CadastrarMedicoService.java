@@ -84,8 +84,6 @@ public class CadastrarMedicoService {
 																				// barra
 				disp.setHoraInicio(dtoDisp.getHoraInicio());
 				disp.setHoraFim(dtoDisp.getHoraFim());
-
-				disp.setMedico(medicoSalvo);
 				disponibilidades.add(disp);
 			}
 
