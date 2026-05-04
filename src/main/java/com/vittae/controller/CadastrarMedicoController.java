@@ -7,6 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
  
 import com.vittae.dto.CadastrarMedicoDTO;
+import com.vittae.dto.MedicoListagemDTO;
 import com.vittae.model.Medico;
 import com.vittae.service.CadastrarMedicoService;
 
@@ -14,7 +15,7 @@ import jakarta.validation.Valid;
 
 @RestController //controler, resp body, pega json  da req e transforma dto 
 @RequestMapping("/api/medicos")
-@CrossOrigin(origins = {"http://127.0.0.1:5500","http://localhost:5500"})
+@CrossOrigin(origins = "*")
 public class CadastrarMedicoController {
  
     @Autowired
@@ -28,8 +29,12 @@ public class CadastrarMedicoController {
     }
  
     @GetMapping
-    public ResponseEntity<List<Medico>> listar() {
-        return ResponseEntity.ok(cadastrarMedicoService.listarTodos());
+    public ResponseEntity<List<MedicoListagemDTO>> listar() {
+        List<MedicoListagemDTO> lista = cadastrarMedicoService.listarTodos()
+            .stream()
+            .map(MedicoListagemDTO::new)
+            .collect(java.util.stream.Collectors.toList());
+        return ResponseEntity.ok(lista);
     }
  
     @GetMapping("/{id}")
