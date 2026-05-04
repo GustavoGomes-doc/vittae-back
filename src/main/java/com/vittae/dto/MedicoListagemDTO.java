@@ -1,33 +1,19 @@
 package com.vittae.dto;
 
-import java.util.List;
-
+import java.util.Base64;
 import com.vittae.model.Medico;
 
 public class MedicoListagemDTO {
-    private Long id;
-    private String nome;
-    private String crm;
-    private String telefone;
-    private List<String> especialidades;
+	private String nome;
+	private Integer tempoConsultaMinutos;
+	private Double valorConsulta;
+	private String foto;
 
-    public MedicoListagemDTO(Medico m) {
-        this.id = m.getId();
-        this.nome = m.getNome();
-        this.crm = m.getCrm();
-        this.telefone = m.getTelefone();
-        this.especialidades = m.getEspecialidades()
-            .stream()
-            .map(e -> e.getNome()) // ajusta pro campo correto da entidade Especialidade
-            .collect(java.util.stream.Collectors.toList());
-    }
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
+	public MedicoListagemDTO(Medico m) {
+		this.nome = m.getNome();
+		this.tempoConsultaMinutos = m.getTempoConsulta();
+		this.valorConsulta = m.getValorConsulta() != null ? m.getValorConsulta().doubleValue() : null;
+		this.foto = m.getFoto() != null ? Base64.getEncoder().encodeToString(m.getFoto()) : null;
 	}
 
 	public String getNome() {
@@ -38,29 +24,27 @@ public class MedicoListagemDTO {
 		this.nome = nome;
 	}
 
-	public String getCrm() {
-		return crm;
+	public Integer getTempoConsultaMinutos() {
+		return tempoConsultaMinutos;
 	}
 
-	public void setCrm(String crm) {
-		this.crm = crm;
+	public void setTempoConsultaMinutos(Integer t) {
+		this.tempoConsultaMinutos = t;
 	}
 
-	public String getTelefone() {
-		return telefone;
+	public Double getValorConsulta() {
+		return valorConsulta;
 	}
 
-	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+	public void setValorConsulta(Double v) {
+		this.valorConsulta = v;
 	}
 
-	public List<String> getEspecialidades() {
-		return especialidades;
+	public String getFoto() {
+		return foto;
 	}
 
-	public void setEspecialidades(List<String> especialidades) {
-		this.especialidades = especialidades;
+	public void setFoto(String foto) {
+		this.foto = foto;
 	}
-
-    
 }
