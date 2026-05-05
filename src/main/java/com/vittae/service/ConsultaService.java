@@ -1,5 +1,7 @@
 package com.vittae.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,12 +47,7 @@ public class ConsultaService {
 
 		novaConsulta.setMedico(medicoSelecionado);
 
-		// *Removemos setEspecialidade, setObservacoes etc. porque eles não existem no
-		// banco!*
-
-		// =======================================================
-		// 3. Lógica para verificar e salvar o Paciente
-		// =======================================================
+		//logica p salvar paciente
 		String cpfDoPaciente = dto.getPaciente().getCpf();
 
 		Optional<Paciente> pacienteExistente = pacienteRepository.findByCpf(cpfDoPaciente);
@@ -63,7 +60,13 @@ public class ConsultaService {
 			novoPaciente.setNome(dto.getPaciente().getNome());
 			novoPaciente.setCpf(cpfDoPaciente);
 			novoPaciente.setTelefone(dto.getPaciente().getTelefone());
+			novoPaciente.setGenero(dto.getPaciente().getGenero()); 
 
+			// converte "DD/MM/AAAA" → LocalDate
+			if (dto.getPaciente().getNascimento() != null && !dto.getPaciente().getNascimento().isEmpty()) {
+			    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+			    novoPaciente.setDataNascimento(LocalDate.parse(dto.getPaciente().getNascimento(), fmt));
+			}
 			pacienteDaConsulta = pacienteRepository.save(novoPaciente);
 		}
 
