@@ -2,9 +2,9 @@ package com.vittae.controller;
 
 import java.util.List;
 
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,13 +14,14 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vittae.dto.AgendamentoDTO;
 import com.vittae.model.Consulta;
 import com.vittae.repository.ConsultaRepository;
 import com.vittae.service.ConsultaService;
 
 @RestController
-@RequestMapping("api/consultas")
-
+@RequestMapping("api/agendamentos")
+@CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ConsultaController {
 
 	@Autowired
@@ -28,9 +29,13 @@ public class ConsultaController {
 	private ConsultaRepository consultaRepository;
 
 	@PostMapping
-	public ResponseEntity<Consulta> cadastrar(@RequestBody Consulta consulta) {
-		Consulta consultaSalva = consultaService.salvar(consulta);
-		return ResponseEntity.ok(consultaSalva);
+	public ResponseEntity<?> salvarAgendamento(@RequestBody AgendamentoDTO dto) {
+	    try {
+	        consultaService.salvarAgendamento(dto); 
+	        return ResponseEntity.ok().body("{\"mensagem\": \"Agendamento realizado!\"}");
+	    } catch (Exception e) {
+	        return ResponseEntity.badRequest().body("Erro ao agendar: " + e.getMessage());
+	    }
 	}
 	
 	@GetMapping

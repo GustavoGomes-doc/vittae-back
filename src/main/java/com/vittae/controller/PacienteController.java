@@ -24,33 +24,33 @@ import com.vittae.service.PacienteService;
 public class PacienteController {
 
 	@Autowired
-	private PacienteService cadastrarPacienteService;
-	private PacienteRepository cadastrarPacienteRepository;
+	private PacienteService PacienteService;
+	private PacienteRepository PacienteRepository;
 
 	@PostMapping
 	public ResponseEntity<Paciente> cadastrar(@RequestBody Paciente paciente) {
-		Paciente pacienteSalvo = cadastrarPacienteService.salvar(paciente);
+		Paciente pacienteSalvo = PacienteService.salvar(paciente);
 		return ResponseEntity.ok(pacienteSalvo);
 	}
 	
 	@GetMapping
 	public ResponseEntity<List<Paciente>> listar() {
-		return ResponseEntity.ok(cadastrarPacienteService.listarTodos());
+		return ResponseEntity.ok(PacienteService.listarTodos());
 	}
 
 	@GetMapping("/{id}")
 	public ResponseEntity<Paciente> buscar(@PathVariable Long id) {
-		return cadastrarPacienteService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+		return PacienteService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Paciente> atualizar(@PathVariable Long id, @RequestBody Paciente paciente) {
-		return ResponseEntity.ok(cadastrarPacienteService.atualizar(id, paciente));
+		return ResponseEntity.ok(PacienteService.atualizar(id, paciente));
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
-		cadastrarPacienteService.deletar(id);
+		PacienteService.deletar(id);
 		return ResponseEntity.noContent().build();
 	}
 }

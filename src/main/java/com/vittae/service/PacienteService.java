@@ -13,23 +13,23 @@ import com.vittae.repository.PacienteRepository;
 public class PacienteService {
 
 	@Autowired
-	private PacienteRepository cadastrarPacienteRepository;
+	private PacienteRepository PacienteRepository;
 
 	public Paciente salvar(Paciente paciente) {
-		return cadastrarPacienteRepository.save(paciente);
+		return PacienteRepository.save(paciente);
 	}
 
 	public List<Paciente> listarTodos() {
-		return cadastrarPacienteRepository.findAll();
+		return PacienteRepository.findAll();
 	}
 
 	public Optional<Paciente> buscarPorId(Long id) {
-		return cadastrarPacienteRepository.findById(id);
+		return PacienteRepository.findById(id);
 	}
 	
 
 	public Paciente atualizar(Long id,Paciente dadosNovos) {
-		Paciente paciente = cadastrarPacienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
+		Paciente paciente = PacienteRepository.findById(id).orElseThrow(() -> new RuntimeException("Paciente não encontrado"));
 
 		if (dadosNovos.getNome() != null)
 			paciente.setNome(dadosNovos.getNome());
@@ -38,10 +38,10 @@ public class PacienteService {
 		if (dadosNovos.getEmail() != null)
 			paciente.setEmail(dadosNovos.getEmail());
 
-		return cadastrarPacienteRepository.save(paciente);
+		return PacienteRepository.save(paciente);
 	}
 
 	public void deletar(Long id) {
-		cadastrarPacienteRepository.deleteById(id);
+		PacienteRepository.deleteById(id);
 	}
 }
