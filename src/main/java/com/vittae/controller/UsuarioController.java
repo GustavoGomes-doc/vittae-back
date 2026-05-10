@@ -2,7 +2,6 @@ package com.vittae.controller;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -18,20 +17,22 @@ import com.vittae.model.Usuario;
 import com.vittae.repository.UsuarioRepository;
 import com.vittae.service.UsuarioService;
 
-@RestController
-@RequestMapping("")
 
+import com.vittae.service.UsuarioService;
+
+@RestController
+@RequestMapping("/api/usuarios")
 public class UsuarioController {
 
 	@Autowired
 	private UsuarioService UsuarioService;
 	private UsuarioRepository UsuarioRepository;
 
-	@PostMapping
-	public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
-		Usuario usuarioSalvo = UsuarioService.salvar(usuario);
-		return ResponseEntity.ok(usuarioSalvo);
-	}
+	@PostMapping("/cadastrar") 
+    public ResponseEntity<Usuario> cadastrar(@RequestBody Usuario usuario) {
+        Usuario usuarioSalvo = UsuarioService.salvar(usuario);
+        return ResponseEntity.ok(usuarioSalvo);
+    }
 	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> listar() {

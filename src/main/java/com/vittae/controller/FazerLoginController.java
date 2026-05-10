@@ -1,5 +1,8 @@
 package com.vittae.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -14,10 +17,10 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vittae.dto.FazerLoginDTO;
 import com.vittae.dto.TokenResponseDTO;
 import com.vittae.model.Usuario;
-import com.vittae.service.LoginTokenService;
+import com.vittae.service.FazerLoginTokenService;
 
 @RestController
-@RequestMapping("api/login")
+@RequestMapping("/api/login")
 @CrossOrigin(origins = "*")
 public class FazerLoginController {
 
@@ -25,17 +28,21 @@ public class FazerLoginController {
     private AuthenticationManager manager;
 
     @Autowired
-    private LoginTokenService tokenService;
+    private FazerLoginTokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<TokenResponseDTO> efetuarLogin(@RequestBody FazerLoginDTO dados) {
-        
+    public ResponseEntity<Map<String, Object>> efetuarLogin(@RequestBody FazerLoginDTO dados) {
+
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.cpf(), dados.senha());
-                
         Authentication authentication = manager.authenticate(authenticationToken);
-        
+
         var usuario = (Usuario) authentication.getPrincipal();
         var token = tokenService.gerarToken(usuario);
-        return ResponseEntity.ok(new TokenResponseDTO(token));
+
+        Map<String, Object> resposta = new HashMap<>();
+        resposta.put("token", token);
+        resposta.put("usuario", usuario);
+
+        return ResponseEntity.ok(resposta);
     }
 }

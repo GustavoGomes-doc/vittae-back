@@ -12,56 +12,53 @@ import org.springframework.stereotype.Service;
 
 import com.vittae.model.Usuario;
 import com.vittae.repository.UsuarioRepository;
+
 @Service
-public class UsuarioService {
-	
-	@Autowired 
-	private UsuarioRepository usuarioRepository;
+public class UsuarioService implements UserDetailsService {
 
-	@Autowired
-	private PasswordEncoder passwordEncoder;
-	
-	public Usuario salvar(Usuario usuario) {
-		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-		return usuarioRepository.save(usuario);
-	}
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-	public List<Usuario> listarTodos() {
-		return usuarioRepository.findAll();
-	}
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
-	public Optional<Usuario> buscarPorId(Long id) {
-		return usuarioRepository.findById(id);
-	}
-	
+    public Usuario salvar(Usuario usuario) {
+        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+        return usuarioRepository.save(usuario);
+    }
 
-	public Usuario atualizar(Long id,Usuario dadosNovos) {
-		Usuario usuario = usuarioRepository.findById(id).orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
+    public List<Usuario> listarTodos() {
+        return usuarioRepository.findAll();
+    }
 
-		if (dadosNovos.getNome() != null)
-			usuario.setNome(dadosNovos.getNome());
-		
-		
-		if (dadosNovos.getEmail() != null)
-			usuario.setEmail(dadosNovos.getEmail());
+    public Optional<Usuario> buscarPorId(Long id) {
+        return usuarioRepository.findById(id);
+    }
 
-		return usuarioRepository.save(usuario);
-	}
+    public Usuario atualizar(Long id, Usuario dadosNovos) {
+        Usuario usuario = usuarioRepository.findById(id)
+            .orElseThrow(() -> new RuntimeException("Usuario não encontrado"));
 
-	public void deletar(Long id) {
-		usuarioRepository.deleteById(id);
-	}
-	
-	//public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
-	    
-	    // 1. Busca o usuário puro no banco
-	    //Usuario usuario = usuarioRepository.findByCpf(cpf)
-	      //      .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
-	            
-	    // 2. Embrulha o usuário no adaptador e devolve pro Spring Security
-	   // return new UserDetailsImpl(usuario);
-	//}
+        if (dadosNovos.getNome() != null)
+            usuario.setNome(dadosNovos.getNome());
+
+        if (dadosNovos.getEmail() != null)
+            usuario.setEmail(dadosNovos.getEmail());
+
+        return usuarioRepository.save(usuario);
+    }
+
+    public void deletar(Long id) {
+        usuarioRepository.deleteById(id);
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String cpf) throws UsernameNotFoundException {
+        return usuarioRepository.findByCpf(cpf)
+            .orElseThrow(() -> new UsernameNotFoundException("Usuário não encontrado"));
+    }
 }
+
 
 
 
