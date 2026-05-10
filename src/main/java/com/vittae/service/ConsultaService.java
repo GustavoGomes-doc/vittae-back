@@ -4,11 +4,13 @@ import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vittae.dto.AgendamentoDTO;
+import com.vittae.dto.VisualizarConsultaDTO;
 import com.vittae.model.Consulta;
 import com.vittae.model.Medico;
 import com.vittae.model.Paciente;
@@ -37,16 +39,14 @@ public class ConsultaService {
 	    Consulta novaConsulta = new Consulta();
 
 	    novaConsulta.setDataConsulta(dto.getDataConsulta());
-	    novaConsulta.setHora(dto.getHora());;
+	    novaConsulta.setHora(dto.getHora());
 	    novaConsulta.setObservacoes(dto.getObservacoes());
 	    novaConsulta.setStatus(Status.PENDENTE);
 
-	    // responsável legal
 	    novaConsulta.setRespNome(dto.getRespNome());
 	    novaConsulta.setRespCpf(dto.getRespCpf());
 	    novaConsulta.setRespParentesco(dto.getRespParentesco());
 
-	    // médico
 	    Medico medico = cadastrarMedicoRepository.findById(dto.getMedicoId())
 	        .orElseThrow(() -> new RuntimeException("Médico não encontrado"));
 	    novaConsulta.setMedico(medico);
@@ -59,11 +59,7 @@ public class ConsultaService {
 	    if (horarioOcupado) {
 	    	throw new RuntimeException("Falha no agendamento: Este horario ja foi marcado.");
 	    }
-	    
-	    novaConsulta.setMedico(medico);
-	    novaConsulta.setValorConsulta(medico.getValorConsulta());
 
-	    // especialidade
 	    if (dto.getEspecialidade() != null) {
 	        especialidadeRepository.findByNome(dto.getEspecialidade())
 	            .ifPresent(novaConsulta::setEspecialidade);
@@ -72,8 +68,6 @@ public class ConsultaService {
 	    String cpfPaciente = dto.getPaciente().getCpf();
 	    String nomePaciente = dto.getPaciente().getNome();
 	    
-	    // paciente
-	    String cpf = dto.getPaciente().getCpf();
 	    Paciente paciente = pacienteRepository.findByCpfAndNome(cpfPaciente, nomePaciente)
 		        .orElseGet(() -> {
 		            Paciente novo = new Paciente();
@@ -88,16 +82,30 @@ public class ConsultaService {
 		            return pacienteRepository.save(novo);
 		        });
 		        
-		    novaConsulta.setPaciente(paciente);
-
+	    novaConsulta.setPaciente(paciente);
 	    consultaRepository.save(novaConsulta);
 	}	
+	
+	public List<VisualizarConsultaDTO> listarParaVisualizacao() {
+	    return consultaRepository.findAll().stream().map(consulta -> {
+	    	VisualizarConsultaDTO dto = new VisualizarConsultaDTO();
+	        
+	        dto.setId(consulta.getId());
+	        dto.setHora(consulta.getHora());
+	        dto.setStatus(consulta.getStatus());
+	        dto.setMedico(consulta.getMedico());
+	        dto.setDataConsulta(consulta.getDataConsulta());
+	        dto.setValorConsulta(consulta.getValorConsulta());
+	        
+	        return dto;
+	    }).collect(Collectors.toList());
+	}
 
 	public List<Consulta> listarTodos() {
 	    return consultaRepository.findAllComRelacionamentos();
 	}
 	
-	public List<Consulta> listarPorMedico (Long medicoId) {
+	public List<Consulta> listarPorMedico(Long medicoId) {
 		return consultaRepository.findByMedicoId(medicoId);
 	}
 	

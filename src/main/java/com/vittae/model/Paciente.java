@@ -18,6 +18,7 @@ public class Paciente extends Usuario {
 	private LocalDate dataNascimento;
 	private String telefone;
 	private String cep;
+
 	private String genero;
 	
 	@ManyToOne
