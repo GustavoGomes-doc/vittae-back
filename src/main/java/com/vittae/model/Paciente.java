@@ -18,8 +18,7 @@ public class Paciente extends Usuario {
 
 	private LocalDate dataNascimento;
 	private String telefone;
-	private String endereco;
-	private String cidade;
+	private String cep;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_responsavel")

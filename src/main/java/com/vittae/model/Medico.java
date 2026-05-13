@@ -26,9 +26,6 @@ public class Medico extends Usuario {
 	@Lob
 	private byte[] foto;
 	
-	@Column(columnDefinition = "TEXT")
-	private String biografia;
-	
 	@Column(nullable = false)
     private String crm;
 	
@@ -39,7 +36,6 @@ public class Medico extends Usuario {
 	
 	private Integer tempoConsulta;
 	private LocalDate dataNascimento;
-	private String cep;
 	private BigDecimal valorConsulta;
 	private String telefone;
 	
