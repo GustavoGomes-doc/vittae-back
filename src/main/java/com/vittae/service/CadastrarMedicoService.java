@@ -48,10 +48,8 @@ public class CadastrarMedicoService {
 		medico.setCrm(dto.getCrm());
 		medico.setUfCrm(dto.getUfCrm());
 		medico.setRqe(dto.getRqe());
-		medico.setCep(dto.getCep());
 		medico.setValorConsulta(dto.getValorConsulta());
 		medico.setTempoConsulta(dto.getTempoConsulta());
-		medico.setBiografia(dto.getBiografia());
 		medico.setTelefone(dto.getTelefone());
 
 		// especialidade
