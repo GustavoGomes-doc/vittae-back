@@ -59,10 +59,9 @@ public class ConsultaService {
 			Paciente novoPaciente = new Paciente();
 			novoPaciente.setNome(dto.getPaciente().getNome());
 			novoPaciente.setCpf(cpfDoPaciente);
-			novoPaciente.setTelefone(dto.getPaciente().getTelefone());
 			novoPaciente.setGenero(dto.getPaciente().getGenero()); 
 
-			// converte "DD/MM/AAAA" → LocalDate
+			
 			if (dto.getPaciente().getNascimento() != null && !dto.getPaciente().getNascimento().isEmpty()) {
 			    DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			    novoPaciente.setDataNascimento(LocalDate.parse(dto.getPaciente().getNascimento(), fmt));

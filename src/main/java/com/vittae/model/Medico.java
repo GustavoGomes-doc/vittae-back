@@ -1,5 +1,6 @@
 package com.vittae.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -22,8 +23,6 @@ public class Medico extends Usuario {
 	@Lob
 	private byte[] foto;
 	
-	@Column(columnDefinition = "TEXT")
-    private String biografia;
 	
 	@Column(nullable = false)
     private String crm;
@@ -31,12 +30,10 @@ public class Medico extends Usuario {
 	@Column(length = 2)
     private String ufCrm;
 	
-	private String rqe;
 	
 	private int tempoConsultaMinutos;
 	private LocalDate dataNascimento;
-	private String cep;
-	private double valorConsulta; //BIG DECIMAL 
+	private BigDecimal valorConsulta;
 	private String telefone;
 	
 	
@@ -61,27 +58,16 @@ public class Medico extends Usuario {
 	public Medico() {
 	}
 
-	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,double valorConsulta, String ufCrm, int tempoConsultaMinutos, String rqe, String biografia, List especialidades, String telefone) {
+	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,BigDecimal valorConsulta, String ufCrm, int tempoConsultaMinutos, List especialidades, String telefone) {
 		this.foto = foto;
 		this.dataNascimento = dataNascimento;
 		this.crm = crm;
-		this.cep = cep;
-		this.valorConsulta = valorConsulta;
 		this.ufCrm = ufCrm;
-		this.rqe = rqe;
-		this.biografia = biografia;
 		this.tempoConsultaMinutos = tempoConsultaMinutos;
 		this.especialidades = especialidades;
 		this.telefone = telefone;
 	}
 
-	public String getBiografia() {
-		return biografia;
-	}
-
-	public void setBiografia(String biografia) {
-		this.biografia = biografia;
-	}
 
 	public String getUfCrm() {
 		return ufCrm;
@@ -91,13 +77,6 @@ public class Medico extends Usuario {
 		this.ufCrm = ufCrm;
 	}
 
-	public String getRqe() {
-		return rqe;
-	}
-
-	public void setRqe(String rqe) {
-		this.rqe = rqe;
-	}
 
 	public Integer getTempoConsultaMinutos() {
 		return tempoConsultaMinutos;
@@ -131,19 +110,11 @@ public class Medico extends Usuario {
 		this.crm = crm;
 	}
 
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public double getValorConsulta() {
+	public BigDecimal getValorConsulta() {
 		return valorConsulta;
 	}
 
-	public void setValorConsulta(double valorConsulta) {
+	public void setValorConsulta(BigDecimal valorConsulta) {
 		this.valorConsulta = valorConsulta;
 	}
 

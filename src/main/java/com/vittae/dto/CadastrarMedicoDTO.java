@@ -1,5 +1,6 @@
 package com.vittae.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -12,11 +13,8 @@ public class CadastrarMedicoDTO {
 	private LocalDate dataNascimento;
 	private String crm;
 	private String ufCrm;
-	private String rqe;
-	private String cep;
-	private double valorConsulta;
+	private BigDecimal valorConsulta;
 	private Integer tempoConsultaMinutos;
-	private String biografia;
 	private List<String> especialidades;
 	private List<DisponibilidadeDTO> disponibilidades;
 
@@ -77,27 +75,11 @@ public class CadastrarMedicoDTO {
 		this.ufCrm = ufCrm;
 	}
 
-	public String getRqe() {
-		return rqe;
-	}
-
-	public void setRqe(String rqe) {
-		this.rqe = rqe;
-	}
-
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
-
-	public double getValorConsulta() {
+	public BigDecimal getValorConsulta() {
 		return valorConsulta;
 	}
 
-	public void setValorConsulta(double valorConsulta) {
+	public void setValorConsulta(BigDecimal valorConsulta) {
 		this.valorConsulta = valorConsulta;
 	}
 
@@ -109,13 +91,6 @@ public class CadastrarMedicoDTO {
 		this.tempoConsultaMinutos = tempoConsultaMinutos;
 	}
 
-	public String getBiografia() {
-		return biografia;
-	}
-
-	public void setBiografia(String biografia) {
-		this.biografia = biografia;
-	}
 
 	public List<String> getEspecialidades() {
 		return especialidades;

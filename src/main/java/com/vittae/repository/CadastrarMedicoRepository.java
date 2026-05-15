@@ -18,4 +18,8 @@ public interface CadastrarMedicoRepository extends JpaRepository<Medico, Long> {
 	//buscar med por especialidade
 	@Query("SELECT m FROM Medico m JOIN m.especialidades e WHERE e.nome = :nome") // quando o spring data não consegue montar a query automaticamente pelo nome do método.
 	List<Medico> buscarPorEspecialidade(@Param("nome") String nome);
-}
+	
+	@Query("SELECT DISTINCT m FROM Medico m LEFT JOIN FETCH m.especialidades")
+	List<Medico> findAllComEspecialidades();
+
+	}

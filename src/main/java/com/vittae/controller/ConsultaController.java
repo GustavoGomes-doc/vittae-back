@@ -1,7 +1,5 @@
 package com.vittae.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vittae.dto.AgendamentoDTO;
 import com.vittae.model.Consulta;
-import com.vittae.repository.ConsultaRepository;
 import com.vittae.service.ConsultaService;
 
 @RestController
@@ -24,38 +21,32 @@ import com.vittae.service.ConsultaService;
 @CrossOrigin(origins = "http://127.0.0.1:5500")
 public class ConsultaController {
 
-	@Autowired
-	private ConsultaService consultaService;
-	private ConsultaRepository consultaRepository;
+    @Autowired
+    private ConsultaService consultaService;
 
-	@PostMapping
-	public ResponseEntity<?> salvarAgendamento(@RequestBody AgendamentoDTO dto) {
-	    try {
-	        consultaService.salvarAgendamento(dto); 
-	        return ResponseEntity.ok().body("{\"mensagem\": \"Agendamento realizado!\"}");
-	    } catch (Exception e) {
-	        return ResponseEntity.badRequest().body("Erro ao agendar: " + e.getMessage());
-	    }
-	}
-	
-	@GetMapping
-	public ResponseEntity<List<Consulta>> listar() {
-		return ResponseEntity.ok(consultaService.listarTodos());
-	}
+    @PostMapping
+    public ResponseEntity<?> salvarAgendamento(@RequestBody AgendamentoDTO dto) {
+        try {
+            consultaService.salvarAgendamento(dto);
+            return ResponseEntity.ok().body("{\"mensagem\": \"Agendamento realizado!\"}");
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Erro ao agendar: " + e.getMessage());
+        }
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<Consulta> buscar(@PathVariable Long id) {
-		return consultaService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<Consulta> buscar(@PathVariable Long id) {
+        return consultaService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
 
-	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizar(@PathVariable Long id, @RequestBody Consulta consulta) {
-		return ResponseEntity.ok(consultaService.atualizar(id, consulta));
-	}
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> atualizar(@PathVariable Long id, @RequestBody Consulta consulta) {
+        return ResponseEntity.ok(consultaService.atualizar(id, consulta));
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deletar(@PathVariable Long id) {
-		consultaService.deletar(id);
-		return ResponseEntity.noContent().build();
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletar(@PathVariable Long id) {
+        consultaService.deletar(id);
+        return ResponseEntity.noContent().build();
+    }
 }

@@ -1,13 +1,16 @@
 package com.vittae.controller;
  
 import java.util.List;
- 
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
  
 import com.vittae.dto.CadastrarMedicoDTO;
+import com.vittae.dto.MedicoListagemDTO;
 import com.vittae.model.Medico;
+import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.service.CadastrarMedicoService;
 
 import jakarta.validation.Valid;
@@ -19,17 +22,24 @@ public class CadastrarMedicoController {
  
     @Autowired
     private CadastrarMedicoService cadastrarMedicoService;
+    
+    @Autowired
+    private CadastrarMedicoRepository cadastrarMedicoRepository;
  
     //receb DTO em vez de medico diretamente
     @PostMapping
     public ResponseEntity<Medico> cadastrar(@RequestBody @Valid CadastrarMedicoDTO dto) {
         Medico medicoSalvo = cadastrarMedicoService.salvarDTO(dto);
         return ResponseEntity.ok(medicoSalvo);
+       
     }
- 
+  
     @GetMapping
-    public ResponseEntity<List<Medico>> listar() {
-        return ResponseEntity.ok(cadastrarMedicoService.listarTodos());
+    public List<MedicoListagemDTO> listar() {
+        return cadastrarMedicoRepository.findAllComEspecialidades()
+            .stream()
+            .map(MedicoListagemDTO::new)
+            .collect(Collectors.toList());
     }
  
     @GetMapping("/{id}")

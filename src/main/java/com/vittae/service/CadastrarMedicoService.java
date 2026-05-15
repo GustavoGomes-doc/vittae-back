@@ -42,11 +42,8 @@ public class CadastrarMedicoService {
 		medico.setDataNascimento(dto.getDataNascimento());
 		medico.setCrm(dto.getCrm());
 		medico.setUfCrm(dto.getUfCrm());
-		medico.setRqe(dto.getRqe());
-		medico.setCep(dto.getCep());
 		medico.setValorConsulta(dto.getValorConsulta());
 		medico.setTempoConsultaMinutos(dto.getTempoConsultaMinutos());
-		medico.setBiografia(dto.getBiografia());
 
 		//especialidade
 		if (dto.getEspecialidades() != null) { //busca ou cria p cada especialide no dto: tenta achar no banco, usa,
