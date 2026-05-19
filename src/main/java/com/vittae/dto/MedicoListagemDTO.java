@@ -5,6 +5,7 @@ import java.util.Base64;
 import com.vittae.model.Medico;
 
 public class MedicoListagemDTO {
+	private Long id;
 	private String nome;
 	private Integer tempoConsultaMinutos;
 	private Double valorConsulta;
@@ -13,6 +14,7 @@ public class MedicoListagemDTO {
 	private String crm;
 
 	public MedicoListagemDTO(Medico m) {
+		this.id = m.getId();
 		this.nome = m.getNome();
 		this.tempoConsultaMinutos = m.getTempoConsultaMinutos();
 		this.valorConsulta = m.getValorConsulta() != null ? m.getValorConsulta().doubleValue() : null;
@@ -20,6 +22,19 @@ public class MedicoListagemDTO {
 		this.telefone = m.getTelefone();
 		this.crm = m.getCrm();
 	}
+	
+
+	public Long getId() {
+		return id;
+	}
+
+
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+
 
 	public String getNome() {
 		return nome;

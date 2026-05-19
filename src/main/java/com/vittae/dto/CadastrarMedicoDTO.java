@@ -5,7 +5,8 @@ import java.time.LocalDate;
 import java.util.List;
 
 public class CadastrarMedicoDTO {
-
+	
+	private String id;
 	private String nome;
 	private String cpf;
 	private String email;
@@ -18,7 +19,15 @@ public class CadastrarMedicoDTO {
 	private List<String> especialidades;
 	private List<DisponibilidadeDTO> disponibilidades;
 
-	// Getters e Setters
+	
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
 	public String getNome() {
 		return nome;
 	}

@@ -30,8 +30,9 @@ public class Medico extends Usuario {
 	@Column(length = 2)
     private String ufCrm;
 	
-	
+	@Column(name = "tempo_consulta")
 	private int tempoConsultaMinutos;
+	
 	private LocalDate dataNascimento;
 	private BigDecimal valorConsulta;
 	private String telefone;

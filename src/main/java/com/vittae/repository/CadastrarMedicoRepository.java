@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import com.vittae.model.Disponibilidade;
 import com.vittae.model.Medico;
 
 @Repository 
@@ -21,5 +22,8 @@ public interface CadastrarMedicoRepository extends JpaRepository<Medico, Long> {
 	
 	@Query("SELECT DISTINCT m FROM Medico m LEFT JOIN FETCH m.especialidades")
 	List<Medico> findAllComEspecialidades();
+	
+	@Query("SELECT d FROM Disponibilidade d WHERE d.medico.id = :medicoId")
+	List<Disponibilidade> findDisponibilidadesByMedicoId(@Param("medicoId") Long medicoId);
 
 	}
