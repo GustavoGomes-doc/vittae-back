@@ -1,5 +1,7 @@
 package com.vittae.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -23,7 +25,8 @@ public class Disponibilidade {
 
 	@Enumerated(EnumType.STRING)
 	private DiaSemana diaSemana;
-
+	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_medico")
 	private Medico medico;

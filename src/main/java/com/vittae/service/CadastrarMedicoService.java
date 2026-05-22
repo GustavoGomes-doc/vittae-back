@@ -13,6 +13,7 @@ import com.vittae.model.DiaSemana;
 import com.vittae.model.Disponibilidade;
 import com.vittae.model.Especialidade;
 import com.vittae.model.Medico;
+import com.vittae.model.enums.Perfil;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.EspecialidadeRepository;
 
@@ -44,6 +45,11 @@ public class CadastrarMedicoService {
 		medico.setUfCrm(dto.getUfCrm());
 		medico.setValorConsulta(dto.getValorConsulta());
 		medico.setTempoConsultaMinutos(dto.getTempoConsultaMinutos());
+		medico.setTelefone(dto.getTelefone());
+		medico.setFoto(dto.getFoto());
+		
+		medico.setNome(dto.getNome());
+		medico.setPerfil(Perfil.MEDICO);	
 
 		//especialidade
 		if (dto.getEspecialidades() != null) { //busca ou cria p cada especialide no dto: tenta achar no banco, usa,

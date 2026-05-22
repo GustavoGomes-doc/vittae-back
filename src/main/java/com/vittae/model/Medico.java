@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.vittae.model.enums.Perfil;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -37,6 +40,8 @@ public class Medico extends Usuario {
 	private BigDecimal valorConsulta;
 	private String telefone;
 	
+	private Perfil perfil;
+	
 	
 	public String getTelefone() {
 		return telefone;
@@ -49,7 +54,8 @@ public class Medico extends Usuario {
 	@ManyToMany
 	@JoinTable(name = "medico_especialidade", joinColumns = @JoinColumn(name = "id_medico"), inverseJoinColumns = @JoinColumn(name = "id_especialidade"))
 	private List<Especialidade> especialidades;
-
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Disponibilidade> disponibilidades;
 
@@ -142,4 +148,19 @@ public class Medico extends Usuario {
 	public void setConsultas(List<Consulta> consultas) {
 		this.consultas = consultas;
 	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	public void setTempoConsultaMinutos(int tempoConsultaMinutos) {
+		this.tempoConsultaMinutos = tempoConsultaMinutos;
+	}
+	
+	
+
 }

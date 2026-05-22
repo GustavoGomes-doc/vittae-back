@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.vittae.model.enums.Perfil;
+
 public class CadastrarMedicoDTO {
-	
+
 	private String id;
+	private byte[] foto;
 	private String nome;
 	private String cpf;
 	private String email;
@@ -18,8 +21,10 @@ public class CadastrarMedicoDTO {
 	private Integer tempoConsultaMinutos;
 	private List<String> especialidades;
 	private List<DisponibilidadeDTO> disponibilidades;
+	private String telefone;
 
-	
+	private Perfil perfil;
+
 	public String getId() {
 		return id;
 	}
@@ -100,7 +105,6 @@ public class CadastrarMedicoDTO {
 		this.tempoConsultaMinutos = tempoConsultaMinutos;
 	}
 
-
 	public List<String> getEspecialidades() {
 		return especialidades;
 	}
@@ -116,6 +120,36 @@ public class CadastrarMedicoDTO {
 	public void setDisponibilidades(List<DisponibilidadeDTO> disponibilidades) {
 		this.disponibilidades = disponibilidades;
 	}
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+	
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+	
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+
+
+
 
 	// ── DTO interno ───────────────────────────────────────────
 	public static class DisponibilidadeDTO {
@@ -147,6 +181,7 @@ public class CadastrarMedicoDTO {
 			this.horaFim = horaFim;
 		}
 	}
+
 }
 
 //package com.vittae.dto;
