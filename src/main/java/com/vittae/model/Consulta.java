@@ -1,8 +1,10 @@
 package com.vittae.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -32,21 +34,41 @@ public class Consulta {
 	@Enumerated(EnumType.STRING)
 	private Status status;
 
-	private LocalDate dataAgendado;
 	private LocalDate dataConsulta;
 	private LocalTime hora;
+	
+	@ManyToOne
+    @JoinColumn(name = "id_especialidade")
+    private Especialidade especialidade;
+	
+	private BigDecimal valorConsulta;
+	
+	private String observacoes;
+	
+	@Column(name = "resp_nome")
+    private String respNome;
+
+    @Column(name = "resp_cpf")
+    private String respCpf;
+
+    @Column(name = "resp_parentesco")
+    private String respParentesco;
 
 	public Consulta() {
 	}
 
 	public Consulta(Medico medico, Paciente paciente, Status status, LocalDate dataAgendado, LocalDate dataConsulta,
-			LocalTime hora) {
+			BigDecimal valorConsulta, LocalTime hora, Especialidade especialidade, String respNome, String respCpf, String respParentesco) {
 		this.medico = medico;
 		this.paciente = paciente;
 		this.status = status;
-		this.dataAgendado = dataAgendado;
 		this.dataConsulta = dataConsulta;
 		this.hora = hora;
+		this.valorConsulta = valorConsulta;
+		this.especialidade = especialidade;
+		this.respCpf = respCpf;
+		this.respNome = respNome;
+		this.respParentesco = respParentesco;
 	}
 
 	public Long getId() {
@@ -81,13 +103,6 @@ public class Consulta {
 		this.status = status;
 	}
 
-	public LocalDate getDataAgendado() {
-		return dataAgendado;
-	}
-
-	public void setDataAgendado(LocalDate dataAgendado) {
-		this.dataAgendado = dataAgendado;
-	}
 
 	public LocalDate getDataConsulta() {
 		return dataConsulta;
@@ -104,4 +119,54 @@ public class Consulta {
 	public void setHora(LocalTime hora) {
 		this.hora = hora;
 	}
+
+	public Especialidade getEspecialidade() {
+		return especialidade;
+	}
+
+	public void setEspecialidade(Especialidade especialidade) {
+		this.especialidade = especialidade;
+	}
+
+	public BigDecimal getValorConsulta() {
+		return valorConsulta;
+	}
+
+	public void setValorConsulta(BigDecimal valorConsulta) {
+		this.valorConsulta = valorConsulta;
+	}
+
+	public String getRespNome() {
+		return respNome;
+	}
+
+	public void setRespNome(String respNome) {
+		this.respNome = respNome;
+	}
+
+	public String getRespCpf() {
+		return respCpf;
+	}
+
+	public void setRespCpf(String respCpf) {
+		this.respCpf = respCpf;
+	}
+
+	public String getRespParentesco() {
+		return respParentesco;
+	}
+
+	public void setRespParentesco(String respParentesco) {
+		this.respParentesco = respParentesco;
+	}
+
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String observacoes) {
+		this.observacoes = observacoes;
+	}
+	
+	
 }

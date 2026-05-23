@@ -1,37 +1,26 @@
 package com.vittae.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AgendamentoDTO {
-
-	// 1. Dados diretos da Consulta (exatamente com os nomes do Payload do React)
-	private String tipoConsulta;
-	private String especialidade;
-	private LocalDate dataAgendado;
-	private LocalDate dataConsulta;
-	private LocalTime hora;
-	private Long medicoId;
-	private String observacoes;
-	private Double valorconsulta; // Pode ser Integer se você não usar centavos
-
-	// 2. O "Pacotinho" do Paciente que vem do Frontend
-	private PacienteDTO paciente;
+	
+	    private String especialidade;
+	    private String observacoes;
+	    private LocalDate dataConsulta;
+	    private LocalTime hora;
+	    private Long medicoId;
+	    private PacienteDTO paciente;
+	    
+	    private String respNome;
+	    private String respCpf;
+	    private String respParentesco;
+	    
 
 	public AgendamentoDTO() {
 	}
 
-	// ==========================================
-	// GETTERS E SETTERS DA CONSULTA
-	// ==========================================
-
-	public String getTipoConsulta() {
-		return tipoConsulta;
-	}
-
-	public void setTipoConsulta(String tipoConsulta) {
-		this.tipoConsulta = tipoConsulta;
-	}
 
 	public String getEspecialidade() {
 		return especialidade;
@@ -39,14 +28,6 @@ public class AgendamentoDTO {
 
 	public void setEspecialidade(String especialidade) {
 		this.especialidade = especialidade;
-	}
-
-	public LocalDate getDataAgendado() {
-		return dataAgendado;
-	}
-
-	public void setDataAgendado(LocalDate dataAgendado) {
-		this.dataAgendado = dataAgendado;
 	}
 
 	public LocalDate getDataConsulta() {
@@ -81,14 +62,6 @@ public class AgendamentoDTO {
 		this.observacoes = observacoes;
 	}
 
-	public Double getValorconsulta() {
-		return valorconsulta;
-	}
-
-	public void setValorconsulta(Double valorconsulta) {
-		this.valorconsulta = valorconsulta;
-	}
-
 	public PacienteDTO getPaciente() {
 		return paciente;
 	}
@@ -96,6 +69,38 @@ public class AgendamentoDTO {
 	public void setPaciente(PacienteDTO paciente) {
 		this.paciente = paciente;
 	}
+
+
+	public String getRespNome() {
+		return respNome;
+	}
+
+
+	public void setRespNome(String respNome) {
+		this.respNome = respNome;
+	}
+
+
+	public String getRespCpf() {
+		return respCpf;
+	}
+
+
+	public void setRespCpf(String respCpf) {
+		this.respCpf = respCpf;
+	}
+
+
+	public String getRespParentesco() {
+		return respParentesco;
+	}
+
+
+	public void setRespParentesco(String respParentesco) {
+		this.respParentesco = respParentesco;
+	}
+
+
 
 		// classe interna
 		public static class PacienteDTO {

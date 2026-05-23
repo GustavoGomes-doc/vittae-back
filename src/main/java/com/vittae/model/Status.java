@@ -3,7 +3,7 @@ package com.vittae.model;
 public enum Status {
 
 	REALIZADA,
-	AGENDADA,
+	PENDENTE,
 	CANCELADA
 	
 }
