@@ -54,6 +54,10 @@ public class SecurityConfig {
 					req.requestMatchers(HttpMethod.POST, "/api/agendamentos").permitAll();
 
 					req.requestMatchers(HttpMethod.GET, "/api/medicos/*/horarios-livres").permitAll();
+					
+					req.requestMatchers(HttpMethod.GET, "/api/especialidades").permitAll();
+					
+					req.requestMatchers(HttpMethod.POST, "/api/especialidades").permitAll();
 
 					req.anyRequest().authenticated();
 				}).build();

@@ -3,12 +3,14 @@ package com.vittae.service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.vittae.dto.CadastrarMedicoDTO;
+import com.vittae.dto.MedicoListagemDTO;
 import com.vittae.model.DiaSemana;
 import com.vittae.model.Disponibilidade;
 import com.vittae.model.Especialidade;
@@ -90,8 +92,13 @@ public class CadastrarMedicoService {
 
 		return medicoSalvo;
 	}
-
-	//conversor hora
+	
+	public List<MedicoListagemDTO> listarPorEspecialidade(String especialidade) {
+	    return cadastrarMedicoRepository.findByEspecialidadesNome(especialidade)
+	        .stream()
+	        .map(MedicoListagemDTO::new)
+	        .collect(Collectors.toList());
+	}
 
 	//crudzin med
 	public List<Medico> listarTodos() {

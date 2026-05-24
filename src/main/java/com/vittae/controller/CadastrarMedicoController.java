@@ -2,6 +2,7 @@ package com.vittae.controller;
  
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -20,8 +21,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-
-import java.time.format.DateTimeFormatter;  
 import com.vittae.dto.CadastrarMedicoDTO;
 import com.vittae.dto.HorariosLivresDTO;
 import com.vittae.dto.MedicoListagemDTO;
@@ -46,6 +45,7 @@ public class CadastrarMedicoController {
     
     @Autowired
     private ConsultaRepository consultaRepository;
+	
     
     @GetMapping("/{id}/horarios-livres")
     public ResponseEntity<?> getHorariosLivres (@PathVariable Long id,

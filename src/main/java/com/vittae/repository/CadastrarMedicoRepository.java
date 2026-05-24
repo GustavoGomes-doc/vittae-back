@@ -25,5 +25,7 @@ public interface CadastrarMedicoRepository extends JpaRepository<Medico, Long> {
 	
 	@Query("SELECT d FROM Disponibilidade d WHERE d.medico.id = :medicoId")
 	List<Disponibilidade> findDisponibilidadesByMedicoId(@Param("medicoId") Long medicoId);
+	
+	List<Medico> findByEspecialidadesNome(String nome);
 
 	}
