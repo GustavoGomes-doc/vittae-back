@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,14 +25,18 @@ import com.vittae.service.FazerLoginTokenService;
 @CrossOrigin(origins = "*")
 public class FazerLoginController {
 
+    // ✅ Injeta a configuração, não o manager diretamente
     @Autowired
-    private AuthenticationManager manager;
+    private AuthenticationConfiguration authenticationConfiguration;
 
     @Autowired
     private FazerLoginTokenService tokenService;
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> efetuarLogin(@RequestBody FazerLoginDTO dados) {
+    public ResponseEntity<Map<String, Object>> efetuarLogin(@RequestBody FazerLoginDTO dados) throws Exception {
+
+        // ✅ Obtém o manager em runtime — evita ciclo de dependência
+        AuthenticationManager manager = authenticationConfiguration.getAuthenticationManager();
 
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.cpf(), dados.senha());
         Authentication authentication = manager.authenticate(authenticationToken);

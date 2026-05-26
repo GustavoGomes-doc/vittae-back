@@ -1,6 +1,4 @@
 package com.vittae.security;
-
-
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -17,10 +15,10 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
-
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
@@ -33,6 +31,7 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll(); // adicionar
                     req.requestMatchers(HttpMethod.POST, "/api/medicos").permitAll();
                     req.requestMatchers(HttpMethod.GET,  "/api/medicos").permitAll();
                     req.requestMatchers(HttpMethod.GET,  "/api/medicos/*/horarios-livres").permitAll();

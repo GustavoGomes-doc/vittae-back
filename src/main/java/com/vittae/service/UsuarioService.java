@@ -16,16 +16,16 @@ import com.vittae.repository.UsuarioRepository;
 @Service
 public class UsuarioService implements UserDetailsService {
 
-    @Autowired
-    private UsuarioRepository usuarioRepository;
+	@Autowired
+	private UsuarioRepository usuarioRepository;
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
+	public Usuario salvar(Usuario usuario) {
+		usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
+		return usuarioRepository.save(usuario);
+	}
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    public Usuario salvar(Usuario usuario) {
-        usuario.setSenha(passwordEncoder.encode(usuario.getSenha()));
-        return usuarioRepository.save(usuario);
-    }
 
     public List<Usuario> listarTodos() {
         return usuarioRepository.findAll();
