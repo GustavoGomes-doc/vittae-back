@@ -53,12 +53,14 @@ public class Consulta {
 
     @Column(name = "resp_parentesco")
     private String respParentesco;
+    
+    private LocalDate respDataNascimento;
 
 	public Consulta() {
 	}
 
 	public Consulta(Medico medico, Paciente paciente, Status status, LocalDate dataAgendado, LocalDate dataConsulta,
-			BigDecimal valorConsulta, LocalTime hora, Especialidade especialidade, String respNome, String respCpf, String respParentesco) {
+			BigDecimal valorConsulta, LocalTime hora, Especialidade especialidade, String respNome, String respCpf, String respParentesco, LocalDate respDataNascimento) {
 		this.medico = medico;
 		this.paciente = paciente;
 		this.status = status;
@@ -69,6 +71,7 @@ public class Consulta {
 		this.respCpf = respCpf;
 		this.respNome = respNome;
 		this.respParentesco = respParentesco;
+		this.respDataNascimento = respDataNascimento;
 	}
 
 	public Long getId() {
@@ -167,6 +170,15 @@ public class Consulta {
 	public void setObservacoes(String observacoes) {
 		this.observacoes = observacoes;
 	}
+
+	public LocalDate getRespDataNascimento() {
+		return respDataNascimento;
+	}
+
+	public void setRespDataNascimento(LocalDate respDataNascimento) {
+		this.respDataNascimento = respDataNascimento;
+	}
+	
 	
 	
 }

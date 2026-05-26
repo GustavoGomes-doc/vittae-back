@@ -101,6 +101,7 @@ public class CadastrarMedicoController {
     	
     	return ResponseEntity.ok(new HorariosLivresDTO(diasDisponiveis, livres));
     }
+   
     
     //mapeia day of week do java para enum
     private String mapearDiaSemana(java.time.DayOfWeek dow) {
