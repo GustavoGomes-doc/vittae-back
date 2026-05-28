@@ -1,6 +1,7 @@
 package com.vittae.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.vittae.model.enums.DiaSemana;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;

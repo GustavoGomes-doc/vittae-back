@@ -12,7 +12,7 @@ import com.vittae.dto.AgendamentoDTO;
 import com.vittae.model.Consulta;
 import com.vittae.model.Medico;
 import com.vittae.model.Paciente;
-import com.vittae.model.Status;
+import com.vittae.model.enums.Status;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.ConsultaRepository;
 import com.vittae.repository.EspecialidadeRepository;

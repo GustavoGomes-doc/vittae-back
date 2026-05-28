@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.vittae.dto.FazerLoginDTO;
 import com.vittae.dto.TokenResponseDTO;
 import com.vittae.model.Usuario;
-import com.vittae.service.FazerLoginTokenService;
+import com.vittae.service.LoginTokenService;
 
 @RestController
 @RequestMapping("api/login")
@@ -25,7 +25,7 @@ public class FazerLoginController {
     private AuthenticationManager manager;
 
     @Autowired
-    private FazerLoginTokenService tokenService;
+    private LoginTokenService tokenService;
 
     @PostMapping
     public ResponseEntity<TokenResponseDTO> efetuarLogin(@RequestBody FazerLoginDTO dados) {

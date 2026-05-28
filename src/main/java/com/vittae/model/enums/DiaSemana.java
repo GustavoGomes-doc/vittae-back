@@ -1,4 +1,4 @@
-package com.vittae.model;
+package com.vittae.model.enums;
 
 public enum DiaSemana {
     SEGUNDA,

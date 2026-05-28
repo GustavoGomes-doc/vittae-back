@@ -11,10 +11,10 @@ import org.springframework.stereotype.Service;
 
 import com.vittae.dto.CadastrarMedicoDTO;
 import com.vittae.dto.MedicoListagemDTO;
-import com.vittae.model.DiaSemana;
 import com.vittae.model.Disponibilidade;
 import com.vittae.model.Especialidade;
 import com.vittae.model.Medico;
+import com.vittae.model.enums.DiaSemana;
 import com.vittae.model.enums.Perfil;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.EspecialidadeRepository;

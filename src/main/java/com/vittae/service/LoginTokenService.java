@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 
 @Service
-public class FazerLoginTokenService {
+public class LoginTokenService {
 
 	@Value("${api.security.token.secret:123456}")
 	private String secret;
