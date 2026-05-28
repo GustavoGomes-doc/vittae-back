@@ -4,6 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.vittae.model.enums.Perfil;
+
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -14,10 +17,7 @@ import jakarta.persistence.ManyToMany;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.PrimaryKeyJoinColumn;
 import jakarta.persistence.Table;
-import lombok.Data;
 
-
-@Data
 @Entity
 @Table(name = "medico")
 @PrimaryKeyJoinColumn(name = "id_usuario")
@@ -26,24 +26,141 @@ public class Medico extends Usuario {
 	@Lob
 	private byte[] foto;
 	
+	
 	@Column(nullable = false)
     private String crm;
 	
 	@Column(length = 2)
     private String ufCrm;
-
-	private String rqe;
 	
-	private Integer tempoConsulta;
+	@Column(name = "tempo_consulta")
+	private int tempoConsultaMinutos;
+	
 	private LocalDate dataNascimento;
 	private BigDecimal valorConsulta;
 	private String telefone;
 	
-	@ManyToMany
-	@JoinTable(name = "especialidade_medico", joinColumns = @JoinColumn(name = "id_medico"), inverseJoinColumns = @JoinColumn(name = "id_especialidade"))
-	private List<Especialidade> especialidades;
+	private Perfil perfil;
+	
+	
+	public String getTelefone() {
+		return telefone;
+	}
 
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+	@ManyToMany
+	@JoinTable(name = "medico_especialidade", joinColumns = @JoinColumn(name = "id_medico"), inverseJoinColumns = @JoinColumn(name = "id_especialidade"))
+	private List<Especialidade> especialidades;
+	
+	@JsonManagedReference
 	@OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Disponibilidade> disponibilidades;
+
+	@OneToMany(mappedBy = "medico")
+	private List<Consulta> consultas;
+
+	public Medico() {
+	}
+
+	public Medico(byte[] foto, LocalDate dataNascimento, String crm, String cep,BigDecimal valorConsulta, String ufCrm, int tempoConsultaMinutos, List especialidades, String telefone) {
+		this.foto = foto;
+		this.dataNascimento = dataNascimento;
+		this.crm = crm;
+		this.ufCrm = ufCrm;
+		this.tempoConsultaMinutos = tempoConsultaMinutos;
+		this.especialidades = especialidades;
+		this.telefone = telefone;
+	}
+
+
+	public String getUfCrm() {
+		return ufCrm;
+	}
+
+	public void setUfCrm(String ufCrm) {
+		this.ufCrm = ufCrm;
+	}
+
+
+	public Integer getTempoConsultaMinutos() {
+		return tempoConsultaMinutos;
+	}
+
+	public void setTempoConsultaMinutos(Integer tempoConsultaMinutos) {
+		this.tempoConsultaMinutos = tempoConsultaMinutos;
+	}
+
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getCrm() {
+		return crm;
+	}
+
+	public void setCrm(String crm) {
+		this.crm = crm;
+	}
+
+	public BigDecimal getValorConsulta() {
+		return valorConsulta;
+	}
+
+	public void setValorConsulta(BigDecimal valorConsulta) {
+		this.valorConsulta = valorConsulta;
+	}
+
+	public List<Especialidade> getEspecialidades() {
+		return especialidades;
+	}
+
+	public void setEspecialidades(List<Especialidade> especialidades) {
+		this.especialidades = especialidades;
+	}
+
+	public List<Disponibilidade> getDisponibilidades() {
+		return disponibilidades;
+	}
+
+	public void setDisponibilidades(List<Disponibilidade> disponibilidades) {
+		this.disponibilidades = disponibilidades;
+	}
+
+	public List<Consulta> getConsultas() {
+		return consultas;
+	}
+
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
+	}
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+
+	public void setTempoConsultaMinutos(int tempoConsultaMinutos) {
+		this.tempoConsultaMinutos = tempoConsultaMinutos;
+	}
 	
+	
+
 }

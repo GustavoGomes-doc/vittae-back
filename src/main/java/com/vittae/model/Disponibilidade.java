@@ -1,7 +1,6 @@
 package com.vittae.model;
 
-import java.time.LocalTime;
-
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.vittae.model.enums.DiaSemana;
 
 import jakarta.persistence.Entity;
@@ -13,9 +12,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "disponibilidade")
 public class Disponibilidade {
@@ -24,14 +21,66 @@ public class Disponibilidade {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 
-	private LocalTime horaInicio;
-	private LocalTime horaFim;
+	private String horaInicio;
+	private String horaFim;
 
 	@Enumerated(EnumType.STRING)
 	private DiaSemana diaSemana;
 	
+	@JsonBackReference
 	@ManyToOne
 	@JoinColumn(name = "id_medico")
 	private Medico medico;
+
+	public Disponibilidade() {
+	}
+
+	public Disponibilidade(String horaInicio, String horaFim, DiaSemana diaSemana, Medico medico) {
+		this.horaInicio = horaInicio;
+		this.horaFim = horaFim;
+		this.diaSemana = diaSemana;
+		this.medico = medico;
+	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getHoraInicio() {
+		return horaInicio;
+	}
+
+	public void setHoraInicio(String horaInicio) {
+		this.horaInicio = horaInicio;
+	}
+
+	public String getHoraFim() {
+		return horaFim;
+	}
+
+	public void setHoraFim(String horaFim) {
+		this.horaFim = horaFim;
+	}
+
+	public DiaSemana getDiaSemana() {
+		return diaSemana;
+	}
+
+	public void setDiaSemana(DiaSemana diaSemana) {
+		this.diaSemana = diaSemana;
+	}
+
+	public Medico getMedico() {
+		return medico;
+	}
+
+	public void setMedico(Medico medico) {
+		this.medico = medico;
+	}
+	
 	
 }

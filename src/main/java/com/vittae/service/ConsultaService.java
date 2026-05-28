@@ -1,5 +1,7 @@
 package com.vittae.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
@@ -10,8 +12,10 @@ import com.vittae.dto.AgendamentoDTO;
 import com.vittae.model.Consulta;
 import com.vittae.model.Medico;
 import com.vittae.model.Paciente;
+import com.vittae.model.enums.Status;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.ConsultaRepository;
+import com.vittae.repository.EspecialidadeRepository;
 import com.vittae.repository.PacienteRepository;
 
 @Service
@@ -25,53 +29,69 @@ public class ConsultaService {
 
 	@Autowired
 	private CadastrarMedicoRepository cadastrarMedicoRepository;
+	
+	@Autowired
+	private EspecialidadeRepository especialidadeRepository;
 
 	public void salvarAgendamento(AgendamentoDTO dto) {
-		Consulta novaConsulta = new Consulta();
+	    Consulta novaConsulta = new Consulta();
 
-		// convertendo de LocalDate do DTO para Date da Entidade
-		//novaConsulta.setDataAgendado(java.sql.Date.valueOf(dto.getDataAgendado()));
-		//novaConsulta.setDataConsulta(java.sql.Date.valueOf(dto.getDataConsulta()));
-		novaConsulta.setHora(dto.getHora());
+	    novaConsulta.setDataConsulta(dto.getDataConsulta());
+	    novaConsulta.setHora(dto.getHora());;
+	    novaConsulta.setObservacoes(dto.getObservacoes());
+	    novaConsulta.setStatus(Status.PENDENTE);
 
-		// convertendo o Double do DTO para o int da sua classe
-		//if (dto.getValorconsulta() != null) {
-		//	novaConsulta.setValorconsulta(dto.getValorconsulta().intValue());
-		//}
+	    // responsável legal
+	    novaConsulta.setRespNome(dto.getRespNome());
+	    novaConsulta.setRespCpf(dto.getRespCpf());
+	    novaConsulta.setRespParentesco(dto.getRespParentesco());
 
-		// mapeamento do Médico (Criamos uma referência rápida só com o ID)
-		Medico medicoSelecionado = cadastrarMedicoRepository.findById(dto.getMedicoId())
-				.orElseThrow(() -> new RuntimeException("Médico não encontrado"));
+	    // médico
+	    Medico medico = cadastrarMedicoRepository.findById(dto.getMedicoId())
+	        .orElseThrow(() -> new RuntimeException("Médico não encontrado"));
+	    novaConsulta.setMedico(medico);
+	    novaConsulta.setValorConsulta(medico.getValorConsulta());
+	    
+	    boolean horarioOcupado = consultaRepository.existsConsultaOcupada(
+	    		medico.getId(), dto.getDataConsulta(), dto.getHora()
+	    		);
+	    
+	    if (horarioOcupado) {
+	    	throw new RuntimeException("Falha no agendamento: Este horario ja foi marcado.");
+	    }
+	    
+	    novaConsulta.setMedico(medico);
+	    novaConsulta.setValorConsulta(medico.getValorConsulta());
 
-		novaConsulta.setMedico(medicoSelecionado);
+	    // especialidade
+	    if (dto.getEspecialidade() != null) {
+	        especialidadeRepository.findByNome(dto.getEspecialidade())
+	            .ifPresent(novaConsulta::setEspecialidade);
+	    }
+	    
+	    String cpfPaciente = dto.getPaciente().getCpf();
+	    String nomePaciente = dto.getPaciente().getNome();
+	    
+	    // paciente
+	    String cpf = dto.getPaciente().getCpf();
+	    Paciente paciente = pacienteRepository.findByCpfAndNome(cpfPaciente, nomePaciente)
+		        .orElseGet(() -> {
+		            Paciente novo = new Paciente();
+		            novo.setNome(nomePaciente);
+		            novo.setCpf(cpfPaciente);
+		            novo.setGenero(dto.getPaciente().getGenero());
+		            
+		            if (dto.getPaciente().getNascimento() != null && !dto.getPaciente().getNascimento().isEmpty()) {
+		                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		                novo.setDataNascimento(LocalDate.parse(dto.getPaciente().getNascimento(), fmt));
+		            }
+		            return pacienteRepository.save(novo);
+		        });
+		        
+		    novaConsulta.setPaciente(paciente);
 
-		// *Removemos setEspecialidade, setObservacoes etc. porque eles não existem no
-		// banco!*
-
-		// =======================================================
-		// 3. Lógica para verificar e salvar o Paciente
-		// =======================================================
-		String cpfDoPaciente = dto.getPaciente().getCpf();
-
-		Optional<Paciente> pacienteExistente = pacienteRepository.findByCpf(cpfDoPaciente);
-		Paciente pacienteDaConsulta;
-
-		if (pacienteExistente.isPresent()) {
-			pacienteDaConsulta = pacienteExistente.get();
-		} else {
-			Paciente novoPaciente = new Paciente();
-			novoPaciente.setNome(dto.getPaciente().getNome());
-			novoPaciente.setCpf(cpfDoPaciente);
-			novoPaciente.setTelefone(dto.getPaciente().getTelefone());
-
-			pacienteDaConsulta = pacienteRepository.save(novoPaciente);
-		}
-
-		// 4. Agora atrelamos o OBJETO paciente inteiro na Consulta, e não só o ID
-		novaConsulta.setPaciente(pacienteDaConsulta);
-
-		consultaRepository.save(novaConsulta);
-	}
+	    consultaRepository.save(novaConsulta);
+	}	
 
 	public List<Consulta> listarTodos() {
 		return consultaRepository.findAll();
