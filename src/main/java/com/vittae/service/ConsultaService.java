@@ -94,15 +94,22 @@ public class ConsultaService {
 	}	
 
 	public List<Consulta> listarTodos() {
-		return consultaRepository.findAll();
+	    return consultaRepository.findAllComRelacionamentos();
 	}
-
+	
 	public Optional<Consulta> buscarPorId(Long id) {
 		return consultaRepository.findById(id);
 	}
 
-	public Object atualizar(Long id, Consulta consulta) {
-		return null;
+	public Consulta atualizar(Long id, Consulta consultaAtualizada) {
+	    Consulta existente = consultaRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Consulta não encontrada: " + id));
+
+	    existente.setStatus(consultaAtualizada.getStatus());
+	    existente.setDataConsulta(consultaAtualizada.getDataConsulta());
+	    existente.setHora(consultaAtualizada.getHora());
+
+	    return consultaRepository.save(existente);
 	}
 
 	public void deletar(Long id) {

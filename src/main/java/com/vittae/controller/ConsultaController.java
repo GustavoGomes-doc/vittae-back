@@ -1,5 +1,7 @@
 package com.vittae.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -18,17 +20,22 @@ import com.vittae.service.ConsultaService;
 
 @RestController
 @RequestMapping("api/agendamentos")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "*")
 public class ConsultaController {
 
     @Autowired
     private ConsultaService consultaService;
+    
+    @GetMapping
+    public ResponseEntity<List<Consulta>> listarTodos() {
+        return ResponseEntity.ok(consultaService.listarTodos());
+    }
 
     @PostMapping
     public ResponseEntity<?> salvarAgendamento(@RequestBody AgendamentoDTO dto) {
         try {
             consultaService.salvarAgendamento(dto);
-            return ResponseEntity.ok().body("{\"mensagem\": \"Agendamento realizado!\"}");
+            return ResponseEntity.ok().body("{\"mensagem\": \"Agendamento rea	lizado!\"}");
         } catch (Exception e) {
             return ResponseEntity.badRequest().body("Erro ao agendar: " + e.getMessage());
         }
@@ -40,7 +47,7 @@ public class ConsultaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Object> atualizar(@PathVariable Long id, @RequestBody Consulta consulta) {
+    public ResponseEntity<Consulta> atualizar(@PathVariable Long id, @RequestBody Consulta consulta) {
         return ResponseEntity.ok(consultaService.atualizar(id, consulta));
     }
 
