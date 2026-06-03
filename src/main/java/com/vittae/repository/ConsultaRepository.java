@@ -22,4 +22,6 @@ public interface ConsultaRepository extends JpaRepository<Consulta, Long> {
     
     @Query("SELECT c FROM Consulta c LEFT JOIN FETCH c.paciente LEFT JOIN FETCH c.medico")
     List<Consulta> findAllComRelacionamentos();
+    
+    List<Consulta> findByMedicoId(Long medicoId);
 }
