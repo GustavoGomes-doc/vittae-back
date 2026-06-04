@@ -1,5 +1,4 @@
 package com.vittae.security;
-
 import java.util.List;
 
 import org.springframework.context.annotation.Bean;
@@ -11,14 +10,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
-import com.vittae.service.UsuarioService;
 
 @Configuration
 @EnableWebSecurity
@@ -35,6 +31,7 @@ public class SecurityConfig {
                 .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(req -> {
                     req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
+                    req.requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll(); // adicionar
                     req.requestMatchers(HttpMethod.POST, "/api/medicos").permitAll();
                     req.requestMatchers(HttpMethod.GET,  "/api/medicos").permitAll();
                     req.requestMatchers(HttpMethod.GET,  "/api/medicos/*/horarios-livres").permitAll();
