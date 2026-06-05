@@ -1,6 +1,7 @@
 package com.vittae.controller;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -15,18 +16,29 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.vittae.dto.AgendamentoDTO;
+
+import com.vittae.dto.PacienteListagemDTO;
+import com.vittae.dto.VisualizarConsultaDTO;
 import com.vittae.model.Consulta;
-import com.vittae.repository.ConsultaRepository;
 import com.vittae.service.ConsultaService;
 
 @RestController
 @RequestMapping("api/agendamentos")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "*")
 public class ConsultaController {
 
-	@Autowired
-	private ConsultaService consultaService;
-	private ConsultaRepository consultaRepository;
+    @Autowired
+    private ConsultaService consultaService;
+    
+    @GetMapping("/medico/{medicoId}")
+    public ResponseEntity<List<PacienteListagemDTO>> listarPorMedico(@PathVariable Long medicoId) {
+        List<Consulta> consultas = consultaService.listarPorMedico(medicoId);
+        List<PacienteListagemDTO> dtos = consultas.stream()
+            .map(PacienteListagemDTO::new)
+            .collect(Collectors.toList());
+        return ResponseEntity.ok(dtos);
+    }
+
 
 	@PostMapping
 	public ResponseEntity<?> salvarAgendamento(@RequestBody AgendamentoDTO dto) {
@@ -39,20 +51,25 @@ public class ConsultaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<Consulta>> listar() {
-		return ResponseEntity.ok(consultaService.listarTodos());
+	public ResponseEntity<List<VisualizarConsultaDTO>> listar() {
+	    return ResponseEntity.ok(consultaService.listarParaVisualizacao());
 	}
-
+	
 	@GetMapping("/{id}")
 	public ResponseEntity<Consulta> buscar(@PathVariable Long id) {
 		return consultaService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Object> atualizar(@PathVariable Long id, @RequestBody Consulta consulta) {
-		return ResponseEntity.ok(consultaService.atualizar(id, consulta));
+	public ResponseEntity<?> atualizar(@PathVariable Long id, @RequestBody Consulta consulta) {
+	    try {
+	        Consulta consultaAtualizada = consultaService.atualizar(id, consulta);
+	        return ResponseEntity.ok(consultaAtualizada);
+	    } catch (RuntimeException e) {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    }
 	}
-
+	
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> deletar(@PathVariable Long id) {
 		consultaService.deletar(id);

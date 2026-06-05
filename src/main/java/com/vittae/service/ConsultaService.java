@@ -1,17 +1,23 @@
 package com.vittae.service;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.vittae.dto.AgendamentoDTO;
+import com.vittae.dto.VisualizarConsultaDTO;
 import com.vittae.model.Consulta;
 import com.vittae.model.Medico;
 import com.vittae.model.Paciente;
+import com.vittae.model.enums.Status;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.ConsultaRepository;
+import com.vittae.repository.EspecialidadeRepository;
 import com.vittae.repository.PacienteRepository;
 
 @Service
@@ -25,64 +31,97 @@ public class ConsultaService {
 
 	@Autowired
 	private CadastrarMedicoRepository cadastrarMedicoRepository;
+	
+	@Autowired
+	private EspecialidadeRepository especialidadeRepository;
 
 	public void salvarAgendamento(AgendamentoDTO dto) {
-		Consulta novaConsulta = new Consulta();
+	    Consulta novaConsulta = new Consulta();
 
-		// convertendo de LocalDate do DTO para Date da Entidade
-		//novaConsulta.setDataAgendado(java.sql.Date.valueOf(dto.getDataAgendado()));
-		//novaConsulta.setDataConsulta(java.sql.Date.valueOf(dto.getDataConsulta()));
-		novaConsulta.setHora(dto.getHora());
+	    novaConsulta.setDataConsulta(dto.getDataConsulta());
+	    novaConsulta.setHora(dto.getHora());
+	    novaConsulta.setObservacoes(dto.getObservacoes());
+	    novaConsulta.setStatus(Status.PENDENTE);
 
-		// convertendo o Double do DTO para o int da sua classe
-		//if (dto.getValorconsulta() != null) {
-		//	novaConsulta.setValorconsulta(dto.getValorconsulta().intValue());
-		//}
+	    novaConsulta.setRespNome(dto.getRespNome());
+	    novaConsulta.setRespCpf(dto.getRespCpf());
+	    novaConsulta.setRespParentesco(dto.getRespParentesco());
 
-		// mapeamento do Médico (Criamos uma referência rápida só com o ID)
-		Medico medicoSelecionado = cadastrarMedicoRepository.findById(dto.getMedicoId())
-				.orElseThrow(() -> new RuntimeException("Médico não encontrado"));
+	    Medico medico = cadastrarMedicoRepository.findById(dto.getMedicoId())
+	        .orElseThrow(() -> new RuntimeException("Médico não encontrado"));
+	    novaConsulta.setMedico(medico);
+	    novaConsulta.setValorConsulta(medico.getValorConsulta());
+	    
+	    boolean horarioOcupado = consultaRepository.existsConsultaOcupada(
+	    		medico.getId(), dto.getDataConsulta(), dto.getHora()
+	    		);
+	    
+	    if (horarioOcupado) {
+	    	throw new RuntimeException("Falha no agendamento: Este horario ja foi marcado.");
+	    }
 
-		novaConsulta.setMedico(medicoSelecionado);
-
-		// *Removemos setEspecialidade, setObservacoes etc. porque eles não existem no
-		// banco!*
-
-		// =======================================================
-		// 3. Lógica para verificar e salvar o Paciente
-		// =======================================================
-		String cpfDoPaciente = dto.getPaciente().getCpf();
-
-		Optional<Paciente> pacienteExistente = pacienteRepository.findByCpf(cpfDoPaciente);
-		Paciente pacienteDaConsulta;
-
-		if (pacienteExistente.isPresent()) {
-			pacienteDaConsulta = pacienteExistente.get();
-		} else {
-			Paciente novoPaciente = new Paciente();
-			novoPaciente.setNome(dto.getPaciente().getNome());
-			novoPaciente.setCpf(cpfDoPaciente);
-			novoPaciente.setTelefone(dto.getPaciente().getTelefone());
-
-			pacienteDaConsulta = pacienteRepository.save(novoPaciente);
-		}
-
-		// 4. Agora atrelamos o OBJETO paciente inteiro na Consulta, e não só o ID
-		novaConsulta.setPaciente(pacienteDaConsulta);
-
-		consultaRepository.save(novaConsulta);
+	    if (dto.getEspecialidade() != null) {
+	        especialidadeRepository.findByNome(dto.getEspecialidade())
+	            .ifPresent(novaConsulta::setEspecialidade);
+	    }
+	    
+	    String cpfPaciente = dto.getPaciente().getCpf();
+	    String nomePaciente = dto.getPaciente().getNome();
+	    
+	    Paciente paciente = pacienteRepository.findByCpfAndNome(cpfPaciente, nomePaciente)
+		        .orElseGet(() -> {
+		            Paciente novo = new Paciente();
+		            novo.setNome(nomePaciente);
+		            novo.setCpf(cpfPaciente);
+		            novo.setGenero(dto.getPaciente().getGenero());
+		            
+		            if (dto.getPaciente().getNascimento() != null && !dto.getPaciente().getNascimento().isEmpty()) {
+		                DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+		                novo.setDataNascimento(LocalDate.parse(dto.getPaciente().getNascimento(), fmt));
+		            }
+		            return pacienteRepository.save(novo);
+		        });
+		        
+	    novaConsulta.setPaciente(paciente);
+	    consultaRepository.save(novaConsulta);
+	}	
+	
+	public List<VisualizarConsultaDTO> listarParaVisualizacao() {
+	    return consultaRepository.findAll().stream().map(consulta -> {
+	    	VisualizarConsultaDTO dto = new VisualizarConsultaDTO();
+	        
+	        dto.setId(consulta.getId());
+	        dto.setHora(consulta.getHora());
+	        dto.setStatus(consulta.getStatus());
+	        dto.setMedico(consulta.getMedico());
+	        dto.setDataConsulta(consulta.getDataConsulta());
+	        dto.setValorConsulta(consulta.getValorConsulta());
+	        
+	        return dto;
+	    }).collect(Collectors.toList());
 	}
 
 	public List<Consulta> listarTodos() {
-		return consultaRepository.findAll();
+	    return consultaRepository.findAllComRelacionamentos();
 	}
-
+	
+	public List<Consulta> listarPorMedico(Long medicoId) {
+		return consultaRepository.findByMedicoId(medicoId);
+	}
+	
 	public Optional<Consulta> buscarPorId(Long id) {
 		return consultaRepository.findById(id);
 	}
 
-	public Object atualizar(Long id, Consulta consulta) {
-		return null;
+	public Consulta atualizar(Long id, Consulta consultaAtualizada) {
+	    Consulta existente = consultaRepository.findById(id)
+	        .orElseThrow(() -> new RuntimeException("Consulta não encontrada: " + id));
+
+	    existente.setStatus(consultaAtualizada.getStatus());
+	    existente.setDataConsulta(consultaAtualizada.getDataConsulta());
+	    existente.setHora(consultaAtualizada.getHora());
+
+	    return consultaRepository.save(existente);
 	}
 
 	public void deletar(Long id) {

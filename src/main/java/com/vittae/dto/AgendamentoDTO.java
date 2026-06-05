@@ -1,31 +1,26 @@
 package com.vittae.dto;
 
+import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 public class AgendamentoDTO {
-
-	private String tipoConsulta;
-	private String especialidade;
-	private LocalDate dataAgendado;
-	private LocalDate dataConsulta;
-	private LocalTime hora;
-	private Long medicoId;
-	private String observacoes;
-	private Double valorconsulta;
-
-	private PacienteDTO paciente;
+	
+	    private String especialidade;
+	    private String observacoes;
+	    private LocalDate dataConsulta;
+	    private LocalTime hora;
+	    private Long medicoId;
+	    private PacienteDTO paciente;
+	    
+	    private String respNome;
+	    private String respCpf;
+	    private String respParentesco;
+	    
 
 	public AgendamentoDTO() {
 	}
 
-	public String getTipoConsulta() {
-		return tipoConsulta;
-	}
-
-	public void setTipoConsulta(String tipoConsulta) {
-		this.tipoConsulta = tipoConsulta;
-	}
 
 	public String getEspecialidade() {
 		return especialidade;
@@ -33,14 +28,6 @@ public class AgendamentoDTO {
 
 	public void setEspecialidade(String especialidade) {
 		this.especialidade = especialidade;
-	}
-
-	public LocalDate getDataAgendado() {
-		return dataAgendado;
-	}
-
-	public void setDataAgendado(LocalDate dataAgendado) {
-		this.dataAgendado = dataAgendado;
 	}
 
 	public LocalDate getDataConsulta() {
@@ -75,14 +62,6 @@ public class AgendamentoDTO {
 		this.observacoes = observacoes;
 	}
 
-	public Double getValorconsulta() {
-		return valorconsulta;
-	}
-
-	public void setValorconsulta(Double valorconsulta) {
-		this.valorconsulta = valorconsulta;
-	}
-
 	public PacienteDTO getPaciente() {
 		return paciente;
 	}
@@ -91,38 +70,85 @@ public class AgendamentoDTO {
 		this.paciente = paciente;
 	}
 
-	// ==========================================
-	// CLASSE INTERNA: O MODELO DO PACIENTE
-	// ==========================================
-	// Isso é necessário porque o Frontend manda: "paciente": { "nome": "...",
-	// "cpf": "..." }
-	public static class PacienteDTO {
-		private String nome;
-		private String cpf;
-		private String telefone;
 
-		public String getNome() {
-			return nome;
-		}
+	public String getRespNome() {
+		return respNome;
+	}
 
-		public void setNome(String nome) {
-			this.nome = nome;
-		}
 
-		public String getCpf() {
-			return cpf;
-		}
+	public void setRespNome(String respNome) {
+		this.respNome = respNome;
+	}
 
-		public void setCpf(String cpf) {
-			this.cpf = cpf;
-		}
 
-		public String getTelefone() {
-			return telefone;
-		}
+	public String getRespCpf() {
+		return respCpf;
+	}
 
-		public void setTelefone(String telefone) {
-			this.telefone = telefone;
+
+	public void setRespCpf(String respCpf) {
+		this.respCpf = respCpf;
+	}
+
+
+	public String getRespParentesco() {
+		return respParentesco;
+	}
+
+
+	public void setRespParentesco(String respParentesco) {
+		this.respParentesco = respParentesco;
+	}
+
+
+
+		// classe interna
+		public static class PacienteDTO {
+			private String nome;
+			private String cpf;
+			private String telefone;
+			private String genero;
+			private String nascimento;
+
+			public String getNome() {
+				return nome;
+			}
+
+			public void setNome(String nome) {
+				this.nome = nome;
+			}
+
+			public String getCpf() {
+				return cpf;
+			}
+
+			public void setCpf(String cpf) {
+				this.cpf = cpf;
+			}
+
+			public String getTelefone() {
+				return telefone;
+			}
+
+			public void setTelefone(String telefone) {
+				this.telefone = telefone;
+			}
+
+			public String getGenero() {
+				return genero;
+			}
+
+			public void setGenero(String genero) {
+				this.genero = genero;
+			}
+
+			public String getNascimento() {
+				return nascimento;
+			}
+
+			public void setNascimento(String nascimento) {
+				this.nascimento = nascimento;
+			}
+
 		}
 	}
-}

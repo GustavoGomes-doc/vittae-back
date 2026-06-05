@@ -9,5 +9,9 @@ import com.vittae.model.Especialidade;
 public interface EspecialidadeRepository extends JpaRepository<Especialidade, Long> {
  
     // Busca especialidade pelo nome (ex: "Cardiologia")
+	
+	 
     Optional<Especialidade> findByNome(String nome);
+    
+    
 }

@@ -2,17 +2,14 @@ package com.vittae.dto;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.vittae.model.enums.DiaSemana;
+import com.vittae.model.enums.Perfil;
 
-import lombok.Data;
-
-@Data
 public class CadastrarMedicoDTO {
 
+	private String id;
+	private byte[] foto;
 	private String nome;
 	private String cpf;
 	private String email;
@@ -20,16 +17,93 @@ public class CadastrarMedicoDTO {
 	private LocalDate dataNascimento;
 	private String crm;
 	private String ufCrm;
-	private String rqe;
-	private String cep;
 	private BigDecimal valorConsulta;
-	private String telefone;
-	
-	@JsonProperty("tempoConsultaMinutos")
-	private Integer tempoConsulta;    
-	private String biografia;
+	private Integer tempoConsultaMinutos;
 	private List<String> especialidades;
 	private List<DisponibilidadeDTO> disponibilidades;
+	private String telefone;
+
+	private Perfil perfil;
+
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+	public String getCpf() {
+		return cpf;
+	}
+
+	public void setCpf(String cpf) {
+		this.cpf = cpf;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getSenha() {
+		return senha;
+	}
+
+	public void setSenha(String senha) {
+		this.senha = senha;
+	}
+
+	public LocalDate getDataNascimento() {
+		return dataNascimento;
+	}
+
+	public void setDataNascimento(LocalDate dataNascimento) {
+		this.dataNascimento = dataNascimento;
+	}
+
+	public String getCrm() {
+		return crm;
+	}
+
+	public void setCrm(String crm) {
+		this.crm = crm;
+	}
+
+	public String getUfCrm() {
+		return ufCrm;
+	}
+
+	public void setUfCrm(String ufCrm) {
+		this.ufCrm = ufCrm;
+	}
+
+	public BigDecimal getValorConsulta() {
+		return valorConsulta;
+	}
+
+	public void setValorConsulta(BigDecimal valorConsulta) {
+		this.valorConsulta = valorConsulta;
+	}
+
+	public Integer getTempoConsultaMinutos() {
+		return tempoConsultaMinutos;
+	}
+
+	public void setTempoConsultaMinutos(Integer tempoConsultaMinutos) {
+		this.tempoConsultaMinutos = tempoConsultaMinutos;
+	}
 
 	public List<String> getEspecialidades() {
 		return especialidades;
@@ -47,38 +121,69 @@ public class CadastrarMedicoDTO {
 		this.disponibilidades = disponibilidades;
 	}
 
+	public byte[] getFoto() {
+		return foto;
+	}
+
+	public void setFoto(byte[] foto) {
+		this.foto = foto;
+	}
+	
+
+	public Perfil getPerfil() {
+		return perfil;
+	}
+
+	public void setPerfil(Perfil perfil) {
+		this.perfil = perfil;
+	}
+	
+
+	public String getTelefone() {
+		return telefone;
+	}
+
+	public void setTelefone(String telefone) {
+		this.telefone = telefone;
+	}
+
+
+
+
+
 	// ── DTO interno ───────────────────────────────────────────
 	public static class DisponibilidadeDTO {
-		
-        private DiaSemana diaSemana; // Certifique-se de importar o seu Enum!
-		private LocalTime horaInicio;
-		private LocalTime horaFim;
+		private String diaSemana;
+		private String horaInicio;
+		private String horaFim;
 
-		public DiaSemana getDiaSemana() {
+		public String getDiaSemana() {
 			return diaSemana;
 		}
 
-		public void setDiaSemana(DiaSemana diaSemana) {
+		public void setDiaSemana(String diaSemana) {
 			this.diaSemana = diaSemana;
 		}
 
-		public LocalTime getHoraInicio() {
+		public String getHoraInicio() {
 			return horaInicio;
 		}
 
-		public void setHoraInicio(LocalTime horaInicio) {
+		public void setHoraInicio(String horaInicio) {
 			this.horaInicio = horaInicio;
 		}
 
-		public LocalTime getHoraFim() {
+		public String getHoraFim() {
 			return horaFim;
 		}
 
-		public void setHoraFim(LocalTime horaFim) {
+		public void setHoraFim(String horaFim) {
 			this.horaFim = horaFim;
 		}
 	}
+
 }
+
 //package com.vittae.dto;
 //
 //import jakarta.validation.Valid;
