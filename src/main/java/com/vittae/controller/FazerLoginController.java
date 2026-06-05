@@ -25,7 +25,6 @@ import com.vittae.service.FazerLoginTokenService;
 @CrossOrigin(origins = "*")
 public class FazerLoginController {
 
-    // ✅ Injeta a configuração, não o manager diretamente
     @Autowired
     private AuthenticationConfiguration authenticationConfiguration;
 
@@ -35,7 +34,7 @@ public class FazerLoginController {
     @PostMapping
     public ResponseEntity<Map<String, Object>> efetuarLogin(@RequestBody FazerLoginDTO dados) throws Exception {
 
-        // ✅ Obtém o manager em runtime — evita ciclo de dependência
+        //evita ciclo de dependência
         AuthenticationManager manager = authenticationConfiguration.getAuthenticationManager();
 
         var authenticationToken = new UsernamePasswordAuthenticationToken(dados.cpf(), dados.senha());
@@ -46,6 +45,7 @@ public class FazerLoginController {
 
         Map<String, Object> resposta = new HashMap<>();
         resposta.put("token", token);
+        resposta.put("perfil", usuario.getPerfil() != null ? usuario.getPerfil().name() : "SEM_PERFIL"); 
         resposta.put("usuario", usuario);
 
         return ResponseEntity.ok(resposta);

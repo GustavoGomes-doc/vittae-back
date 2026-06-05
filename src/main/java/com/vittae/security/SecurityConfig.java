@@ -1,6 +1,7 @@
 package com.vittae.security;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -11,6 +12,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
@@ -20,6 +22,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 @EnableWebSecurity
 public class SecurityConfig {
 
+    @Autowired
+    private JwtAuthFilter jwtAuthFilter;
+
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration config) throws Exception {
         return config.getAuthenticationManager();
@@ -27,21 +32,28 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        return http.csrf(csrf -> csrf.disable()).cors(Customizer.withDefaults())
-                .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .authorizeHttpRequests(req -> {
-                    req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll(); // adicionar
-                    req.requestMatchers(HttpMethod.POST, "/api/medicos").permitAll();
-                    req.requestMatchers(HttpMethod.GET,  "/api/medicos").permitAll();
-                    req.requestMatchers(HttpMethod.GET,  "/api/medicos/*/horarios-livres").permitAll();
-                    req.requestMatchers(HttpMethod.GET,  "/api/especialidades").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/api/especialidades").permitAll();
-                    req.requestMatchers(HttpMethod.POST, "/api/agendamentos").permitAll();
-                    req.requestMatchers(HttpMethod.GET,  "/api/agendamentos").permitAll();
-                    req.requestMatchers(HttpMethod.PUT,  "/api/agendamentos/**").permitAll();
-                    req.anyRequest().authenticated();
-                }).build();
+        return http
+            .csrf(csrf -> csrf.disable())
+            .cors(Customizer.withDefaults())
+            .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+            .authorizeHttpRequests(req -> {
+                req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
+                req.requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll();
+                req.requestMatchers(HttpMethod.GET,  "/api/especialidades").permitAll();
+                req.requestMatchers(HttpMethod.GET,  "/api/medicos").permitAll();
+                req.requestMatchers(HttpMethod.GET,  "/api/medicos/*/horarios-livres").permitAll();
+
+                req.requestMatchers(HttpMethod.POST, "/api/medicos").hasRole("ADMIN");
+                req.requestMatchers(HttpMethod.POST, "/api/especialidades").hasRole("ADMIN");
+
+                req.requestMatchers(HttpMethod.POST, "/api/agendamentos").hasRole("PACIENTE");
+                req.requestMatchers(HttpMethod.GET,  "/api/agendamentos").hasRole("PACIENTE");
+                req.requestMatchers(HttpMethod.PUT,  "/api/agendamentos/**").hasRole("PACIENTE");
+
+                req.anyRequest().authenticated();
+            })
+            .addFilterBefore(jwtAuthFilter, UsernamePasswordAuthenticationFilter.class)
+            .build();
     }
 
     @Bean
@@ -59,4 +71,4 @@ public class SecurityConfig {
         source.registerCorsConfiguration("/**", config);
         return source;
     }
-}
+} 
