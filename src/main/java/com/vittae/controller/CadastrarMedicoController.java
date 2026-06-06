@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
 
 @RestController //controler, resp body, pega json  da req e transforma dto 
 @RequestMapping("/api/medicos")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "*")
 public class CadastrarMedicoController {
  
     @Autowired

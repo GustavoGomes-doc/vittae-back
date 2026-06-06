@@ -13,7 +13,7 @@ import com.vittae.repository.EspecialidadeRepository;
 
 @RestController
 @RequestMapping("/api/especialidades")
-@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8081"})
+@CrossOrigin(origins = "*")
 public class EspecialidadeController {
 
     @Autowired
