@@ -46,7 +46,15 @@ public class FazerLoginController {
         Map<String, Object> resposta = new HashMap<>();
         resposta.put("token", token);
         resposta.put("perfil", usuario.getPerfil() != null ? usuario.getPerfil().name() : "SEM_PERFIL"); 
-        resposta.put("usuario", usuario);
+        
+        Map<String, Object> usuarioResposta = new HashMap<>();
+        usuarioResposta.put("id", usuario.getId());
+        usuarioResposta.put("nome", usuario.getNome());
+        usuarioResposta.put("cpf", usuario.getCpf());
+        usuarioResposta.put("email", usuario.getEmail());
+        usuarioResposta.put("perfil", usuario.getPerfil());
+
+        resposta.put("usuario", usuarioResposta);
 
         return ResponseEntity.ok(resposta);
     }
