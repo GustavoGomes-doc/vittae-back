@@ -18,6 +18,7 @@ import com.vittae.model.enums.DiaSemana;
 import com.vittae.model.enums.Perfil;
 import com.vittae.repository.CadastrarMedicoRepository;
 import com.vittae.repository.EspecialidadeRepository;
+import com.vittae.repository.UsuarioRepository;
 
 @Service //regra d negocio; toda a logica 
 public class CadastrarMedicoService {
@@ -27,30 +28,48 @@ public class CadastrarMedicoService {
 
 	@Autowired
 	private EspecialidadeRepository especialidadeRepository;
+	
+	@Autowired
+	private UsuarioRepository usuarioRepository;
 
 	private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
 
 	public Medico salvarDTO(CadastrarMedicoDTO dto) {
+		
+		String cpfLimpo = dto.getCpf() != null ? dto.getCpf().replaceAll("\\D", "") : "";
+		if (usuarioRepository.findByCpf(cpfLimpo).isPresent()) {
+			throw new RuntimeException("CPF já cadastrado no sistema.");
+		}
+		
+		String telefoneLimpo = dto.getTelefone() != null ? dto.getTelefone().replaceAll("\\D", "") : "";
+		String crmLimpo = dto.getCrm() != null ? dto.getCrm().replaceAll("\\D", "") : "";
+		String ufCrm = dto.getUfCrm() != null ? dto.getUfCrm().toUpperCase() : "";
 
+		if (cadastrarMedicoRepository.existsByCrmAndUfCrm(crmLimpo, ufCrm)) {
+		    throw new RuntimeException("CRM já cadastrado para esta UF.");
+		}
+
+		if (cadastrarMedicoRepository.existsByTelefone(telefoneLimpo)) {
+		    throw new RuntimeException("Telefone já cadastrado no sistema.");
+		}
+		
 		Medico medico = new Medico();
 
 		//dados usuario
 		medico.setNome(dto.getNome());
-		medico.setCpf(dto.getCpf());
+		medico.setCpf(cpfLimpo);
 		medico.setEmail(dto.getEmail());
 		medico.setSenha(passwordEncoder.encode(dto.getSenha())); // ✅ BCrypt
 
 		//dados médico
 		medico.setDataNascimento(dto.getDataNascimento());
-		medico.setCrm(dto.getCrm());
-		medico.setUfCrm(dto.getUfCrm());
+		medico.setCrm(crmLimpo);
+		medico.setUfCrm(ufCrm);
 		medico.setValorConsulta(dto.getValorConsulta());
 		medico.setTempoConsultaMinutos(dto.getTempoConsultaMinutos());
-		medico.setTelefone(dto.getTelefone());
+		medico.setTelefone(telefoneLimpo);
 		medico.setFoto(dto.getFoto());
-		
-		medico.setNome(dto.getNome());
 		medico.setPerfil(Perfil.MEDICO);	
 
 		//especialidade
