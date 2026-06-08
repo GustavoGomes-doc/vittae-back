@@ -1,7 +1,7 @@
 package com.vittae.controller;
 
 import java.util.List;
-import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -14,11 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vittae.dto.PerfilAtualizarDTO;
 import com.vittae.model.Usuario;
 import com.vittae.repository.UsuarioRepository;
-import com.vittae.service.UsuarioService;
-
-
 import com.vittae.service.UsuarioService;
 
 @RestController
@@ -35,6 +33,30 @@ public class UsuarioController {
         Usuario usuarioSalvo = UsuarioService.salvar(usuario);
         return ResponseEntity.ok(usuarioSalvo);
     }
+	
+	@PutMapping("/{id}/perfil")
+	public ResponseEntity<?> atualizarPerfil(@PathVariable Long id,
+											@RequestBody PerfilAtualizarDTO dto) {
+		try {
+			Usuario atualizado = UsuarioService.atualizarPerfil(id, dto);
+			return ResponseEntity.ok(atualizado);
+			} 	catch (RuntimeException e) {
+					return ResponseEntity.badRequest().body(e.getMessage());			
+				}
+		
+	}
+	
+	@PutMapping("{id}/senha")
+	public ResponseEntity<?> trocarSenha(@PathVariable Long id,
+										@RequestBody PerfilAtualizarDTO dto) {
+		try {
+			UsuarioService.trocarSenha(id, dto);
+			return ResponseEntity.ok("Senha alterado com sucesso");
+			
+		} 	catch (RuntimeException e) {
+				return ResponseEntity.badRequest().body(e.getMessage());
+			}
+	}
 	
 	@GetMapping
 	public ResponseEntity<List<Usuario>> listar() {

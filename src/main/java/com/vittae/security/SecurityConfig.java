@@ -42,10 +42,23 @@ public class SecurityConfig {
                 req.requestMatchers(HttpMethod.GET,  "/api/especialidades").permitAll();
                 req.requestMatchers(HttpMethod.GET,  "/api/medicos").permitAll();
                 req.requestMatchers(HttpMethod.GET,  "/api/medicos/*/horarios-livres").permitAll();
+                req.requestMatchers(HttpMethod.PUT, "/api/usuarios/**").authenticated();
+                req.requestMatchers(HttpMethod.PUT, "/api/usuarios/*/perfil").authenticated();
+                req.requestMatchers(HttpMethod.PUT, "/api/usuarios/*/senha").authenticated();
+                req.requestMatchers(HttpMethod.PUT, "/api/usuarios/{id}/perfil").authenticated();
 
                 req.requestMatchers(HttpMethod.POST, "/api/medicos").hasRole("ADMIN");
                 req.requestMatchers(HttpMethod.POST, "/api/especialidades").hasRole("ADMIN");
-
+                
+                req.requestMatchers(HttpMethod.GET, "/api/consultas/**").hasAnyRole("MEDICO", "ADMIN");
+                req.requestMatchers(HttpMethod.GET, "/api/disponibilidade/**").hasAnyRole("MEDICO", "ADMIN");
+                req.requestMatchers(HttpMethod.GET, "/api/agendamentos/medico/**").hasAnyRole("MEDICO", "ADMIN");
+                req.requestMatchers(HttpMethod.GET,    "/api/disponibilidade/**").hasAnyRole("MEDICO", "ADMIN");
+                req.requestMatchers(HttpMethod.GET,    "/api/agendamentos/medico/**").hasAnyRole("MEDICO", "ADMIN");
+                
+                req.requestMatchers(HttpMethod.POST,   "/api/disponibilidade/**").hasRole("MEDICO");
+                req.requestMatchers(HttpMethod.DELETE, "/api/disponibilidade/**").hasRole("MEDICO");
+           
                 req.requestMatchers(HttpMethod.POST, "/api/agendamentos").hasRole("PACIENTE");
                 req.requestMatchers(HttpMethod.GET,  "/api/agendamentos").hasRole("PACIENTE");
                 req.requestMatchers(HttpMethod.PUT,  "/api/agendamentos/**").hasRole("PACIENTE");

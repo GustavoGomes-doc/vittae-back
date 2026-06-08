@@ -7,6 +7,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vittae.model.enums.Perfil;
 
 import jakarta.persistence.Entity;
@@ -31,7 +32,10 @@ public class Usuario implements UserDetails {
     private Long id;
 
     private String cpf;
+    
+    @JsonIgnore
     private String senha;
+    
     private String nome;
     private String email;
 
@@ -54,6 +58,7 @@ public class Usuario implements UserDetails {
     }
 
     @Override
+    @JsonIgnore
     public String getPassword() { 
     	return this.senha;
     }
