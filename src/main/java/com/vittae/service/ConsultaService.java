@@ -105,6 +105,10 @@ public class ConsultaService {
 	    return consultaRepository.findAllComRelacionamentos();
 	}
 	
+	public List<Consulta> listarTodas() {
+		return consultaRepository.findAll();
+		}
+	
 	public List<Consulta> listarPorMedico(Long medicoId) {
 		return consultaRepository.findByMedicoId(medicoId);
 	}
