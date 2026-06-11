@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.vittae.dto.PerfilAtualizarDTO;
 import com.vittae.model.Usuario;
+import com.vittae.model.enums.Perfil;
 import com.vittae.repository.UsuarioRepository;
 import com.vittae.service.UsuarioService;
 
@@ -61,6 +62,15 @@ public class UsuarioController {
 	@GetMapping
 	public ResponseEntity<List<Usuario>> listar() {
 		return ResponseEntity.ok(UsuarioService.listarTodos());
+	}
+	
+	@GetMapping("/pacientes")
+	public ResponseEntity<List<Usuario>> listarPorPacientes() {
+		List<Usuario> pacientes = UsuarioService.listarTodos()
+				.stream()
+				.filter(u -> u.getPerfil() == Perfil.PACIENTE)
+				.collect(java.util.stream.Collectors.toList());
+		return ResponseEntity.ok(pacientes);
 	}
 
 	@GetMapping("/{id}")

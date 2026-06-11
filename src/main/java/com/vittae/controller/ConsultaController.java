@@ -37,6 +37,26 @@ public class ConsultaController {
             .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
+    
+    @GetMapping("/todos")
+    public ResponseEntity<List<AdminConsultaDTO>> listarTodas() {
+    	List<Consulta> consultas = consultaService.listarTodas();
+    	List<AdminConsultaDTO> dtos = consultas.stream()
+    			.map(AdminConsultaDTO::new)
+    			.collect(Collectors.toList());
+    	return ResponseEntity.ok(dtos);
+    	
+    }
+    
+    @GetMapping("/pacientes/{pacienteId}")
+    public ResponseEntity<List<AdminConsultaDTO>> listarPorPaciente(@PathVariable Long pacienteId) {
+    	List<Consulta> consultas = consultaService.listarPorPaciente(pacienteId);
+    	List<AdminConsultaDTO> dtos = consultas.stream()
+    			.map(AdminConsultaDTO::new)
+    			.collect(Collectors.toList());
+    	return ResponseEntity.ok(dtos);
+    	
+    }
 
 
 	@PostMapping
