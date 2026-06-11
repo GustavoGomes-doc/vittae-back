@@ -18,7 +18,6 @@ public class Paciente extends Usuario {
 	private LocalDate dataNascimento;
 	private String telefone;
 	private String cep;
-
 	private String genero;
 	
 	@ManyToOne
@@ -33,30 +32,6 @@ public class Paciente extends Usuario {
 
 	public Paciente(LocalDate dataNascimento) {
 		this.dataNascimento = dataNascimento;
-	}
-
-	public LocalDate getdataNascimento() {
-		return dataNascimento;
-	}
-
-	public void setDataNasc(LocalDate dataNascimento) {
-		this.dataNascimento = dataNascimento;
-	}
-
-	public Paciente getResponsavel() {
-		return responsavel;
-	}
-
-	public void setResponsavel(Paciente responsavel) {
-		this.responsavel = responsavel;
-	}
-
-	public List<Consulta> getConsultas() {
-		return consultas;
-	}
-
-	public void setConsultas(List<Consulta> consultas) {
-		this.consultas = consultas;
 	}
 
 	public LocalDate getDataNascimento() {
@@ -91,5 +66,19 @@ public class Paciente extends Usuario {
 		this.genero = genero;
 	}
 
-	
+	public Paciente getResponsavel() {
+		return responsavel;
+	}
+
+	public void setResponsavel(Paciente responsavel) {
+		this.responsavel = responsavel;
+	}
+
+	public List<Consulta> getConsultas() {
+		return consultas;
+	}
+
+	public void setConsultas(List<Consulta> consultas) {
+		this.consultas = consultas;
+	}
 }

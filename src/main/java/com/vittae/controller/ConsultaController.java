@@ -15,10 +15,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vittae.dto.AdminConsultaDTO;
 import com.vittae.dto.AgendamentoDTO;
-
 import com.vittae.dto.PacienteListagemDTO;
-import com.vittae.dto.VisualizarConsultaDTO;
 import com.vittae.model.Consulta;
 import com.vittae.service.ConsultaService;
 
@@ -38,6 +37,26 @@ public class ConsultaController {
             .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
+    
+    @GetMapping("/todos")
+    public ResponseEntity<List<AdminConsultaDTO>> listarTodas() {
+    	List<Consulta> consultas = consultaService.listarTodas();
+    	List<AdminConsultaDTO> dtos = consultas.stream()
+    			.map(AdminConsultaDTO::new)
+    			.collect(Collectors.toList());
+    	return ResponseEntity.ok(dtos);
+    	
+    }
+    
+    @GetMapping("/pacientes/{pacienteId}")
+    public ResponseEntity<List<AdminConsultaDTO>> listarPorPaciente(@PathVariable Long pacienteId) {
+    	List<Consulta> consultas = consultaService.listarPorPaciente(pacienteId);
+    	List<AdminConsultaDTO> dtos = consultas.stream()
+    			.map(AdminConsultaDTO::new)
+    			.collect(Collectors.toList());
+    	return ResponseEntity.ok(dtos);
+    	
+    }
 
 
 	@PostMapping
@@ -51,8 +70,12 @@ public class ConsultaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<VisualizarConsultaDTO>> listar() {
-	    return ResponseEntity.ok(consultaService.listarParaVisualizacao());
+	public ResponseEntity<List<AdminConsultaDTO>> listar() {
+	    List<Consulta> consultas = consultaService.listarTodas();
+	    List<AdminConsultaDTO> dtos = consultas.stream()
+	        .map(AdminConsultaDTO::new)
+	        .collect(Collectors.toList());
+	    return ResponseEntity.ok(dtos);
 	}
 	
 	@GetMapping("/{id}")

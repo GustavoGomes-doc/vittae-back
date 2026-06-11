@@ -46,9 +46,14 @@ public class SecurityConfig {
                 req.requestMatchers(HttpMethod.PUT, "/api/usuarios/*/perfil").authenticated();
                 req.requestMatchers(HttpMethod.PUT, "/api/usuarios/*/senha").authenticated();
                 req.requestMatchers(HttpMethod.PUT, "/api/usuarios/{id}/perfil").authenticated();
+                
 
                 req.requestMatchers(HttpMethod.POST, "/api/medicos").hasRole("ADMIN");
                 req.requestMatchers(HttpMethod.POST, "/api/especialidades").hasRole("ADMIN");
+                req.requestMatchers(HttpMethod.GET, "/api/agendamentos/todos").hasRole("ADMIN");
+                req.requestMatchers(HttpMethod.GET, "/api/agendamentos/paciente/**").hasRole("ADMIN");
+                req.requestMatchers(HttpMethod.GET, "/api/usuarios/pacientes").hasRole("ADMIN");
+                req.requestMatchers(HttpMethod.DELETE, "/api/medicos/**").hasRole("ADMIN");
                 
                 req.requestMatchers(HttpMethod.GET, "/api/consultas/**").hasAnyRole("MEDICO", "ADMIN");
                 req.requestMatchers(HttpMethod.GET, "/api/disponibilidade/**").hasAnyRole("MEDICO", "ADMIN");
