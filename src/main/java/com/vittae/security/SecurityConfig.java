@@ -74,23 +74,17 @@ public class SecurityConfig {
             .build();
     }
 
-     @Bean
+         @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        
-        // 1. Mudamos de setAllowedOrigins para setAllowedOriginPatterns usando "*"
-        // Isso diz ao Spring para aceitar qualquer origem de forma dinâmica e segura
-        config.setAllowedOriginPatterns(List.of("*"));
-        
-        // Mantemos os seus métodos permitidos
-        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS", "HEAD"));
-        
-        // Mantemos a liberação de todos os cabeçalhos (essencial para o JwtAuthFilter ler o Token)
+        config.setAllowedOrigins(List.of(
+            "http://localhost:8080",
+            "http://localhost:8081",
+            "http://localhost:8082",
+            "http://localhost:8083"
+        ));
+        config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
-        
-        // 2. Liberamos o envio de credenciais/cookies de autenticação entre o Front e o Back
-        config.setAllowCredentials(true);
-        
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/**", config);
         return source;
