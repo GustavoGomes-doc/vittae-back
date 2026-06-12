@@ -40,6 +40,7 @@ public class DisponibilidadeController {
             .stream()
             .map(d -> {
                 Map<String, String> map = new java.util.HashMap<>();
+                map.put("id", d.getId().toString());
                 map.put("diaSemana", d.getDiaSemana().name());
                 map.put("horaInicio", d.getHoraInicio().toString());
                 map.put("horaFim", d.getHoraFim().toString());
@@ -58,7 +59,7 @@ public class DisponibilidadeController {
             Medico medico = medicoRepository.findById(medicoId)
                 .orElseThrow(() -> new RuntimeException("Médico não encontrado"));
 
-            Disponibilidade d = new Disponibilidade();
+            Disponibilidade d = new Disponibilidade();     
             d.setDiaSemana(DiaSemana.valueOf(body.get("diaSemana")));
             d.setHoraInicio(body.get("horaInicio"));
             d.setHoraFim(body.get("horaFim"));
