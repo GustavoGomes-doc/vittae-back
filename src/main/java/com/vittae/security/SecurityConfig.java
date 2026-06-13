@@ -37,7 +37,7 @@ public class SecurityConfig {
             .cors(Customizer.withDefaults())
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .authorizeHttpRequests(req -> {
-                req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
+            	req.requestMatchers(HttpMethod.POST, "/api/login").permitAll();
                 req.requestMatchers(HttpMethod.POST, "/api/usuarios/cadastrar").permitAll();
                 req.requestMatchers(HttpMethod.GET,  "/api/especialidades").permitAll();
                 req.requestMatchers(HttpMethod.GET,  "/api/medicos").permitAll();
@@ -78,11 +78,15 @@ public class SecurityConfig {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
         config.setAllowedOrigins(List.of(
-            "http://localhost:8080",
-            "http://localhost:8081",
-            "http://localhost:8082",
-            "http://localhost:8083"
-        ));
+        	    "http://localhost:8080",
+        	    "http://localhost:8081",
+        	    "http://localhost:9090",
+        	    "http://18.232.78.124:8080",
+        	    "http://18.232.78.124:8081",
+        	    "http://44.197.126.129:8080",
+        	    "http://44.197.126.129:8081"
+        	));
+        
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();

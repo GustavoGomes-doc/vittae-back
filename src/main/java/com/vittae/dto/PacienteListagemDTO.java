@@ -13,6 +13,7 @@ public class PacienteListagemDTO {
 	private LocalTime hora;
 	private String especialidade; // só o nome, não a entidade inteira
 	private Status status;
+	private String observacoes;
 
 	public PacienteListagemDTO(Consulta c) {
 		this.id = c.getId();
@@ -21,6 +22,7 @@ public class PacienteListagemDTO {
 		this.hora = c.getHora();
 		this.especialidade = c.getEspecialidade() != null ? c.getEspecialidade().getNome() : "—";
 		this.status = c.getStatus();
+		this.observacoes = c.getObservacoes();
 	}
 
 	public Long getId() {
@@ -69,5 +71,13 @@ public class PacienteListagemDTO {
 
 	public void setStatus(Status v) {
 		this.status = v;
+	}
+
+	public String getObservacoes() {
+		return observacoes;
+	}
+
+	public void setObservacoes(String v) {
+		this.observacoes = v;
 	}
 }
