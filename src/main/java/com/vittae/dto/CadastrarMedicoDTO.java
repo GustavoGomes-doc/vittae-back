@@ -19,7 +19,7 @@ public class CadastrarMedicoDTO {
 	private String ufCrm;
 	private BigDecimal valorConsulta;
 	private Integer tempoConsultaMinutos;
-	private List<String> especialidades;
+	private List<Long> especialidades;
 	private List<DisponibilidadeDTO> disponibilidades;
 	private String telefone;
 
@@ -105,11 +105,11 @@ public class CadastrarMedicoDTO {
 		this.tempoConsultaMinutos = tempoConsultaMinutos;
 	}
 
-	public List<String> getEspecialidades() {
+	public List<Long> getEspecialidades() {
 		return especialidades;
 	}
 
-	public void setEspecialidades(List<String> especialidades) {
+	public void setEspecialidades(List<Long> especialidades) {
 		this.especialidades = especialidades;
 	}
 

@@ -19,12 +19,16 @@ import com.vittae.dto.AdminConsultaDTO;
 import com.vittae.dto.AgendamentoDTO;
 import com.vittae.dto.PacienteListagemDTO;
 import com.vittae.model.Consulta;
+import com.vittae.repository.ConsultaRepository;
 import com.vittae.service.ConsultaService;
 
 @RestController
 @RequestMapping("api/agendamentos")
 @CrossOrigin(origins = "*")
 public class ConsultaController {
+	
+	@Autowired
+	private ConsultaRepository consultaRepository;
 
     @Autowired
     private ConsultaService consultaService;
@@ -57,7 +61,6 @@ public class ConsultaController {
     	return ResponseEntity.ok(dtos);
     	
     }
-
 
 	@PostMapping
 	public ResponseEntity<?> salvarAgendamento(@RequestBody AgendamentoDTO dto) {

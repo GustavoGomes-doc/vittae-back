@@ -75,14 +75,10 @@ public class CadastrarMedicoService {
 		//especialidade
 		if (dto.getEspecialidades() != null) { //busca ou cria p cada especialide no dto: tenta achar no banco, usa,
 			List<Especialidade> especialidades = new ArrayList<>();
-			for (String nomeEsp : dto.getEspecialidades()) {
-				Especialidade esp = especialidadeRepository.findByNome(nomeEsp).orElseGet(() -> { // se n encontrou cria e salva
-					Especialidade nova = new Especialidade();
-					nova.setNome(nomeEsp);
-					return especialidadeRepository.save(nova);
-				});
-				especialidades.add(esp);
+			for (Long idEsp : dto.getEspecialidades()) {
+			    especialidadeRepository.findById(idEsp).ifPresent(especialidades::add);
 			}
+			
 			medico.setEspecialidades(especialidades);
 		}
 
