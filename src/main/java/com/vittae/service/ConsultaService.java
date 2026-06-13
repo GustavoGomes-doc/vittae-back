@@ -102,11 +102,11 @@ public class ConsultaService {
 	}
 
 	public List<Consulta> listarTodos() {
-	    return consultaRepository.findAllComRelacionamentos();
+		return consultaRepository.findAllComRelacionamentos();
 	}
 	
 	public List<Consulta> listarTodas() {
-		return consultaRepository.findAll();
+		return consultaRepository.findAllComRelacionamentos(); 
 		}
 	
 	public List<Consulta> listarPorPaciente(Long pacienteId) {

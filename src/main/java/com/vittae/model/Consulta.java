@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.vittae.model.enums.Status;
 
 import jakarta.persistence.Column;
@@ -28,7 +29,8 @@ public class Consulta {
 	@ManyToOne
 	@JoinColumn(name = "id_medico")
 	private Medico medico;
-
+	
+	@JsonIgnore
 	@ManyToOne
 	@JoinColumn(name = "id_paciente")
 	private Paciente paciente;

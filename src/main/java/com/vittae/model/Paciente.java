@@ -3,6 +3,8 @@ package com.vittae.model;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -24,6 +26,7 @@ public class Paciente extends Usuario {
 	@JoinColumn(name = "id_responsavel")
 	private Paciente responsavel;
 
+	@JsonIgnore
 	@OneToMany(mappedBy = "paciente")
 	private List<Consulta> consultas;
 

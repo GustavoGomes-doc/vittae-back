@@ -1,7 +1,6 @@
 package com.vittae.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -12,9 +11,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vittae.dto.PacienteAdminDTO;
 import com.vittae.model.Paciente;
 import com.vittae.repository.PacienteRepository;
 import com.vittae.service.PacienteService;
@@ -28,6 +29,23 @@ public class PacienteController {
 	private PacienteService PacienteService;
 	private PacienteRepository PacienteRepository;
 
+	
+	
+	@GetMapping("/admin")
+	public ResponseEntity<List<PacienteAdminDTO>> listarAdmin(
+	        @RequestHeader("Authorization") String auth) {
+	    List<Paciente> pacientes = PacienteService.listarTodos();
+	    List<PacienteAdminDTO> dtos = pacientes.stream()
+	        .map(PacienteAdminDTO::new)
+	        .collect(java.util.stream.Collectors.toList());
+	    return ResponseEntity.ok(dtos);
+	}
+	
+	@GetMapping("/{id}")
+	public ResponseEntity<Paciente> buscar(@PathVariable Long id) {
+		return PacienteService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+	}
+	
 	@PostMapping
 	public ResponseEntity<Paciente> cadastrar(@RequestBody Paciente paciente) {
 		Paciente pacienteSalvo = PacienteService.salvar(paciente);
@@ -37,11 +55,6 @@ public class PacienteController {
 	@GetMapping
 	public ResponseEntity<List<Paciente>> listar() {
 		return ResponseEntity.ok(PacienteService.listarTodos());
-	}
-
-	@GetMapping("/{id}")
-	public ResponseEntity<Paciente> buscar(@PathVariable Long id) {
-		return PacienteService.buscarPorId(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PutMapping("/{id}")

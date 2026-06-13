@@ -53,6 +53,7 @@ public class SecurityConfig {
                 req.requestMatchers(HttpMethod.GET, "/api/agendamentos/todos").hasRole("ADMIN");
                 req.requestMatchers(HttpMethod.GET, "/api/agendamentos/paciente/**").hasRole("ADMIN");
                 req.requestMatchers(HttpMethod.GET, "/api/usuarios/pacientes").hasRole("ADMIN");
+                req.requestMatchers(HttpMethod.GET, "/api/pacientes/admin").hasRole("ADMIN");
                 req.requestMatchers(HttpMethod.DELETE, "/api/medicos/**").hasRole("ADMIN");
                 
                 req.requestMatchers(HttpMethod.GET, "/api/consultas/**").hasAnyRole("MEDICO", "ADMIN");
