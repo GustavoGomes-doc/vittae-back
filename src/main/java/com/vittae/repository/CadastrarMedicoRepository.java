@@ -27,5 +27,8 @@ public interface CadastrarMedicoRepository extends JpaRepository<Medico, Long> {
 	List<Disponibilidade> findDisponibilidadesByMedicoId(@Param("medicoId") Long medicoId);
 	
 	List<Medico> findByEspecialidadesNome(String nome);
+	
+	boolean existsByCrmAndUfCrm(String crm, String ufCrm);
 
+	boolean existsByTelefone(String telefone);
 	}

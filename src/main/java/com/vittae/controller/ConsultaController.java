@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -15,17 +16,20 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.vittae.dto.AdminConsultaDTO;
 import com.vittae.dto.AgendamentoDTO;
-
 import com.vittae.dto.PacienteListagemDTO;
-import com.vittae.dto.VisualizarConsultaDTO;
 import com.vittae.model.Consulta;
+import com.vittae.repository.ConsultaRepository;
 import com.vittae.service.ConsultaService;
 
 @RestController
 @RequestMapping("api/agendamentos")
 @CrossOrigin(origins = "*")
 public class ConsultaController {
+	
+	@Autowired
+	private ConsultaRepository consultaRepository;
 
     @Autowired
     private ConsultaService consultaService;
@@ -38,7 +42,39 @@ public class ConsultaController {
             .collect(Collectors.toList());
         return ResponseEntity.ok(dtos);
     }
-
+    
+    @GetMapping("/todos")
+    public ResponseEntity<List<AdminConsultaDTO>> listarTodas() {
+    	List<Consulta> consultas = consultaService.listarTodas();
+    	List<AdminConsultaDTO> dtos = consultas.stream()
+    			.map(AdminConsultaDTO::new)
+    			.collect(Collectors.toList());
+    	return ResponseEntity.ok(dtos);
+    	
+    }
+    
+    @GetMapping("/pacientes/{pacienteId}")
+    public ResponseEntity<List<AdminConsultaDTO>> listarPorPaciente(@PathVariable Long pacienteId) {
+    	List<Consulta> consultas = consultaService.listarPorPaciente(pacienteId);
+    	List<AdminConsultaDTO> dtos = consultas.stream()
+    			.map(AdminConsultaDTO::new)
+    			.collect(Collectors.toList());
+    	return ResponseEntity.ok(dtos);
+    	
+    }
+    
+    @PatchMapping("/{id}/cancelar")
+    public ResponseEntity<?> cancelar(@PathVariable Long id) {
+        try {
+            Consulta existente = consultaService.buscarPorId(id)
+                .orElseThrow(() -> new RuntimeException("Consulta não encontrada"));
+            existente.setStatus(com.vittae.model.enums.Status.CANCELADA);
+            consultaService.atualizar(id, existente);
+            return ResponseEntity.ok().build();
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
 
 	@PostMapping
 	public ResponseEntity<?> salvarAgendamento(@RequestBody AgendamentoDTO dto) {
@@ -51,8 +87,25 @@ public class ConsultaController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<VisualizarConsultaDTO>> listar() {
-	    return ResponseEntity.ok(consultaService.listarParaVisualizacao());
+	public ResponseEntity<List<AdminConsultaDTO>> listar() {
+	    List<Consulta> consultas = consultaService.listarTodas();
+	    List<AdminConsultaDTO> dtos = consultas.stream()
+	        .map(AdminConsultaDTO::new)
+	        .collect(Collectors.toList());
+	    return ResponseEntity.ok(dtos);
+	}
+	
+	@PatchMapping("/{id}/realizar")
+	public ResponseEntity<?> realizar(@PathVariable Long id) {
+	    try {
+	        Consulta existente = consultaService.buscarPorId(id)
+	            .orElseThrow(() -> new RuntimeException("Consulta não encontrada"));
+	        existente.setStatus(com.vittae.model.enums.Status.REALIZADA);
+	        consultaService.atualizar(id, existente);
+	        return ResponseEntity.ok().build();
+	    } catch (RuntimeException e) {
+	        return ResponseEntity.badRequest().body(e.getMessage());
+	    }
 	}
 	
 	@GetMapping("/{id}")

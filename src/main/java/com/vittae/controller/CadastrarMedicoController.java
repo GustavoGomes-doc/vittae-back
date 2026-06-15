@@ -34,7 +34,7 @@ import jakarta.validation.Valid;
 
 @RestController //controler, resp body, pega json  da req e transforma dto 
 @RequestMapping("/api/medicos")
-@CrossOrigin(origins = "http://127.0.0.1:5500")
+@CrossOrigin(origins = "*")
 public class CadastrarMedicoController {
  
     @Autowired
@@ -118,10 +118,13 @@ public class CadastrarMedicoController {
  
     //receb DTO em vez de medico diretamente
     @PostMapping
-    public ResponseEntity<Medico> cadastrar(@RequestBody @Valid CadastrarMedicoDTO dto) {
-        Medico medicoSalvo = cadastrarMedicoService.salvarDTO(dto);
-        return ResponseEntity.ok(medicoSalvo);
-       
+    public ResponseEntity<?> cadastrar(@RequestBody @Valid CadastrarMedicoDTO dto) {
+        try {
+            Medico medicoSalvo = cadastrarMedicoService.salvarDTO(dto);
+            return ResponseEntity.ok(medicoSalvo);
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(409).body(e.getMessage());
+        }
     }
   
     @GetMapping

@@ -1,6 +1,10 @@
 package com.vittae.model;
 
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -15,8 +19,11 @@ public class Especialidade {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String nome;
+	
+	@Column(length = 500)
 	private String descricao;
 
+	@JsonIgnore
 	@ManyToMany(mappedBy = "especialidades")
 	private List<Medico> medicos;
 

@@ -4,8 +4,8 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.vittae.model.enums.Perfil;
 
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -40,7 +40,18 @@ public class Medico extends Usuario {
 	private BigDecimal valorConsulta;
 	private String telefone;
 	
-	private Perfil perfil;
+	
+	@ManyToMany
+	@JoinTable(name = "medico_especialidade", joinColumns = @JoinColumn(name = "id_medico"), inverseJoinColumns = @JoinColumn(name = "id_especialidade"))
+	private List<Especialidade> especialidades;
+	
+	@JsonManagedReference
+	@OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
+	private List<Disponibilidade> disponibilidades;
+	
+	@JsonIgnore
+	@OneToMany(mappedBy = "medico")
+	private List<Consulta> consultas;
 	
 	
 	public String getTelefone() {
@@ -50,17 +61,6 @@ public class Medico extends Usuario {
 	public void setTelefone(String telefone) {
 		this.telefone = telefone;
 	}
-
-	@ManyToMany
-	@JoinTable(name = "medico_especialidade", joinColumns = @JoinColumn(name = "id_medico"), inverseJoinColumns = @JoinColumn(name = "id_especialidade"))
-	private List<Especialidade> especialidades;
-	
-	@JsonManagedReference
-	@OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Disponibilidade> disponibilidades;
-
-	@OneToMany(mappedBy = "medico")
-	private List<Consulta> consultas;
 
 	public Medico() {
 	}
@@ -149,13 +149,6 @@ public class Medico extends Usuario {
 		this.consultas = consultas;
 	}
 
-	public Perfil getPerfil() {
-		return perfil;
-	}
-
-	public void setPerfil(Perfil perfil) {
-		this.perfil = perfil;
-	}
 
 	public void setTempoConsultaMinutos(int tempoConsultaMinutos) {
 		this.tempoConsultaMinutos = tempoConsultaMinutos;

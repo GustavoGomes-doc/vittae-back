@@ -13,7 +13,7 @@ import com.vittae.repository.EspecialidadeRepository;
 
 @RestController
 @RequestMapping("/api/especialidades")
-@CrossOrigin(origins = {"http://localhost:8080", "http://localhost:8081"})
+@CrossOrigin(origins = "*")
 public class EspecialidadeController {
 
     @Autowired
@@ -23,16 +23,19 @@ public class EspecialidadeController {
     public List<EspecialidadeDTO> listar() {
         return especialidadeRepository.findAll()
             .stream()
-            .map(e -> new EspecialidadeDTO(e.getNome(), e.getDescricao()))
+            .map(e -> new EspecialidadeDTO(e.getId(), e.getNome(), e.getDescricao()))
             .collect(Collectors.toList());
     }
     
     
 
     public static class EspecialidadeDTO {
+        public Long id;
         public String nome;
         public String descricao;
-        public EspecialidadeDTO(String nome, String descricao) {
+
+        public EspecialidadeDTO(Long id, String nome, String descricao) {
+            this.id = id;
             this.nome = nome;
             this.descricao = descricao;
         }
