@@ -27,9 +27,6 @@ public class PacienteController {
 
 	@Autowired
 	private PacienteService PacienteService;
-	private PacienteRepository PacienteRepository;
-
-	
 	
 	@GetMapping("/admin")
 	public ResponseEntity<List<PacienteAdminDTO>> listarAdmin(

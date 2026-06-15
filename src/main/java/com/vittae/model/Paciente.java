@@ -19,11 +19,11 @@ public class Paciente extends Usuario {
 
 	private LocalDate dataNascimento;
 	private String telefone;
-	private String cep;
 	private String genero;
 	
 	@ManyToOne
 	@JoinColumn(name = "id_responsavel")
+	@JsonIgnore
 	private Paciente responsavel;
 
 	@JsonIgnore
@@ -53,13 +53,6 @@ public class Paciente extends Usuario {
 		this.telefone = telefone;
 	}
 
-	public String getCep() {
-		return cep;
-	}
-
-	public void setCep(String cep) {
-		this.cep = cep;
-	}
 
 	public String getGenero() {
 		return genero;

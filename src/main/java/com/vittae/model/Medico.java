@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import jakarta.persistence.CascadeType;
@@ -47,7 +48,8 @@ public class Medico extends Usuario {
 	@JsonManagedReference
 	@OneToMany(mappedBy = "medico", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Disponibilidade> disponibilidades;
-
+	
+	@JsonIgnore
 	@OneToMany(mappedBy = "medico")
 	private List<Consulta> consultas;
 	

@@ -28,12 +28,14 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 		
 		String header = request.getHeader("Authorization");
 		
+		
 		if (header != null && header.startsWith("Bearer ")) {
 			String token = header.substring(7);
 			
 				try {
 					String cpf = tokenService.extrairCpf(token);
 				    String role = tokenService.extrairRole(token);
+				    
 
 				    if (cpf != null && SecurityContextHolder.getContext().getAuthentication() == null) {
 				        var authorities = List.of(new SimpleGrantedAuthority(role));
@@ -47,6 +49,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
 			}
 		
 		filterChain.doFilter(request, response);
+		
 		
 	}
 }
